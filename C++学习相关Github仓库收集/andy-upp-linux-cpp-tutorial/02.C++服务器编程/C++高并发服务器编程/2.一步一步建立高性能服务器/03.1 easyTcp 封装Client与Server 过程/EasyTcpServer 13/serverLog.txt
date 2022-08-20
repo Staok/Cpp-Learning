@@ -1,0 +1,16 @@
+Info [2018-3-7 6:41:51]CELLLog::setLogPath success,<serverLog.txt,w>
+Info [2018-3-7 6:41:51]create socket<260> success...
+Info [2018-3-7 6:41:51]bind port<4567> success...
+Info [2018-3-7 6:41:51]listen port<260> success...
+Info [2018-3-7 6:41:52]thread<4>,time<1.001356>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:41:53]thread<4>,time<1.002119>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:41:54]thread<4>,time<1.002085>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:41:55]thread<4>,time<1.000118>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:41:56]thread<4>,time<1.002074>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:41:57]thread<4>,time<1.000919>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:41:58]thread<4>,time<1.015606>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:41:59]thread<4>,time<1.001149>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:42:0]thread<4>,time<1.001138>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:42:1]thread<4>,time<1.000190>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:42:2]thread<4>,time<1.000933>,socket<260>,clients<0>,recv<0>,msg<0>
+Info [2018-3-7 6:42:3]thread<4>,time<1.001932>,socket<260>,clients<0>,recv<0>,msg<0>

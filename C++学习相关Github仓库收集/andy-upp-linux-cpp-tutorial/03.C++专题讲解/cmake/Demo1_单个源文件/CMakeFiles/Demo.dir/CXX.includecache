@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/cmake/Demo1:单个源文件/main.cc
+stdio.h
+-
+stdlib.h
+-
+
