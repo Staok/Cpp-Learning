@@ -1,3 +1,0 @@
-/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/C++单元测试/gTest/gtest_with_cmake/CMakeFiles/rebuild_cache.dir
-/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/C++单元测试/gTest/gtest_with_cmake/CMakeFiles/edit_cache.dir
-/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/C++单元测试/gTest/gtest_with_cmake/CMakeFiles/demo.dir

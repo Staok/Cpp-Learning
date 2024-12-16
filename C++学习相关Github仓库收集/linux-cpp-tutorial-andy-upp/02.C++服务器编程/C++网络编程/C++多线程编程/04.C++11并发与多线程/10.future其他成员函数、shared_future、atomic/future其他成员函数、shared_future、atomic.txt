@@ -1,0 +1,257 @@
+一、std::future 的成员函数
+1、std::future_status status = result.wait_for(std::chrono::seconds(几秒));
+卡住当前流程，等待std::async()的异步任务运行一段时间，然后返回其状态std::future_status。如果std::async()的参数是std::launch::deferred（延迟执行），则不会卡住主流程。
+std::future_status是枚举类型，表示异步任务的执行状态。类型的取值有
+std::future_status::timeout
+std::future_status::ready
+std::future_status::deferred
+============================================================================
+#include <iostream>
+#include <future>
+using namespace std;
+
+int mythread() {
+	cout << "mythread() start" << "threadid = " << std::this_thread::get_id() << endl;
+	std::chrono::milliseconds dura(5000);
+	std::this_thread::sleep_for(dura);
+	cout << "mythread() end" << "threadid = " << std::this_thread::get_id() << endl;
+	return 5;
+}
+
+int main() {
+	cout << "main" << "threadid = " << std::this_thread::get_id() << endl;
+	std::future<int> result = std::async(mythread);
+	cout << "continue........" << endl;
+	//cout << result1.get() << endl; //卡在这里等待mythread()执行完毕，拿到结果
+	//等待1秒
+   std::future_status status = result.wait_for(std::chrono::seconds(1));
+	if (status == std::future_status::timeout) {
+		//超时：表示线程还没有执行完
+		cout << "超时了，线程还没有执行完" << endl;
+	}
+	//类成员函数
+	return 0;
+}
+============================================================================
+
+在这里插入图片描述
+============================================================================
+#include <iostream>
+#include <future>
+using namespace std;
+
+int mythread() {
+	cout << "mythread() start" << "threadid = " << std::this_thread::get_id() << endl;
+	//std::chrono::milliseconds dura(5000);
+	//std::this_thread::sleep_for(dura);
+	cout << "mythread() end" << "threadid = " << std::this_thread::get_id() << endl;
+	return 5;
+}
+
+int main() {
+	cout << "main" << "threadid = " << std::this_thread::get_id() << endl;
+	std::future<int> result = std::async(std::launch::deferred, mythread);
+	//std::future<int> result = std::async(mythread);
+	cout << "continue........" << endl;
+	//cout << result1.get() << endl; //卡在这里等待mythread()执行完毕，拿到结果
+	std::future_status status = result.wait_for(std::chrono::seconds(6));
+	if (status == std::future_status::timeout) {
+		//超时：表示线程还没有执行完
+		cout << "超时了，线程还没有执行完" << endl;
+	}
+	else if (status == std::future_status::ready) {
+		//表示线程成功放回
+		cout << "线程执行成功，返回" << endl;
+		cout << result.get() << endl;
+	}
+	else if (status == std::future_status::deferred) {
+		//如果设置 std::future<int> result = std::async(std::launch::deferred, mythread);，则本条件成立
+		cout << "线程延迟执行" << endl;
+		cout << result.get() << endl;
+	}
+
+	cout << "good luck" << endl;
+	return 0;
+}
+============================================================================
+
+get()只能使用一次，比如如果
+
+auto a = result.get();
+cout << result.get() << endl;
+1
+2
+就会报告异常
+因为get()函数的设计是一个移动语义，相当于将result中的值移动到了a中，再次get就报告了异常。
+
+二、std::shared_future：也是个类模板
+std::future的 get() 成员函数是转移数据
+
+std::shared_future 的 get()成员函数是复制数据
+============================================================================
+#include <thread>
+#include <iostream>
+#include <future>
+using namespace std;
+
+int mythread() {
+	cout << "mythread() start" << "threadid = " << std::this_thread::get_id() << endl;
+	std::chrono::milliseconds dura(5000);
+	std::this_thread::sleep_for(dura);
+	cout << "mythread() end" << "threadid = " << std::this_thread::get_id() << endl;
+	return 5;
+}
+
+int main() {
+	cout << "main" << "threadid = " << std::this_thread::get_id() << endl;
+	std::packaged_task<int()> mypt(mythread);
+	std::thread t1(std::ref(mypt));
+	std::future<int> result = mypt.get_future();
+
+	bool ifcanget = result.valid(); //判断future 中的值是不是一个有效值
+	std::shared_future<int> result_s(result.share()); //执行完毕后result_s里有值，而result里空了
+	//std::shared_future<int> result_s(std::move(result));
+   //通过get_future返回值直接构造一个shared_future对象
+   //std::shared_future<int> result_s(mypt.get_future());
+   t1.join();
+
+	auto myresult1 = result_s.get();
+	auto myresult2 = result_s.get();
+
+	cout << "good luck" << endl;
+	return 0;
+}
+============================================================================
+
+三、std::atomic原子操作
+
+3.1 原子操作概念引出范例：
+互斥量：多线程编程中 用于保护共享数据：先锁住， 操作共享数据， 解锁。
+
+有两个线程，对一个变量进行操作，一个线程读这个变量的值，一个线程往这个变量中写值。
+
+即使是一个简单变量的读取和写入操作，如果不加锁，也有可能会导致读写值混乱（一条C语句会被拆成3、4条汇编语句来执行，所以仍然有可能混乱）
+============================================================================
+#include <iostream>
+#include <thread>
+using namespace std;
+int g_count = 0;
+
+void mythread1() {
+	for (int i = 0; i < 1000000; i++) {
+		g_count++;
+	}
+}
+
+int main() {
+	std::thread t1(mythread1);
+	std::thread t2(mythread1);
+	t1.join();
+	t2.join();
+	cout << "正常情况下结果应该是200 0000次，实际是" << g_count << endl;
+}
+============================================================================
+
+在这里插入图片描述
+
+使用mutex解决这个问题
+============================================================================
+#include <iostream>
+#include <thread>
+#include <mutex>
+using namespace std;
+int g_count = 0;
+std::mutex mymutex;
+
+void mythread1() {
+	for (int i = 0; i < 1000000; i++) {
+		std::unique_lock<std::mutex> u1(mymutex);
+		g_count++;
+	}
+}
+
+
+int main() {
+	std::thread t1(mythread1);
+	std::thread t2(mythread1);
+	t1.join();
+	t2.join();
+	cout << "正常情况下结果应该是200 0000次，实际是" << g_count << endl;
+}
+============================================================================
+
+在这里插入图片描述
+
+3.2 基本的std::atomic用法范例
+大家可以把原子操作理解成一种：不需要用到互斥量加锁（无锁）技术的多线程并发编程方式。
+
+原子操作：在多线程中不会被打断的程序执行片段。
+
+从效率上来说，原子操作要比互斥量的方式效率要高。
+
+互斥量的加锁一般是针对一个代码段，而原子操作针对的一般都是一个变量。
+
+原子操作，一般都是指“不可分割的操作”；也就是说这种操作状态要么是完成的，要么是没完成的，不可能出现半完成状态。
+
+std::atomic来代表原子操作，是个类模板。其实std::atomic是用来封装某个类型的值的
+
+需要添加#include 头文件
+
+范例：
+============================================================================
+#include <iostream>
+#include <thread>
+#include <atomic>
+using namespace std;
+std::atomic<int> g_count = 0; //封装了一个类型为int的 对象（值）
+
+void mythread1() {
+	for (int i = 0; i < 1000000; i++) {
+		g_count++;
+	}
+}
+
+int main() {
+	std::thread t1(mythread1);
+	std::thread t2(mythread1);
+	t1.join();
+	t2.join();
+	cout << "正常情况下结果应该是200 0000次，实际是" << g_count << endl;
+}
+============================================================================
+
+在这里插入图片描述
+============================================================================
+#include <iostream>
+#include <thread>
+#include <atomic>
+using namespace std;
+std::atomic<bool> g_ifEnd = false; //封装了一个类型为bool的 对象（值）
+
+void mythread() {
+	std::chrono::milliseconds dura(1000);
+	while (g_ifEnd == false) {
+		cout << "thread id = " << std::this_thread::get_id() << "运行中" << endl;
+		std::this_thread::sleep_for(dura);
+	}
+	cout << "thread id = " << std::this_thread::get_id() << "运行结束" << endl;
+}
+
+int main() {
+	std::thread t1(mythread);
+	std::thread t2(mythread);
+	std::chrono::milliseconds dura(5000);
+	std::this_thread::sleep_for(dura);
+	g_ifEnd = true;
+	cout << "程序执行完毕" << endl;
+	t1.join();
+	t2.join();
+}
+============================================================================
+
+在这里插入图片描述
+
+总结：
+1、原子操作一般用于计数或者统计（如累计发送多少个数据包，累计接收到了多少个数据包），多个线程一起统计，这种情况如果不使用原子操作会导致统计发生混乱。
+
+2、写商业代码时，如果不确定结果的影响，最好自己先写一小段代码调试。或者不要使用。

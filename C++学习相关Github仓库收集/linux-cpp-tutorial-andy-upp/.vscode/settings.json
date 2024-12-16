@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "memory": "cpp",
+        "__config": "cpp",
+        "complex": "cpp",
+        "thread": "cpp",
+        "algorithm": "cpp",
+        "functional": "cpp",
+        "list": "cpp",
+        "iosfwd": "cpp",
+        "fstream": "cpp"
+    }
+}

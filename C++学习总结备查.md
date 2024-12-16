@@ -18,6 +18,12 @@
 - C语言中文网 [网站地图 (biancheng.net)](http://c.biancheng.net/sitemap/)，个别小节需要 RMB。
 - B站搜“C语言学习” [C语言学习 _ 搜索结果_ 哔哩哔哩 _Bilibili](https://search.bilibili.com/all?keyword=C语言学习)，随便一搜一大把，其它语言同理。
 
+**对于 C 语言特性的精品汇总**
+
+- [Knowledge-Notes/2 - C语言笔记 at master · wuxiaolie/Knowledge-Notes (github.com)](https://github.com/wuxiaolie/Knowledge-Notes/tree/master/2 - C语言笔记)。
+- [embedded/01_C at master · kuraxii/embedded (github.com)](https://github.com/kuraxii/embedded/tree/master/01_C)。
+- [lh233/C-knowledge: 关于C语言的基础知识 (github.com)](https://github.com/lh233/C-knowledge)。
+
 **C 语言提高**
 
 - C 语言三剑客：《C和指针》、《C陷阱与缺陷》和《C专家编程》，经典永流传。
@@ -42,6 +48,10 @@
 
   本文作者的 [（大集合）数据结构与算法简述和CS综合 - 欢迎来到 Staok - 瞰百易 (gitee.io)](https://staok.gitee.io/15数据结构与算法简述和cs综合/) / [CSDN](https://blog.csdn.net/Staokgo/article/details/122085252)。
 
+**C 精品仓库**
+
+- [jobbole/awesome-c-cn: C 资源大全中文版，包括了：构建系统、编译器、数据库、加密、初中高的教程/指南、书籍、库等。 (github.com)](https://github.com/jobbole/awesome-c-cn)。
+
 **C++ 教程**
 
 - [玄马教育 C++40个知识点带你入门_哔哩哔哩_bilibili](https://space.bilibili.com/477729104/channel/seriesdetail?sid=864816)。
@@ -58,10 +68,26 @@
 
 - [干货推荐 ：五万字长文总结 C/C++ 知识 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/516819910)。
 
-快速复习
+~~C++ 快速复习~~ 都是些应试用的时代~~废品~~
 
-- [这可能是史上最快学习C++的课程，期末考前复习冲刺的宝典_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV15Y411j7JW)。
-- [复习100分钟拿下100分，你能做得到吗？【C++】(面向对象程序设计)（总复习）_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1ta411k7Yn)。
+- ~~[这可能是史上最快学习C++的课程，期末考前复习冲刺的宝典_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV15Y411j7JW)。~~
+- ~~[复习100分钟拿下100分，你能做得到吗？【C++】(面向对象程序设计)（总复习）_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1ta411k7Yn)。~~
+
+**对于 C++ 语言特性的精品汇总**
+
+- [Knowledge-Notes/2 - C++笔记 at master · wuxiaolie/Knowledge-Notes (github.com)](https://github.com/wuxiaolie/Knowledge-Notes/tree/master/2 - C%2B%2B笔记)。
+- [embedded/02_CPP at master · kuraxii/embedded (github.com)](https://github.com/kuraxii/embedded/tree/master/02_CPP)。
+- [EmbeddedSystem/Language at master · SummerGift/EmbeddedSystem (github.com)](https://github.com/SummerGift/EmbeddedSystem/tree/master/Language)。
+
+
+
+快速索引特性
+
+- [mortennobel/cpp-cheatsheet: Modern C++ Cheatsheet (github.com)](https://github.com/mortennobel/cpp-cheatsheet)。
+- [chengxumiaodaren/cpp-learning (github.com)](https://github.com/chengxumiaodaren/cpp-learning)。
+- [C++11/14/17/20/23新特性，哪些是必须掌握的，哪些基本用得不多？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/474664436/answer/3612037757)。
+
+**C++ 精品仓库**
 
 下面这些 C++ 笔记仓库可牛了（这些仓库均已离线到 `C++学习相关Github仓库收集` 文件夹下！）
 
@@ -69,37 +95,44 @@
 - [czs108/Cpp-Primer-5th-Notes-CN: 📚 《C++ Primer中文版（第5版）》笔记 (github.com)](https://github.com/czs108/Cpp-Primer-5th-Notes-CN)。
 - [demon90s/CppStudy: My study notes for c/cpp language (github.com)](https://github.com/demon90s/CppStudy)。
 - [Light-City/CPlusPlusThings: C++那些事 (github.com)](https://github.com/Light-City/CPlusPlusThings)。
+- [0voice/introduce_c-cpp_manual: 一个收集C/C++新手学习的入门项目，整理收纳开发者开源的小项目、工具、框架、游戏等，视频，书籍，面试题/算法题，技术文章。 (github.com)](https://github.com/0voice/introduce_c-cpp_manual)。
 - [0voice/cpp_new_features: 2021年最新整理， C++ 学习资料，含C++ 11 / 14 / 17 / 20 / 23 新特性、入门教程、推荐书籍、优质文章、学习笔记、教学视频等 (github.com)](https://github.com/0voice/cpp_new_features)。
+- [FunctionDou/STL: STL源码分析 (github.com)](https://github.com/FunctionDou/STL)。
 
-C++ 杂文
+**C++ 精品专项**
 
-- [C++_路过的小熊~的博客-CSDN博客](https://blog.csdn.net/qq_32348883/category_11547008.html)。
-- [C++ 实例 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-examples.html)。
-- .etc
+- [Mq-b/ModernCpp-ConcurrentProgramming-Tutorial: 现代C++并发编程教程 (github.com)](https://github.com/Mq-b/ModernCpp-ConcurrentProgramming-Tutorial)。
+- [parallel101/course: 高性能并行编程与优化 - 课件 (github.com)](https://github.com/parallel101/course)。
 
-**C++ 参考**
 
+
+- [Mq-b/Modern-Cpp-templates-tutorial: 现代C++模板教程 (github.com)](https://github.com/Mq-b/Modern-Cpp-templates-tutorial)。
+- [wuye9036/CppTemplateTutorial: 中文的C++ Template的教学指南。与知名书籍C++ Templates不同，该系列教程将C++ Templates作为一门图灵完备的语言来讲授，以求帮助读者对Meta-Programming融会贯通。(正在施工中) (github.com)](https://github.com/wuye9036/CppTemplateTutorial)。
+
+**C++ 参考 / 字典**
+
+- 首要：[cppreference.com](https://zh.cppreference.com/w/首页)。
+
+  [离线查看的归档 - cppreference.com](https://zh.cppreference.com/w/Cppreference:Archives)。[cppreference离线文档下载 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/651697815)。
+  
+  [C++ 标准库标头 - cppreference.com](https://zh.cppreference.com/w/cpp/header)。
+  
 - [C++ 有用的资源 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-useful-resources.html)。
 
+  以下挑出上面没有的做补充
+  
   > 以下资源包含了 C++ 有关的网站、书籍和文章。请使用它们来进一步学习 C++ 的知识。
   >
   > C++ 有用的网站：
   >
-  > - [C++ Standard Library headers](https://en.cppreference.com/w/cpp/header) − C++ 标准库。
   > - [C++ Programming](http://en.wikibooks.org/wiki/C++_Programming) − 这本书涵盖了 C++ 语言编程、软件交互设计、C++ 语言的现实生活应用。
   > - [C++ FAQ](http://www.sunistudio.com/cppfaq/) − C++ 常见问题
   > - [Free Country](http://www.thefreecountry.com/sourcecode/cpp.shtml) − Free Country 提供了免费的 C++ 源代码和 C++ 库，这些源代码和库涵盖了压缩、存档、游戏编程、标准模板库和 GUI 编程等 C++ 编程领域。
   > - [C and C++ Users Group](http://www.hal9k.com/cug/) − C 和 C++ 的用户团体提供了免费的涵盖各种编程领域 C++ 项目的源代码，包括 AI、动画、编译器、数据库、调试、加密、游戏、图形、GUI、语言工具、系统编程等。
-  >
-  > C++ 有用的书籍：
-  >
-  > - 《Essential C++ 中文版》
-  > - 《C++ Primer Plus 第6版中文版》
-  > - 《C++ Primer中文版（第5版）》
-
+  
 - .etc
 
-**C/C++标准原文**
+**C/C++ 标准原文**
 
 高阶的 直接拿 C/C++语言标准原文 做备查：
 
@@ -108,12 +141,29 @@ C++ 杂文
 - ISO IEC 14882 2011 (C++11)。
 - .etc
 
-## C/C++精品小项目
+**C++ 杂文**
 
-看到的小巧精良的小型 c/cpp 项目列举。自己的 gitee/github 的 star 里面可以找找
+- [C++_路过的小熊~的博客-CSDN博客](https://blog.csdn.net/qq_32348883/category_11547008.html)。
+- [C++ 实例 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-examples.html)。
+- .etc
 
-- 
-- [tusikalanse/magic-in-ten-mins-cpp (github.com)](https://github.com/tusikalanse/magic-in-ten-mins-cpp)。
+## C/C++精品库
+
+看到的小巧精良的小型 c/cpp 库/项目列举。自己的 gitee/github 的 star 里面可以找找。
+
+- [Your list / 实用库 / EE-CS (github.com)](https://github.com/stars/Staok/lists/实用库-ee-cs)。
+
+
+
+## C/C++ 数据结构与算法 / 设计模式
+
+见仓库：
+
+C-C++-设计模式综合
+
+C-C++-数据结构与算法简述和CS综合
+
+
 
 ## C++ 基础
 
@@ -831,11 +881,15 @@ p.s 首先说，类内的 变量 和 函数，在这里统一叫 成员变量 �
 
 类内的 成员变量 和 成员函数 可以加 const 修饰，对于 常成员变量，则初始化后（可以在声明/定义时候初始化值，也可以在构造函数的初始化列表上加）不允许修改，对于 常成员函数，是下面的情况：
 
-常对象（在最前面 用 const 修饰 来 创建新对象，如 `const A a;`），此时，**常对象 只能 调用其 常成员函数**。
+- const 成员函数可以使用类中的所有成员变量，但是不能修改它们的值。
+- 常对象（在最前面 用 const 修饰 来 创建新对象，如 `const A a;`），此时，常对象 只能 调用其 常成员函数。
+- 必须在成员函数的声明和定义处同时加上 const 关键字。
 
 
 
 #### static
+
+**TODO 这个再好好看看上面的教程**
 
 类内的 成员变量 加 static 修饰，则为 类的对象们共享的变量，“小范围的全局变量”。
 
@@ -1180,6 +1234,8 @@ int main()
 
 
 继承 的时候 如果 是修饰为 类指针 或者 引用 类型（而且不使用 new / malloc 创建空间），则不为其分配内存，只是继承过来一个类的对象的指针。
+
+c++ explicit 修饰只有一个参数的构造函数，即取消隐式转换，在例化对象时候只能用函数的方式，不能用赋值的方式，赋值 = 用操作符重载去做。
 
 ### 虚继承/菱形继承
 

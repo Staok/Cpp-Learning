@@ -1,0 +1,14 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/C++单元测试/gTest/gtest_with_cmake/main.cpp
+iostream
+-
+gtest/gtest.h
+/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/C++单元测试/gTest/gtest_with_cmake/gtest/gtest.h
+

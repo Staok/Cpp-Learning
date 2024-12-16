@@ -1,0 +1,115 @@
+一、范例演示线程运行的开始
+
+程序运行起来，生成一个进程，该进程所属的主线程开始自动运行；当主线程从main（）函数返回，则整个进程执行完毕
+主线程从main（）开始执行，那么我们自己创建的线程，也需要从一个函数开始运行（初始函数），一旦这个函数运行完毕，线程也结束运行
+整个进程是否执行完毕的标志是：主线程是否执行完，如果主线程执行完毕了，就代表整个进程执行完毕了，此时如果其他子线程还没有执行完，
+也会被强行终止【此条有例外，以后会解释】
+创建一个线程：
+
+包含头文件thread
+写初始函数
+在main中创建thread
+必须要明白：有两个线程在跑，相当于整个程序中有两条线在同时走，即使一条被阻塞，另一条也能运行
+
+====================================================================
+#include <iostream>
+#include <thread>
+using namespace std;
+
+void myPrint()
+{
+	cout << "我的线程开始运行" << endl;
+	//-------------
+	//-------------
+	cout << "我的线程运行完毕" << endl;
+	return;
+}
+
+int main()
+{
+	//(1)创建了线程，线程执行起点（入口）是myPrint；(2)执行线程
+	thread myThread(myPrint);
+
+	//(2)阻塞主线程并等待myPrint执行完，当myPrint执行完毕，join()就执行完毕，主线程继续往下执行
+	//join意为汇合，子线程和主线程回合
+	myThread.join();
+
+	//设置断点可看到主线程等待子线程的过程
+	//F11逐语句，就是每次执行一行语句，如果碰到函数调用，它就会进入到函数里面
+	//F10逐过程，碰到函数时，不进入函数，把函数调用当成一条语句执行
+
+	//(3)传统多线程程序中，主线程要等待子线程执行完毕，然后自己才能向下执行
+	//detach:分离，主线程不再与子线程汇合，不再等待子线程
+	//detach后，子线程和主线程失去关联，驻留在后台，由C++运行时库接管
+	//myThread.detach();
+
+	//(4)joinable()判断是否可以成功使用join()或者detach()
+	//如果返回true，证明可以调用join()或者detach()
+	//如果返回false，证明调用过join()或者detach()，join()和detach()都不能再调用了
+	if (myThread.joinable())
+	{
+		cout << "可以调用可以调用join()或者detach()" << endl;
+	}
+	else
+	{
+		cout << "不能调用可以调用join()或者detach()" << endl;
+	}
+
+	cout << "Hello World!" << endl;
+	return 0;
+}
+======================================================================================
+重要补充：
+线程类参数是一个可调用对象。
+一组可执行的语句称为可调用对象，c++中的可调用对象可以是函数、函数指针、lambda表达式、bind创建的对象或者重载了函数调用运算符的类对象。
+
+二、其他创建线程的方法
+①创建一个类，并编写圆括号重载函数，初始化一个该类的对象，把该对象作为线程入口地址
+
+class Ta
+{
+public:
+	void operator()() //不能带参数
+	{
+		cout << "我的线程开始运行" << endl;
+		//-------------
+		//-------------
+		cout << "我的线程运行完毕" << endl;
+	}
+};
+
+//main函数里的：
+	Ta ta;
+	thread myThread(ta);
+	myThread.join();
+
+②lambda表达式创建线程
+
+//main函数中
+auto lambdaThread = [] {
+		cout << "我的线程开始执行了" << endl;
+		//-------------
+		//-------------
+		cout << "我的线程开始执行了" << endl;
+	};
+
+	thread myThread(lambdaThread);
+	myThread.join();
+
+③把某个类中的某个函数作为线程的入口地址
+
+class Data_
+{
+public:
+    void GetMsg(){}
+    void SaveMsh(){}
+};
+//main函数里
+    Data_ s;
+    //第一个&意思是取址，第二个&意思是引用，相当于std::ref(s)
+    //thread oneobj(&Data_::SaveMsh,s)传值也是可以的
+    //在其他的构造函数中&obj是不会代表引用的，会被当成取地址
+    thread oneobj(&Data_::SaveMsh,&s);
+    thread twoobj(&Data_::GetMsg,&s);
+    oneobj.join();
+    twoobj.join();

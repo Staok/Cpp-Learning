@@ -1,5 +1,0 @@
-executable("hello_world") {
-  sources = [
-    "helloworld.cc",
-  ]
-}

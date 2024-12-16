@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/cmake/Demo2:多个源文件/MathFunctions.cc
+
+/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/cmake/Demo2:多个源文件/MathFunctions.h
+
+/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/cmake/Demo2:多个源文件/main.cc
+stdio.h
+-
+stdlib.h
+-
+MathFunctions.h
+/Users/liguanghui/Documents/Projectsrc/CppSrc/linux-cpp-tutorial/03.C++专题讲解/cmake/Demo2:多个源文件/MathFunctions.h
+
