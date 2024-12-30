@@ -3,9 +3,16 @@
 网络参考源：
 
 - [Your list / 实用库 / EE-CS (github.com)](https://github.com/stars/Staok/lists/实用库-ee-cs)。
-- [你工作中最推荐的 C/C++ 程序库有哪些，为什么？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/51134387)。
+- [你工作中最推荐的 C/C++ 程序库有哪些，为什么？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/51134387)。可以不时的更新收录到下面。
+- [可以使用 C++ 的哪些库或函数来简化任务？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/639724149)。可以不时的更新收录到下面。
+- [开源 C++ 库列表 - cppreference.com](https://zh.cppreference.com/w/cpp/links/libs)。这里面有一些比较老的，有些经典的。
+- [fffaraz/awesome-cpp: A curated list of awesome C++ (or C) frameworks, libraries, resources, and shiny things. Inspired by awesome-... stuff. (github.com)](https://github.com/fffaraz/awesome-cpp)。超多，可以时不时看一看，更新收录到下面。
 
 以下是自总结的平时用到的、好用的库和一些网络上推荐的库的集合。基本上，每个领域只推荐一个 或 两个 相关领域 最常用的、最主流的。排序不分先后。
+
+下面会尽量挑选协议商用友好的库，基本可以直接拿来用的那种，但是可能不是所有库都是，所以要注意下所用库的协议。
+
+欢迎在原文 [github](https://github.com/Staok/Cpp-Learning) / [gitee](https://gitee.com/staok/Cpp-Learning) 仓库 提 issue 指出错误，和 提 PR 来一同建设内容。 
 
 ~~每个库会尽量有这几个部分：自写的一段话简介（库所提供的基础能力概括）、项目网址（官网 或者 github 仓库网址 等）、网友写的一些比较好的入门教程、win 以及 linux 上的安装（保证方法具有普适性，必能跑通）、几段使用例子（由简单到复杂，是自己本地跑起来的自写的例子，以及指明官方提供的较系统的 demo 所在）。~~
 
@@ -67,6 +74,10 @@ All in all ffead-cpp is the gap in the world of C++ web application or enterpris
 
 
 
+### parallel lib comparison table
+
+这里需要再多一些信息来区分这些库
+
 几个库的使用场景（使用 gpt）
 
 > - **oneTBB** 适合大规模并行计算和高效利用多核处理器的场景。
@@ -90,6 +101,12 @@ oneAPI Threading Building Blocks (oneTBB)
 C++ Parallel Computing and Asynchronous Networking Framework
 
 [sogou/workflow: C++ Parallel Computing and Asynchronous Networking Framework (github.com)](https://github.com/sogou/workflow)
+
+
+
+[workflow这个C++开源项目值得学习 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/389396903)。
+
+[workflow开源项目学习心得 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/467427315)。
 
 
 
@@ -232,6 +249,22 @@ libcurl is the library curl is using to do its job. It is readily available to b
 
 
 
+### async lib comparison table
+
+对比表（GPT生成）
+
+| 特性           | **glib**                                                     | **libuv**                                                    | **libevent**                                                 | **libev**                                                    |
+| -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| **主要用途**   | 全功能框架，适合 GUI 和服务程序。<br />提供了事件循环的支持，核心模块是 `GMainLoop` 和 `GSource`。 <br />集成了多种高级工具：线程池、数据结构（如动态数组、链表、哈希表等）、消息队列和日志系统。 <br />可与 GTK+ 完美结合，用于 GUI 应用的事件处理。 | 跨平台异步 IO 和事件驱动。<br />支持事件循环（基于多种底层实现，如 epoll、kqueue、IOCP 等）。<br /> 提供多种异步 IO 操作：文件系统、网络 IO、DNS 解析等。 <br />内置线程池，用于执行耗时的任务（如文件操作）。 | 高效网络 IO。<br />支持高效的事件驱动模型，底层基于 epoll、kqueue、poll 等机制。 <br />支持定时器、信号和缓存机制（例如 `bufferevent`）。 <br />轻量化设计，但功能足够丰富。 | 极简事件驱动库。<br />提供极简的事件循环，支持底层 epoll、kqueue 等。 <br />专注于高效、轻量的事件处理。 <br />不包含复杂的附加功能，例如线程池或高级 IO 操作。 |
+| **跨平台支持** | 较好（Windows 支持有限）                                     | 非常好                                                       | 好（支持 Windows）                                           | 较差（Windows 支持弱）                                       |
+| **线程支持**   | 多线程、线程池                                               | 多线程、线程池                                               | 不支持线程池                                                 | 不支持线程池                                                 |
+| **轻量程度**   | 较重                                                         | 中等                                                         | 轻量                                                         | 极轻                                                         |
+| **性能**       | 中等                                                         | 较高                                                         | 高                                                           | 最高                                                         |
+| **复杂性**     | 高                                                           | 中等                                                         | 中等                                                         | 低                                                           |
+| **支持场景**   | 过于庞大，可能会为轻量级项目引入不必要的复杂性。 <br />性能相较其他轻量级库（如 `libev`）可能稍低。 <br />更倾向于**桌面环境的开发**。<br />**构建基于 GTK+ 的 GUI 应用程序**。 <br />GNOME 项目的插件开发或扩展。 <br />需要丰富工具支持的非网络类应用程序。 | **跨平台支持好**，代码高度一致（尤其适用于 Windows 和 Linux 的统一开发）。<br />提供内置的线程池支持，适合处理复杂异步操作（如文件 IO）。 <br />构建跨平台的高性能**网络服务**或工具。 <br />需要线程池支持的复杂 IO 操作场景（如文件操作、DNS 解析等）。 | 不支持线程池或高级异步操作，需要额外实现。 <br />长期以来更新速度较慢，社区活跃度比 `libuv` 和 `libev` 稍低。<br /><br />构建高性能的网络服务或服务器。 <br />不需要线程池或其他附加功能的事件驱动应用。 <br />专注于**事件和 IO 模型的小型项目**。 | 功能相对单一，仅适用于事件驱动。<br />**Windows 支持不佳**（虽然可以通过兼容层解决）。<br />需要开发者自行实现线程池或复杂操作的支持。<br />需要极高性能的事件驱动应用程序。 <br />构建单线程、高效的网络服务器。 <br />**Linux 或 Unix 系统上的轻量级服务**。 |
+
+
+
 ### libuv
 
 Cross-platform asynchronous I/O
@@ -252,6 +285,12 @@ libuv is a multi-platform support library with a focus on asynchronous I/O. It w
 - Threading and synchronization primitives
 
 [libuv/libuv: Cross-platform asynchronous I/O (github.com)](https://github.com/libuv/libuv)
+
+
+
+基于libuv实现的C++11风格网络库。接口简洁，性能优越，做过业务压测，稳定线上运行。
+
+[wlgq2/uv-cpp: libuv wrapper in C++11 /libuv C++11网络库 (github.com)](https://github.com/wlgq2/uv-cpp)
 
 
 
@@ -328,6 +367,24 @@ Cppnet is a proactor mode and multithreaded network with C++11 on tcp. Support W
 
 
 
+#### fmt
+
+{fmt} is an open-source formatting library providing a fast and safe alternative to C stdio and C++ iostreams.
+
+[fmtlib/fmt: A modern formatting library (github.com)](https://github.com/fmtlib/fmt)
+
+
+
+#### inja
+
+看看例子就知道做什么的了，还是挺花里胡哨的，对于一些自定义格式的解析挺方便。
+
+Inja is a template engine for modern C++, loosely inspired by [jinja](http://jinja.pocoo.org/) for python. It has an easy and yet powerful template syntax with all variables, loops, conditions, includes, callbacks, and comments you need, nested and combined as you like. Of course, everything is tested in CI on all relevant compilers.
+
+[pantor/inja: A Template Engine for Modern C++ (github.com)](https://github.com/pantor/inja)
+
+
+
 #### Ada *
 
 Ada is a fast and spec-compliant URL parser written in C++. Specification for URL parser can be found from the [WHATWG](https://url.spec.whatwg.org/#url-parsing) website.
@@ -363,6 +420,14 @@ Other aspects were not so important to us:
 
 
 
+#### cJSON
+
+Ultralightweight JSON parser in ANSI C.
+
+[DaveGamble/cJSON: Ultralightweight JSON parser in ANSI C (github.com)](https://github.com/DaveGamble/cJSON)
+
+
+
 #### sjson
 
 a light weight json streaming library, run fast without any memory allocation
@@ -376,6 +441,14 @@ a light weight json streaming library, run fast without any memory allocation
 TinyXML-2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs.
 
 [leethomason/tinyxml2: TinyXML2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs. (github.com)](https://github.com/leethomason/tinyxml2)
+
+
+
+#### yaml-cpp *
+
+`yaml-cpp` is a [YAML](http://www.yaml.org/) parser and emitter in C++ matching the [YAML 1.2 spec](http://www.yaml.org/spec/1.2/spec.html).
+
+[jbeder/yaml-cpp: A YAML parser and emitter in C++ (github.com)](https://github.com/jbeder/yaml-cpp)
 
 
 
@@ -481,6 +554,41 @@ Fast C++ logging library.
 
 
 
+#### pdf
+
+##### JagPDF
+
+JagPDF is a free, open source library for generating PDF documents.
+
+The goal of this project is to provide a fast and reliable library that is usable in both server and desktop environments. The library is written in C++ and provides bindings for other languages. It runs on x86/Linux, amd64/Linux and x86/Windows platforms.
+
+JagPDF aims to be easy to use, have a look at Hello World examples in [C++](http://www.jagpdf.org/doc/jagpdf/usersguide/quick_start.htm#jagpdf.usersguide.quick_start.hello_world.c__), [Python](http://www.jagpdf.org/doc/jagpdf/usersguide/quick_start.htm#jagpdf.usersguide.quick_start.hello_world.python), [Java](http://www.jagpdf.org/doc/jagpdf/usersguide/quick_start.htm#jagpdf.usersguide.quick_start.hello_world.java) or [C](http://www.jagpdf.org/doc/jagpdf/usersguide/quick_start.htm#jagpdf.usersguide.quick_start.hello_world.c). The library implements a [fairly large subset](http://www.jagpdf.org/features.htm) of the PDF specification which enables creation of a broad range of [document types](http://www.jagpdf.org/samples.htm).
+
+The library is distributed under the [MIT license](http://www.jagpdf.org/license.htm) which encourages both commercial and non-commercial usage.
+
+[JagPDF - PDF Generation Library](http://www.jagpdf.org/index.htm)
+
+
+
+##### libharu
+
+Haru is a free, cross platform, open-sourced software library for generating PDF. It supports the following features.
+
+1. Generating PDF files with lines, text, images.
+2. Outline, text annotation, link annotation.
+3. Compressing document with deflate-decode.
+4. Embedding PNG, Jpeg images.
+5. Embedding Type1 font and TrueType font.
+6. Creating encrypted PDF files.
+7. Using various character set (ISO8859-1~~16, MSCP1250~~8, KOI8-R).
+8. Supporting CJK fonts and encodings.
+
+You can add the feature of PDF creation by using Haru without understanding complicated internal structure of PDF.
+
+[libharu/libharu: libharu - free PDF library (github.com)](https://github.com/libharu/libharu)
+
+
+
 ## Com
 
 
@@ -544,7 +652,9 @@ You can override the default key-size of 128 bit with 192 or 256 bit by defining
 
 
 
-### zlib
+### zip
+
+#### zlib
 
 zlib is a general purpose data compression library.  All the code is thread safe.  The data format used by the zlib library is described by RFCs (Request for Comments)
 
@@ -552,7 +662,15 @@ zlib is a general purpose data compression library.  All the code is thread safe
 
 
 
-### libzip *
+#### zstr
+
+A C++ header-only ZLib wrapper
+
+[mateidavid/zstr: A C++ header-only ZLib wrapper (github.com)](https://github.com/mateidavid/zstr)
+
+
+
+#### libzip
 
 This is libzip, a C library for reading, creating, and modifying zip and zip64 archives. Files can be added from data buffers, files, or compressed data copied directly from other zip archives. Changes made without closing the archive can be reverted. Decryption and encryption of Winzip AES and legacy PKware encrypted files is supported.
 
@@ -562,11 +680,42 @@ libzip is fully documented via man pages. HTML versions of the man pages are on 
 
 
 
-### zstr
+#### LibZippp
 
-A C++ header-only ZLib wrapper
+libzippp is a simple basic C++ wrapper around the libzip library. It is meant to be a portable and easy-to-use library for ZIP handling.
 
-[mateidavid/zstr: A C++ header-only ZLib wrapper (github.com)](https://github.com/mateidavid/zstr)
+Underlying libraries:
+
+- [ZLib](https://zlib.net/) 1.3.1
+- [libzip](https://www.nih.at/libzip) 1.11.2
+
+[ctabin/libzippp: C++ wrapper for libzip (github.com)](https://github.com/ctabin/libzippp)
+
+
+
+### QR-Code-generator
+
+This project aims to be the best, clearest QR Code generator library in multiple languages. The primary goals are flexible options and absolute correctness. Secondary goals are compact implementation size and good documentation comments.
+
+[nayuki/QR-Code-generator: High-quality QR Code generator library in Java, TypeScript/JavaScript, Python, Rust, C++, C. (github.com)](https://github.com/nayuki/QR-Code-generator)
+
+
+
+## Scientific Computing
+
+
+
+### Matrix
+
+[mlcpp/Matrix: Easy-to-use Scientific Computing library in/for C++ available for Linux and Windows. (github.com)](https://github.com/mlcpp/Matrix)
+
+
+
+### NumCpp
+
+A Templatized Header Only C++ Implementation of the [Python NumPy Library](http://www.numpy.org/)。
+
+[dpilger26/NumCpp: C++ implementation of the Python Numpy library (github.com)](https://github.com/dpilger26/NumCpp)
 
 
 
@@ -578,13 +727,23 @@ A lib of Matrix operation for C language. (矩阵运算库--C语言)
 
 
 
-### QR-Code-generator
+## Language Bind
 
-This project aims to be the best, clearest QR Code generator library in multiple languages. The primary goals are flexible options and absolute correctness. Secondary goals are compact implementation size and good documentation comments.
+### Lua
 
-[nayuki/QR-Code-generator: High-quality QR Code generator library in Java, TypeScript/JavaScript, Python, Rust, C++, C. (github.com)](https://github.com/nayuki/QR-Code-generator)
+一种轻量级多范式脚本语言，主要设计用于嵌入使用。C 库。
+
+[The Programming Language Lua](https://www.lua.org/)
 
 
+
+### sol2
+
+一个绑定 Lua 的现代 C++ 库。
+
+sol2 is a C++ library binding to Lua. It currently supports all Lua versions 5.1+ (LuaJIT 2.0+ and MoonJIT included). sol2 aims to be easy to use and easy to add to a project. The library is header-only for easy integration with projects, and a single header can be used for drag-and-drop start up.
+
+[ThePhD/sol2: Sol3 (sol2 v3.0) - a C++ <-> Lua API wrapper with advanced features and top notch performance - is here, and it's great! Documentation: (github.com)](https://github.com/ThePhD/sol2)
 
 
 
@@ -611,6 +770,24 @@ libusb is abstracted internally in such a way that it can hopefully be ported to
 libusb homepage: https://libusb.info/
 
 [libusb/libusb: A cross-platform library to access USB devices (github.com)](https://github.com/libusb/libusb)
+
+
+
+## Embedded
+
+
+
+### ETL
+
+实现了资源节省的、固定内存分配的 C++ 的各种基本功能，采用回调函数的方式与 嵌入式 mcu 设备中的 各种 uart、timer 等中断回调进行连接，来使得能够用 c++ 来编写 mcu 代码。
+
+C++ is a great language to use for embedded applications and templates are a powerful aspect. The standard library can offer a great deal of well tested functionality, but there are some parts of the standard library that do not fit well with deterministic behaviour and limited resource requirements. These limitations usually preclude the use of dynamically allocated memory and containers with open ended sizes.
+
+What is needed is a template library where the user can declare the size, or maximum size of any object upfront. Most embedded compilers do not currently support the standard beyond C++ 03, therefore excluding the programmer from using the enhanced features of the later library.
+
+This is what the ETL attempts to achieve.
+
+[ETLCPP/etl: Embedded Template Library (github.com)](https://github.com/ETLCPP/etl)
 
 
 
