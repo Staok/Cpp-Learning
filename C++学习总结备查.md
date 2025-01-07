@@ -264,7 +264,7 @@ extern  // 对其它文件可见
 
 
 
-关于 auto、register、static、thread_local、extern、mutable 这些 存储类 说明符 / 修饰符 的 说明 和 使用范围：
+关于 auto、static、thread_local、extern、mutable 这些 存储类 说明符 / 修饰符 的 说明 和 使用范围：
 
 [存储类说明符 - cppreference.com](https://zh.cppreference.com/w/cpp/language/storage_duration)。
 
@@ -284,6 +284,34 @@ extern  // 对其它文件可见
 
 __func__、__LINE__、__FILE__、__DATE__、__TIME__
 ```
+
+
+
+**__has_include 预处理 表达式**
+
+> ```c++
+> #if defined __has_include
+>     #if __has_include(<charconv>)
+>     	#define has_charconv 1
+>     	#include <charconv>
+>     #endif
+> #endif
+> 
+> std::optional<int> ConvertToInt(const std::string& str) {
+>     int value{};
+> #ifdef has_charconv // 判断是否有包含某个头文件 或 库，根据实际 include 的东西 选择处理方式
+>     const auto last = str.data() + str.size();
+>     const auto res = std::from_chars(str.data(), last, value);
+>     if (res.ec == std::errc{} && res.ptr == last) return value;
+> #else
+>     // alternative implementation...
+>     // 其它方式实现
+> #endif
+>     return std::nullopt;
+> }
+> ```
+>
+> 
 
 
 
@@ -356,8 +384,8 @@ namespace cd
 
 /* 使用 :: 运算符来访问嵌套的命名空间中的成员：
 		
-		使用 using 引用（不推荐常用）：using namespace cd::d::d;
-		
+		使用 using 引用（不推荐常用在命名空间）：using namespace cd::d::d;
+
 		或者直接引用（推荐）：cd::d::d
 
 	   要保证同名的函数、变量等的唯一性，不能同时：
@@ -379,6 +407,12 @@ int main ()
    second_space::func(); 
  
    return 0;
+}
+
+// namespace 嵌套，C++ 17 起
+// 多层的命名空间可以这么定义
+namespace A::B::C {
+    void func();)
 }
 
 ```
@@ -487,6 +521,28 @@ string str3;
 
 - 使用控制符：引用头文件 `iomanip`，使用方式 `cout << 控制符 << 数据 << endl;`。
 - 使用 cout 成员函数：例如 `cout.setf(ios::left);// 设置左对齐`，`cout.width(4);// 宽度为4`，`cout.precision(2);// 设置浮点数精度为2` 等等。
+
+
+
+#### std::string_view
+
+> 通常我们传递一个string时会触发对象的拷贝操作，大字符串的拷贝赋值操作会触发堆内存分配，很影响运行效率，有了string_view就可以避免拷贝操作，平时传递过程中传递string_view即可。
+>
+> ```c++
+> void func(std::string_view stv) { cout << stv << endl; }
+> 
+> int main(void) {
+>     std::string str = "Hello World";
+>     std::cout << str << std::endl;
+> 
+>     std::string_view stv(str.c_str(), str.size());
+>     cout << stv << endl;
+>     func(stv);
+>     return 0;
+> }
+> ```
+>
+> 
 
 
 
@@ -753,6 +809,8 @@ map.size();
 
 **tuple**
 
+数据打包。
+
 > ```c++
 > int main() {
 >     std::tuple<int, int, int> tuple = std::make_tuple(2, 3, 4);
@@ -769,11 +827,114 @@ std::pair 是其一个特例实现。
 
 
 
+围绕 std::tuple 有不少辅助函数：
+
+std::apply
+
+std::make_from_tuple
+
+
+
+#### 多类型
+
+
+
+**std::variant**
+
+参考 [std::variant - cppreference.com](https://zh.cppreference.com/w/cpp/utility/variant)。C++ 17 起。
+
+TODO: 有待补充
+
+
+
+
+
+**std::optional**
+
+参考 [std::optional - cppreference.com](https://zh.cppreference.com/w/cpp/utility/optional)。C++ 17 起。
+
+> ```c++
+> std::optional<int> StoI(const std::string &s) {
+>     try {
+>         return std::stoi(s);
+>     } catch(...) {
+>         return std::nullopt;
+>     }
+> }
+> 
+> void func() {
+>     std::string s{"123"};
+>     std::optional<int> o = StoI(s);
+>     if (o) {
+>         cout << *o << endl;
+>     } else {
+>         cout << "error" << endl;
+>     }
+> }
+> ```
+>
+> 
+
+
+
+**std::any**
+
+参考 [std::any - cppreference.com](https://zh.cppreference.com/w/cpp/utility/any)。C++ 17 起。
+
+> 可以存储任何类型的单个值
+>
+> ```c++
+> int main() { // c++17可编译
+>     std::any a = 1;
+>     cout << a.type().name() << " " << std::any_cast<int>(a) << endl;
+>     
+>     a = 2.2f;
+>     cout << a.type().name() << " " << std::any_cast<float>(a) << endl;
+>     
+>     if (a.has_value()) {
+>         cout << a.type().name();
+>     }
+>     
+>     a.reset();
+>     
+>     if (a.has_value()) {
+>         cout << a.type().name();
+>     }
+>     
+>     a = std::string("a");
+>     
+>     cout << a.type().name() << " " << std::any_cast<std::string>(a) << endl;
+>     
+>     return 0;
+> }
+> ```
+>
+> 
+
+
+
 ### lambda
 
 参考 [lambda 表达式 (C++11 起) - cppreference.com](https://zh.cppreference.com/w/cpp/language/lambda)。
 
 TODO: 这里还需要补充
+
+
+
+**constexpr lambda 表达式**
+
+C++ 17 起。
+
+> 使得 lambda 在编译期计算。
+
+> ```c++
+> constexpr auto lamb = [] (int n) { return n * n; };
+> static_assert(lamb(3) == 9, "a");
+> ```
+
+> 注意：constexpr函数有如下限制：
+>
+> 函数体不能包含汇编语句、goto语句 / label、try块、静态变量、线程局部存储、没有初始化的普通变量，不能动态分配内存，不能有new delete等，不能虚函数。
 
 
 
@@ -963,6 +1124,15 @@ c++11 引入，用于编译期进行检查，若第一个参数值为 false，�
 
 ### 字符字面量
 
+参考 [字符字面量 - cppreference.com](https://zh.cppreference.com/w/cpp/language/character_literal)，这里面有例子。
+
+> - `u8'.'`：UTF-8 字符字面量，例如 u8'a'。这种字面量具有 char(C++20 前)char8_t(C++20 起) 类型，且它的值等于*c字符* ﻿的。
+> - `u'.'`：UTF-16 字符字面量，例如 u'猫'，但不是 u'🍌'（u'\U0001f34c'）。这种字面量具有 char16_t 类型。只要该值能以单个 UTF-16 代码单元表示（即*c字符* ﻿处于范围 0x0-0xFFFF（含边界）内）。
+> - `U'.'`：UTF-32 字符字面量，例如 U'猫' 或 U'🍌'。这种字面量具有 char32_t 类型。
+> - `L'.'`：宽字符字面量，例如 L'β' 或 L'猫'。这种字面量具有 wchar_t 类型。
+
+
+
 参考 [字符串字面量 - cppreference.com](https://zh.cppreference.com/w/cpp/language/string_literal)，这里面有例子。
 
 - 一些修饰字符串的符号，下面，不带 `R` 的 为 `s字符序列`：就是基本字符串，带 `R` 的 为 `d字符序列`：不包括括号、反斜杠和空格。
@@ -1052,8 +1222,7 @@ c++11 引入，用于编译期进行检查，若第一个参数值为 false，�
 ...
 #pragma pack() // 取消指定对齐
 
-struct A
-{
+struct A {
     char a;
     ...
 } __attribute__((aligned)) / __attribute__((aligned(1))) / __attribute__((packed));
@@ -1069,30 +1238,29 @@ struct A
 动态创建自定义内存对齐的对象：
 
 > ```c++
-> class A
-> {
+> class A {
 >     int a;
->     char d;
-> };
+>        char d;
+>    };
 > 
 > // 创建给定类型对象大小满足对齐要求的未初始化内存块，在一个内存对齐的缓冲区上创建对象
 > // C++11后可以这样操作
 > void align_cpp11_after()
 > {
->     static std::aligned_storage<sizeof(A),
+>  static std::aligned_storage<sizeof(A),
 >                                 alignof(A)>::type data;
 >     A *attr = new (&data) A;
-> }
+>    }
 > 
 > // C++11之前
 > void align_cpp11_before()
 > {
->     static char data[sizeof(void *) + sizeof(A)];
+>  static char data[sizeof(void *) + sizeof(A)];
 >     const uintptr_t kAlign = sizeof(void *) - 1;
 >     char *align_ptr =
 >         reinterpret_cast<char *>(reinterpret_cast<uintptr_t>(data + kAlign) & ~kAlign);
 >     A *attr = new (align_ptr) A;
-> }
+>    }
 > ```
 
 
@@ -1644,34 +1812,120 @@ try {
 
 
 
-### std::exchange
+### 结构化绑定
 
-C++14。[std::exchange - cppreference.com](https://zh.cppreference.com/w/cpp/utility/exchange)。
+参考 https://zh.cppreference.com/w/cpp/language/structured_binding。C++ 17 起。
 
-> 作用是把第二个值赋值给第一个值，同时返回第一个值的旧值。
+
+
+> ```c++
+> auto[i, d] = std::tuple(1, 2.2);
+> cout << i << endl;
+> cout << d << endl;
+> 
+> // ---
+> 
+> std::pair a(1, 2.3f);
+> auto[i, f] = a; // 拷贝赋值
+> 
+> // 对于 std::array 也中
+> 
+> // ---
+> 
+> map<int, string> m = {
+>     {0, "a"},
+>     {1, "b"},  
+> };
+> for (const auto &[i, s] : m) {
+>     cout << i << " " << s << endl;
+> }
+> 
+> // ---
+> 
+> // 也可以通过结构化绑定改变对象的值
+> std::pair a(1, 2.3f);
+> auto& [i, f] = a;
+> i = 2;
+> cout << a.first << endl; // 2
+> 
+> // ---
+> 
+> constexpr auto[x, y] = std::pair(1, 2.3f); // C++20 可以
+> 
+> // ---
+> 
+> // 对于结构体
+> struct Point {
+>     int x;
+>     int y;
+> };
+> Point func() {
+>     return {1, 2};
+> }
+> const auto [x, y] = func();
+> ```
 >
-> exchange 的第二个值是 完美转发，是既可以接收左值，也可以接收右值。
+> 
+>
+> 实现自定义类的结构化绑定：
+>
+> ```c++
+> // 需要实现相关的tuple_size和tuple_element和get<N>方法。
+> class Entry {
+> public:
+>     void Init() {
+>         name_ = "name";
+>         age_ = 10;
+>     }
+> 
+>     std::string GetName() const { return name_; }
+>     int GetAge() const { return age_; }
+> private:
+>     std::string name_;
+>     int age_;
+> };
+> 
+> template <size_t I>
+> auto get(const Entry& e) {
+>     if constexpr (I == 0) return e.GetName();
+>     else if constexpr (I == 1) return e.GetAge();
+> }
+> 
+> namespace std {
+>     template<> struct tuple_size<Entry> : integral_constant<size_t, 2> {};
+>     template<> struct tuple_element<0, Entry> { using type = std::string; };
+>     template<> struct tuple_element<1, Entry> { using type = int; };
+> }
+> 
+> int main() {
+>     Entry e;
+>     e.Init();
+>     auto [name, age] = e;
+>     cout << name << " " << age << endl; // name 10
+>     return 0;
+> }
+> ```
+>
+> 
 
 
 
-### std::quoted
+### if 语句初始化
 
-C++14。[std::quoted - cppreference.com](https://zh.cppreference.com/w/cpp/io/manip/quoted)。
-
-> 对字符串做转义，同时也支持自定义的转义符。
-
-个人觉得不常用。
-
-
-
-### std::integer_sequence
-
-C++14。[std::integer_sequence - cppreference.com](https://zh.cppreference.com/w/cpp/utility/integer_sequence)。
-
-人话参考：
-
-- [【模板进阶】std::integer_sequence_integer sequence-CSDN博客](https://blog.csdn.net/Antonio915/article/details/143806938)。
-- [【C++ 14 新特性 std__integer_sequence 】了解 std__integer_sequence 的使用 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/679456805)。
+> ```c++
+> // if (init; condition)
+> 
+> if (int a = GetValue()); a < 101) {
+>     cout << a;
+> }
+> 
+> string str = "Hi World";
+> if (auto [pos, size] = pair(str.find("Hi"), str.size()); pos != string::npos) {
+>     std::cout << pos << " Hello, size is " << size;
+> }
+> ```
+>
+> 使用这种方式可以约束作用域，可读性可能略有下降但还好
 
 
 
@@ -1737,8 +1991,6 @@ p.s 首先说，类内的 变量 和 函数，在这里统一叫 成员变量 �
 
 类内 静态的（static 修饰的）成员变量  和 静态或非静态的  成员函数  这三者 均不占 对象空间，即 只有一份/一个实例，所有成员都用这一份/一个实例；而对于 非静态的 成员变量 占用 对象空间，每次例化 新的 对象，都会对 这些 变量 新申请空间。
 
-**静态成员函数**
-
 静态成员函数（在函数声明的最左边加，类外定义函数的地方不用再加）只能访问（包括读写） 类内的静态成员。
 
 例子：
@@ -1786,6 +2038,29 @@ int main()
     return 0;
 }
 ```
+
+
+
+**内联变量**
+
+C++ 17 起。可在头文件中，初始化类的静态变量成员。
+
+> C++类的静态成员变量在头文件中是不能初始化的，但是有了内联变量，就可以达到此目的。
+
+> ```c++
+> // header file
+> struct A {
+>     static const int value;  
+> };
+> inline int const A::value = 10;
+> 
+> // ==========或者========
+> struct A {
+>     inline static const int value = 10;
+> }
+> ```
+>
+> 
 
 
 
@@ -1944,6 +2219,25 @@ int main()
 > - 移动构造函数的定义及使用
 > - 赋值拷贝/引用构造函数的定义及使用
 > - 赋值移动函数的定义及使用
+
+
+
+**构造函数模板推导**
+
+参考 [类模板实参推导（CTAD）(C++17 起) - cppreference.com](https://zh.cppreference.com/w/cpp/language/class_template_argument_deduction)。
+
+> ```c++
+> pair<int, double> p(1, 2.2); // before c++17
+> 
+> pair p(1, 2.2); // c++17 自动推导
+> vector v = {1, 2, 3}; // c++17
+> 
+> // ---
+> 
+> std::pair p(2, 4.5);     // 推导出 std::pair<int, double> p(2, 4.5);
+> std::tuple t(4, 3, 2.5); // 同 auto t = std::make_tuple(4, 3, 2.5);
+> std::less l;             // 同 std::less<void> l;
+> ```
 
 
 
@@ -2125,6 +2419,35 @@ TODO: 这里还需要补充
 > ```
 >
 > 
+
+
+
+### 杂项
+
+
+
+**在 lambda 表达式 用 `*this` 捕获对象副本**
+
+> 正常情况下，lambda表达式中访问类的对象成员变量需要捕获this，但是这里捕获的是this指针，指向的是对象的引用，正常情况下可能没问题，但是如果多线程情况下，函数的作用域超过了对象的作用域，对象已经被析构了，还访问了成员变量，就会有问题。
+>
+> C++17增加了新特性，捕获*this，不持有this指针，而是持有对象的拷贝，这样生命周期就与对象的生命周期不相关啦。
+>
+> ```c++
+> struct A {
+>     int a;
+>     void func() {
+>         auto f = [*this] { // 这里
+>             cout << a << endl;
+>         };
+>         f();
+>     }  
+> };
+> int main() {
+>     A a;
+>     a.func();
+>     return 0;
+> }
+> ```
 
 
 
@@ -2528,11 +2851,12 @@ TODO: 这里还需要补充
 > }
 > ```
 >
-> 引自 [C++14新特性的所有知识点全在这儿啦！ - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/165389083)。
 
 
 
 **别名模板**
+
+C++ 14 起。
 
 > ```c++
 > template<typename T, typename U>
@@ -2554,9 +2878,37 @@ TODO: 这里还需要补充
 > }
 > ```
 >
-> 引自 [C++14新特性的所有知识点全在这儿啦！ - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/165389083)。
 
 
+
+**折叠表达式**
+
+参考 [折叠表达式(C++17 起) - cppreference.com](https://zh.cppreference.com/w/cpp/language/fold)。
+
+C++ 17 起。
+
+> ```c++
+> template <typename ... Ts>
+> auto sum(Ts ... ts) {
+>     return (ts + ...);
+> }
+> int a {sum(1, 2, 3, 4, 5)}; // 15
+> std::string a{"hello "};
+> std::string b{"world"};
+> cout << sum(a, b) << endl; // hello world
+> 
+> // ---
+> 
+> template<typename... Args>
+> bool all(Args... args) { return (... && args); }
+>  
+> bool b = all(true, true, true, false);
+> // 在 all() 中，一元左折叠展开成
+> //  return ((true && true) && true) && false;
+> // b 是 false
+> ```
+>
+> 
 
 
 
@@ -2636,20 +2988,29 @@ TODO: 这里还需要补充
 
   mutex 种类：
 
-  - std::mutex：独占的互斥量，不能递归使用，不带超时功能
-    - shared_mutex
-    - shared_timed_mutex
-  - std::recursive_mutex：递归互斥量，可重入，不带超时功能
-  - std::timed_mutex：带超时的互斥量，不能递归
-  - std::recursive_timed_mutex：带超时的互斥量，可以递归使用
+  [互斥 - cppreference.com](https://zh.cppreference.com/w/cpp/thread#.E4.BA.92.E6.96.A5)。
 
-  上锁方法：
+  - std::mutex：独占的互斥量，不能递归使用，不带超时功能
+    - shared_mutex (C++17) 可实现读写锁
+    - shared_timed_mutex (C++14)，同上，带等待超时功能。
+  - std::recursive_mutex：递归互斥量，可重入，不带超时功能
+  - std::timed_mutex：带等待超时的互斥量，不能递归
+  - std::recursive_timed_mutex：带等待超时的互斥量，可以递归使用
+
+  上锁：
 
   - 锁变量直接调用其方法来上锁 (lock() / try_lock())。
+
   - RAII 风格（利用对象生命周期管理资源）
+    
+    [通用互斥体管理 - cppreference.com](https://zh.cppreference.com/w/cpp/thread#.E9.80.9A.E7.94.A8.E4.BA.92.E6.96.A5.E4.BD.93.E7.AE.A1.E7.90.86)。
+    
+    指定锁定策略 [std::defer_lock, std::try_to_lock, std::adopt_lock, std::defer_lock_t, std::try_to_lock_t, std::adopt_lock_t - cppreference.com](https://zh.cppreference.com/w/cpp/thread/lock_tag)。
+    
     - unique_lock（有 try_lock 等方法）
-    - shared_lock
+    - shared_lock (C++14)
     - lock_guard
+    - scoped_lock (C++17)（TODO: 有待补充）
 
   实现读写锁，可用 shared_mutex 或 shared_timed_mutex（相较 前者多了超时功能），可参考：
 
@@ -2951,6 +3312,8 @@ cpp 标准库 参考：这里是全的，可以时不时的刷刷看看。
 
 里面的各种方法太多，所以**实际常问 AI 工具去写**，但是，还是要看一下 **都有什么**，知道用什么才更好，有方向性的去问 AI。
 
+std 提供了很多实用 API 可以不必自己实现。
+
 TODO：这里面的库的罗列，可以复制出来放下面
 
 - [C++ 标准库 - cppreference.com](https://zh.cppreference.com/w/cpp/standard_library)。
@@ -2969,59 +3332,13 @@ TODO：这里面的库的罗列，可以复制出来放下面
 
 下面只是之前零碎整理，不全，但是删了又暂时不想删，先放着。
 
-- iostream
-
-  该文件定义了 **cin、cout、cerr** 和 **clog** 对象（**iostream** 类的实例），分别对应于标准输入流、标准输出流、非缓冲标准错误流 和 缓冲标准日志流。
-
-  使用 cerr 流来显示错误消息，而其他的日志消息则使用 clog 流来输出。
-
-  
-
-  一些设置输出模式的 API（比如 设置/清除 左/右对齐、保留几位小数、科学计数法、16禁止输出，还有 iostream 中定义的操作符 等）：
-
-  参考 [C++ 基本的输入输出 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-basic-input-output.html)，[C++ cout格式化输出（超级详细） (biancheng.net)](http://c.biancheng.net/view/7578.html)。
-
-  
-
-  也可以用 c 的标准输入输出 API 如 scanf()、printf()、getchar()、putchar() 等等。
-
-
-
-- algorithm：泛函算法
-
-  参考 [C++ Standard Library Algorithms Visual Overview | hacking C++ (hackingcpp.com)](https://hackingcpp.com/cpp/std/algorithms.html)。
-
-  搜索算法：find() 、search() 、count() 、find_if() 、find_if_not() 、search_if() 、count_if()
-
-  分类排序：sort() 、merge()
-
-  删除算法：unique() 、remove()
-
-  生成和变异：generate() 、fill() 、transformation() 、copy() 、copy_if()
-
-  关系算法：equal() 、min() 、max()
-  
-  条件：all_of()、any_of()、none_of()
-  
-  minmax_element() 返回容器内 最大元素 和 最小元素 的 迭代器
-  
-  itoa() 对容器内的元素 逐个 递增 赋值
-  
-  is_sorted() 、is_sorted_until() 返回容器内元素是否已经排好序
-  
-  等等
-
-
-
-- utility
-
-  参考 [标准库标头  - cppreference.com](https://zh.cppreference.com/w/cpp/header/utility)。
-
 
 
 - fstream：文件操作库，用时现查即可。
 
   可参考 [C++ 文件和流 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-files-streams.html)。[C++文件操作 (biancheng.net)](http://c.biancheng.net/cplus/60/)。
+  
+  [文件系统库 - cppreference.com](https://zh.cppreference.com/w/cpp/experimental/fs)。
   
   fstream / ifstream / ofstream 的用法，各种方法 和 控制符。
 
@@ -3081,6 +3398,121 @@ TODO：这里面的库的罗列，可以复制出来放下面
   > ```
   >
   > c++11 提供的概率分布类型还有好多，例如伯努利分布、正态分布等。
+
+
+
+#### algorithm
+
+参考 [算法库 - cppreference.com](https://zh.cppreference.com/w/cpp/algorithm)。
+
+参考 [C++ Standard Library Algorithms Visual Overview | hacking C++ (hackingcpp.com)](https://hackingcpp.com/cpp/std/algorithms.html)。
+
+- 搜索算法：find() 、search() 、count() 、find_if() 、find_if_not() 、search_if() 、count_if()
+
+- 分类排序：sort() 、merge()
+
+- 删除算法：unique() 、remove()
+
+- 生成和变异：generate() 、fill() 、transformation() 、copy() 、copy_if()
+
+- 关系算法：equal() 、min() 、max()
+
+- 条件：all_of()、any_of()、none_of()
+
+- minmax_element() 返回容器内 最大元素 和 最小元素 的 迭代器
+
+- itoa() 对容器内的元素 逐个 递增 赋值
+
+- is_sorted() 、is_sorted_until() 返回容器内元素是否已经排好序
+
+- 等等
+
+
+
+#### IO
+
+参考 [输入/输出库 - cppreference.com](https://zh.cppreference.com/w/cpp/io)。
+
+
+
+iostream
+
+该文件定义了 **cin、cout、cerr** 和 **clog** 对象（**iostream** 类的实例），分别对应于标准输入流、标准输出流、非缓冲标准错误流 和 缓冲标准日志流。
+
+使用 cerr 流来显示错误消息，而其他的日志消息则使用 clog 流来输出。
+
+
+
+一些设置输出模式的 API（比如 设置/清除 左/右对齐、保留几位小数、科学计数法、16禁止输出，还有 iostream 中定义的操作符 等）：
+
+参考 [C++ 基本的输入输出 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-basic-input-output.html)，[C++ cout格式化输出（超级详细） (biancheng.net)](http://c.biancheng.net/view/7578.html)。
+
+
+
+也可以用 c 的标准输入输出 API 如 scanf()、printf()、getchar()、putchar() 等等。
+
+
+
+std::quoted
+
+C++14。[std::quoted - cppreference.com](https://zh.cppreference.com/w/cpp/io/manip/quoted)。
+
+> 对字符串做转义，同时也支持自定义的转义符。
+
+个人觉得不常用。
+
+
+
+#### utility
+
+参考 [工具库 - cppreference.com](https://zh.cppreference.com/w/cpp/utility)。
+
+参考 [标准库标头  - cppreference.com](https://zh.cppreference.com/w/cpp/header/utility)。
+
+
+
+std::exchange
+
+C++14。[std::exchange - cppreference.com](https://zh.cppreference.com/w/cpp/utility/exchange)。
+
+> 作用是把第二个值赋值给第一个值，同时返回第一个值的旧值。
+>
+> exchange 的第二个值是 完美转发，是既可以接收左值，也可以接收右值。
+
+
+
+std::integer_sequence
+
+C++14。[std::integer_sequence - cppreference.com](https://zh.cppreference.com/w/cpp/utility/integer_sequence)。
+
+人话参考：
+
+- [【模板进阶】std::integer_sequence_integer sequence-CSDN博客](https://blog.csdn.net/Antonio915/article/details/143806938)。
+- [【C++ 14 新特性 std__integer_sequence 】了解 std__integer_sequence 的使用 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/679456805)。
+
+
+
+#### Math
+
+参考 [数值库 - cppreference.com](https://zh.cppreference.com/w/cpp/numeric)。
+
+
+
+#### Memory
+
+参考 [内存管理库 - cppreference.com](https://zh.cppreference.com/w/cpp/memory)。
+
+参考 [低层内存管理 - cppreference.com](https://zh.cppreference.com/w/cpp/memory/new)。
+
+
+
+std::launder
+
+参考 [std::launder - cppreference.com](https://zh.cppreference.com/w/cpp/utility/launder)。
+
+可参考 [C++笔记：尝试用人话解释std::launder - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/3218510623)。
+
+> std::launder‌ 用于处理指针的生命周期和编译器优化问题。其主要作用是防止编译器对通过特定指针进行的操作进行优化，确保程序的运行结果符合预期。
 
 
 
@@ -3162,3 +3594,4 @@ TODO：这里面的库的罗列，可以复制出来放下面
   | 5    | strchr(s1, ch);    返回一个指针，指向字符串 s1 中字符 ch 的第一次出现的位置。 |
   | 6    | strstr(s1, s2);    返回一个指针，指向字符串 s1 中字符串 s2 的第一次出现的位置。 |
   |      | ....                                                         |
+
