@@ -7,6 +7,8 @@
 - [可以使用 C++ 的哪些库或函数来简化任务？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/639724149)。可以不时的更新收录到下面。
 - [开源 C++ 库列表 - cppreference.com](https://zh.cppreference.com/w/cpp/links/libs)。这里面有一些比较老的，有些经典的。
 - [fffaraz/awesome-cpp: A curated list of awesome C++ (or C) frameworks, libraries, resources, and shiny things. Inspired by awesome-... stuff. (github.com)](https://github.com/fffaraz/awesome-cpp)。超多，可以时不时看一看，更新收录到下面。
+- [不容错过的 13 个顶级 C++ 程序库_c++库-CSDN博客](https://blog.csdn.net/IncrediBuild/article/details/130288032)。
+- [分享给大家的c++常用库，建议收藏！ (baidu.com)](https://baijiahao.baidu.com/s?id=1670023811243394679)。
 
 以下是自总结的平时用到的、好用的库和一些网络上推荐的库的集合。基本上，每个领域只推荐一个 或 两个 相关领域 最常用的、最主流的。排序不分先后。
 
@@ -18,7 +20,27 @@
 
 
 
+TODO：以下还缺少 ui、cv、ml 领域相关的库，好用的基本上也达成共识了，ui 框架的库可以看自己 git 收藏里面的；cv的 openCV 等等 看看还有什么；ml 的 无非 pytorch、tf、keras 等（这些有 C++ 接口，但最好还是 python 来开发）
+
+
+
 ## Misc
+
+这里的几个库是综合性的，内涵丰富，但也比较重型，按需。
+
+
+
+### glibc
+
+即 GNU C Library，Linux 的标准 c 库（直接使用并编译，不用附带加载库），Linux 下原来的 标准 c 库 libc 逐渐不再被维护。
+
+
+
+### boost c++
+
+[Boost C++ Libraries](https://www.boost.org/)
+
+[The Boost C++ Libraries (theboostcpplibraries.com)](https://theboostcpplibraries.com/)
 
 
 
@@ -38,11 +60,27 @@ GLib is the low-level core library that forms the basis for projects such as GTK
 
 
 
+glib是GTK+的基础库，综合用途的实用的轻量级的C程序库
+
+glib 相关，源码中有 docs 手册
+
+GLib包含了字符串操作、文件操作、数据校验、编解码、字符集转换、随机数生成器、命令行解析器、xml解析器、正则表达式、单链表、双链表、 数组、指针数组、双端队列、哈希表、平衡二叉树、N维树、泛型、主循环、多线程、线程池、异步队列、内存分配、内存片段、错误系统、测试框架等等一系列功能，称得上是C语言开发人员的军刀，值得研究。
+
+功能罗列 [GLib2.0的一百个小知识点 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/613083129)
+
+目录说明 [1_02_GLib库入门与实践_GLib库源代码目录结构简介_glib-2.0 库源码-CSDN博客](https://blog.csdn.net/field1003/article/details/123421451)
+
+系列文章 [GLib库入门与实践_field1003的博客-CSDN博客](https://blog.csdn.net/field1003/category_11680135.html)
+
+
+
 ### dlib
 
 Dlib is a modern C++ toolkit containing machine learning algorithms and tools for creating complex software in C++ to solve real world problems. See [http://dlib.net](http://dlib.net/) for the main project documentation and API reference.
 
 [davisking/dlib: A toolkit for making real world machine learning and data analysis applications in C++ (github.com)](https://github.com/davisking/dlib)
+
+[推荐开源库：DLib - 解决C++编程中常见任务的实用工具集-CSDN博客](https://blog.csdn.net/gitblog_00081/article/details/139734646)。
 
 
 
@@ -67,6 +105,40 @@ ffead-cpp can be easily driven by XML configuration, Services/Controllers/Filter
 All in all ffead-cpp is the gap in the world of C++ web application or enterprise application development which I have tried to fill with my humble/honest effort.
 
 [sumeetchhetri/ffead-cpp: Framework for Enterprise Application Development in c++, HTTP1/HTTP2/HTTP3 compliant, Supports multiple server backends (github.com)](https://github.com/sumeetchhetri/ffead-cpp)
+
+
+
+企业应用程序开发框架，综合多种功能。github 仍在更新。这是一个 C++ 的 Web 框架，C++ 应用程序框架，C++ 的 REST 框架和 C++ 的 SOAP 框架，这些框架都内置其中。它包含 Linux/Windows（通过 Cygwin）的实现。
+
+
+
+### KDUtils
+
+A set of C++ helpers and wrappers around the C++ standard library
+
+内涵三个库：
+
+- KDFoundation
+- KDGui
+- KDUtils
+
+MIT 协议的，可商用，但要遵守协议的一些要求。[Where is the doc link? And is this lib free for commercial use or? · Issue #53 · KDAB/KDUtils (github.com)](https://github.com/KDAB/KDUtils/issues/53)。
+
+[KDAB/KDUtils: A set of C++ helpers and wrappers around the C++ standard library (github.com)](https://github.com/KDAB/KDUtils)。
+
+
+
+### Misc
+
+JUCE：专注音频开发
+
+LibU：C语言写的多平台工具库，可以看看。github 不怎么更新了
+
+libPhenom：Facebook发布的C语言事件框架，用于构建高性能和高可扩展的系统。支持多线程、提供内存管理和常用数据结构，2019年停止维护，可以看看代码实现。替代品 folly。
+
+LibSourcey：LGPL-2.1+，用于实时的视频流和高性能网络应用程序的C++11 evented IO，视作 libuv, FFmpeg, OpenCV and WebRTC 结合体。github 不怎么更新了
+
+Ultimate++：C++跨平台快速应用程序开发框架，框架应该比较大，是个新领域，看需求吧
 
 
 
@@ -96,6 +168,12 @@ oneAPI Threading Building Blocks (oneTBB)
 
 
 
+[Intel Threading Building Blocks 之 并行循环_intel threading building blocks在哪里下载-CSDN博客](https://blog.csdn.net/plutus_sutulp/article/details/21445193)
+
+[SSE_TBB加速编程_Belial_2010的博客-CSDN博客](https://blog.csdn.net/kezunhai/category_3069039.html)
+
+
+
 ### workflow
 
 C++ Parallel Computing and Asynchronous Networking Framework
@@ -107,6 +185,12 @@ C++ Parallel Computing and Asynchronous Networking Framework
 [workflow这个C++开源项目值得学习 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/389396903)。
 
 [workflow开源项目学习心得 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/467427315)。
+
+
+
+开源项目Workflow中有一个非常重要的基础模块，代码仅300行的C语言线程池。
+
+[一个逻辑完备的线程池 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/503733481)。
 
 
 
@@ -126,6 +210,8 @@ Taskflow helps you quickly write parallel and heterogeneous task programs in mod
 
 [taskflow/taskflow: A General-purpose Task-parallel Programming System using Modern C++ (github.com)](https://github.com/taskflow/taskflow)
 
+[Taskflow: A General-purpose Task-parallel Programming System](https://taskflow.github.io/)。
+
 
 
 ### Asio *
@@ -135,6 +221,10 @@ Asio C++ Library
 Asio is a cross-platform C++ library for network and low-level I/O programming that provides developers with a consistent asynchronous model using a modern C++ approach.
 
 [chriskohlhoff/asio: Asio C++ Library (github.com)](https://github.com/chriskohlhoff/asio)
+
+
+
+Folly.ThreadPoolExecutor [folly/folly/executors/ThreadPoolExecutor.h at main · facebook/folly (github.com)](https://github.com/facebook/folly/blob/main/folly/executors/ThreadPoolExecutor.h)
 
 
 
@@ -199,6 +289,19 @@ sigc++-2.0 and sigc++-3.0 are different parallel-installable ABIs. This file des
 
 
 
+官方手册 [libsigc++: libsigc++ Reference Manual (libsigcplusplus.github.io)](https://libsigcplusplus.github.io/libsigcplusplus/reference/html/)。
+
+
+
+[Unix/C++--信号与槽机制的理解_c++ libsigcplusplus库-CSDN博客](https://blog.csdn.net/qq_38880380/article/details/103315219) 各种信号槽库的介绍
+[信号槽库：sigslot.h和sigc++使用 - DoubleLi - 博客园 (cnblogs.com)](https://www.cnblogs.com/lidabo/p/7338260.html)
+
+
+
+好用而且也是业界推荐的，但是比较重的一个库。个人觉得可用下面 KDBindings 替代。
+
+
+
 ### KDBindings *
 
 Reactive programming & data binding in C++
@@ -253,15 +356,16 @@ libcurl is the library curl is using to do its job. It is readily available to b
 
 对比表（GPT生成）
 
-| 特性           | **glib**                                                     | **libuv**                                                    | **libevent**                                                 | **libev**                                                    |
-| -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| **主要用途**   | 全功能框架，适合 GUI 和服务程序。<br />提供了事件循环的支持，核心模块是 `GMainLoop` 和 `GSource`。 <br />集成了多种高级工具：线程池、数据结构（如动态数组、链表、哈希表等）、消息队列和日志系统。 <br />可与 GTK+ 完美结合，用于 GUI 应用的事件处理。 | 跨平台异步 IO 和事件驱动。<br />支持事件循环（基于多种底层实现，如 epoll、kqueue、IOCP 等）。<br /> 提供多种异步 IO 操作：文件系统、网络 IO、DNS 解析等。 <br />内置线程池，用于执行耗时的任务（如文件操作）。 | 高效网络 IO。<br />支持高效的事件驱动模型，底层基于 epoll、kqueue、poll 等机制。 <br />支持定时器、信号和缓存机制（例如 `bufferevent`）。 <br />轻量化设计，但功能足够丰富。 | 极简事件驱动库。<br />提供极简的事件循环，支持底层 epoll、kqueue 等。 <br />专注于高效、轻量的事件处理。 <br />不包含复杂的附加功能，例如线程池或高级 IO 操作。 |
-| **跨平台支持** | 较好（Windows 支持有限）                                     | 非常好                                                       | 好（支持 Windows）                                           | 较差（Windows 支持弱）                                       |
-| **线程支持**   | 多线程、线程池                                               | 多线程、线程池                                               | 不支持线程池                                                 | 不支持线程池                                                 |
-| **轻量程度**   | 较重                                                         | 中等                                                         | 轻量                                                         | 极轻                                                         |
-| **性能**       | 中等                                                         | 较高                                                         | 高                                                           | 最高                                                         |
-| **复杂性**     | 高                                                           | 中等                                                         | 中等                                                         | 低                                                           |
-| **支持场景**   | 过于庞大，可能会为轻量级项目引入不必要的复杂性。 <br />性能相较其他轻量级库（如 `libev`）可能稍低。 <br />更倾向于**桌面环境的开发**。<br />**构建基于 GTK+ 的 GUI 应用程序**。 <br />GNOME 项目的插件开发或扩展。 <br />需要丰富工具支持的非网络类应用程序。 | **跨平台支持好**，代码高度一致（尤其适用于 Windows 和 Linux 的统一开发）。<br />提供内置的线程池支持，适合处理复杂异步操作（如文件 IO）。 <br />构建跨平台的高性能**网络服务**或工具。 <br />需要线程池支持的复杂 IO 操作场景（如文件操作、DNS 解析等）。 | 不支持线程池或高级异步操作，需要额外实现。 <br />长期以来更新速度较慢，社区活跃度比 `libuv` 和 `libev` 稍低。<br /><br />构建高性能的网络服务或服务器。 <br />不需要线程池或其他附加功能的事件驱动应用。 <br />专注于**事件和 IO 模型的小型项目**。 | 功能相对单一，仅适用于事件驱动。<br />**Windows 支持不佳**（虽然可以通过兼容层解决）。<br />需要开发者自行实现线程池或复杂操作的支持。<br />需要极高性能的事件驱动应用程序。 <br />构建单线程、高效的网络服务器。 <br />**Linux 或 Unix 系统上的轻量级服务**。 |
+| 特性           | **glib**                                                     | **libuv**                                                    | **libevent**                                                 | **libev**                                                    | libhv                                                        |
+| -------------- | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| 开源协议       | LGPL-2.1-or-later                                            | MIT                                                          | [3-clause BSD](https://libevent.org/LICENSE.txt)             | BSD                                                          | BSD 3-Clause                                                 |
+| **主要用途**   | 全功能框架，适合 GUI 和服务程序。<br />提供了事件循环的支持，核心模块是 `GMainLoop` 和 `GSource`。 <br />集成了多种高级工具：线程池、数据结构（如动态数组、链表、哈希表等）、消息队列和日志系统。 <br />可与 GTK+ 完美结合，用于 GUI 应用的事件处理。 | 跨平台异步 IO 和事件驱动。<br />支持事件循环（基于多种底层实现，如 epoll、kqueue、IOCP 等）。<br /> 提供多种异步 IO 操作：文件系统、网络 IO、DNS 解析等。 <br />内置线程池，用于执行耗时的任务（如文件操作）。 | 高效网络 IO。<br />支持高效的事件驱动模型，底层基于 epoll、kqueue、poll 等机制。 <br />支持定时器、信号和缓存机制（例如 `bufferevent`）。 <br />轻量化设计，但功能足够丰富。 | 极简事件驱动库。<br />提供极简的事件循环，支持底层 epoll、kqueue 等。 <br />专注于高效、轻量的事件处理。 <br />不包含复杂的附加功能，例如线程池或高级 IO 操作。 | 比libevent/libuv/asio更易用的网络库。<br />A c/c++ network library for developing TCP/UDP/SSL/HTTP/WebSocket/MQTT client/server. |
+| **跨平台支持** | 较好（Windows 支持有限）                                     | 非常好                                                       | 好（支持 Windows）                                           | 较差（Windows 支持弱）                                       |                                                              |
+| **线程支持**   | 多线程、线程池                                               | 多线程、线程池                                               | 不支持线程池                                                 | 不支持线程池                                                 |                                                              |
+| **轻量程度**   | 较重                                                         | 中等                                                         | 轻量                                                         | 极轻                                                         |                                                              |
+| **性能**       | 中等                                                         | 较高                                                         | 高                                                           | 最高                                                         |                                                              |
+| **复杂性**     | 高                                                           | 中等                                                         | 中等                                                         | 低                                                           |                                                              |
+| **支持场景**   | 过于庞大，可能会为轻量级项目引入不必要的复杂性。 <br />性能相较其他轻量级库（如 `libev`）可能稍低。 <br />更倾向于**桌面环境的开发**。<br />**构建基于 GTK+ 的 GUI 应用程序**。 <br />GNOME 项目的插件开发或扩展。 <br />需要丰富工具支持的非网络类应用程序。 | **跨平台支持好**，代码高度一致（尤其适用于 Windows 和 Linux 的统一开发）。<br />提供内置的线程池支持，适合处理复杂异步操作（如文件 IO）。 <br />构建跨平台的高性能**网络服务**或工具。 <br />需要线程池支持的复杂 IO 操作场景（如文件操作、DNS 解析等）。 | 不支持线程池或高级异步操作，需要额外实现。 <br />长期以来更新速度较慢，社区活跃度比 `libuv` 和 `libev` 稍低。<br /><br />构建高性能的网络服务或服务器。 <br />不需要线程池或其他附加功能的事件驱动应用。 <br />专注于**事件和 IO 模型的小型项目**。 | 功能相对单一，仅适用于事件驱动。<br />**Windows 支持不佳**（虽然可以通过兼容层解决）。<br />需要开发者自行实现线程池或复杂操作的支持。<br />需要极高性能的事件驱动应用程序。 <br />构建单线程、高效的网络服务器。 <br />**Linux 或 Unix 系统上的轻量级服务**。 |                                                              |
 
 
 
@@ -299,6 +403,8 @@ libuv is a multi-platform support library with a focus on asynchronous I/O. It w
 比libevent/libuv/asio更易用的网络库。A c/c++ network library for developing TCP/UDP/SSL/HTTP/WebSocket/MQTT client/server.
 
 [ithewei/libhv: 🔥 比libevent/libuv/asio更易用的网络库。A c/c++ network library for developing TCP/UDP/SSL/HTTP/WebSocket/MQTT client/server. (github.com)](https://github.com/ithewei/libhv)
+
+协议 BSD 3-Clause。
 
 
 
@@ -387,9 +493,13 @@ Inja is a template engine for modern C++, loosely inspired by [jinja](http://jin
 
 #### Ada *
 
+ada_url
+
 Ada is a fast and spec-compliant URL parser written in C++. Specification for URL parser can be found from the [WHATWG](https://url.spec.whatwg.org/#url-parsing) website.
 
 The Ada library passes the full range of tests from the specification, across a wide range of platforms (e.g., Windows, Linux, macOS). It fully supports the relevant [Unicode Technical Standard](https://www.unicode.org/reports/tr46/#ToUnicode).
+
+[Introduction - Ada URL (ada-url.com)](https://www.ada-url.com/introduction/)。
 
 [ada-url/ada: WHATWG-compliant and fast URL parser written in modern C++, part of Node.js, Clickhouse, Redpanda, Kong, Telegram and Cloudflare Workers. (github.com)](https://github.com/ada-url/ada)
 
@@ -400,6 +510,12 @@ The Ada library passes the full range of tests from the specification, across a 
 MQTT-C is an [MQTT v3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) client written in C. MQTT is a lightweight publisher-subscriber-based messaging protocol that is commonly used in IoT and networking applications where high-latency and low data-rate links are expected. The purpose of MQTT-C is to provide a **portable** MQTT client, **written in C**, for embedded systems and PC's alike. MQTT-C does this by providing a transparent Platform Abstraction Layer (PAL) which makes porting to new platforms easy. MQTT-C is completely thread-safe but can also run perfectly fine on single-threaded systems making MQTT-C well-suited for embedded systems and microcontrollers. Finally, MQTT-C is small; there are only two source files totalling less than 2000 lines.
 
 [LiamBindle/MQTT-C: A portable MQTT C client for embedded systems and PCs alike. (github.com)](https://github.com/LiamBindle/MQTT-C)
+
+
+
+#### Eclipse Mosquitto
+
+[eclipse-mosquitto/mosquitto: Eclipse Mosquitto - An open source MQTT broker (github.com)](https://github.com/eclipse-mosquitto/mosquitto)
 
 
 
@@ -835,6 +951,8 @@ Catch2 is mainly a unit testing framework for C++, but it also provides basic mi
 Catch2's main advantage is that using it is both simple and natural. Test names do not have to be valid identifiers, assertions look like normal C++ boolean expressions, and sections provide a nice and local way to share set-up and tear-down code in tests.
 
 [catchorg/Catch2: A modern, C++-native, test framework for unit-tests, TDD and BDD - using C++14, C++17 and later (C++11 support is in v2.x branch, and C++03 on the Catch1.x branch) (github.com)](https://github.com/catchorg/Catch2)
+
+[C/C++生态工具链——单元测试工具Catch2简介-CSDN博客](https://blog.csdn.net/CoderZZ_2024/article/details/136467110)。
 
 
 
