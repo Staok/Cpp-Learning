@@ -20,6 +20,10 @@
 
 
 
+有不少库可以在各大包管理平台找到，或者直接下载集成到自己的 cmake 工程 等中。
+
+
+
 TODO：以下还缺少 ui、cv、ml 领域相关的库，好用的基本上也达成共识了，ui 框架的库可以看自己 git 收藏里面的；cv的 openCV 等等 看看还有什么；ml 的 无非 pytorch、tf、keras 等（这些有 C++ 接口，但最好还是 python 来开发）
 
 
@@ -369,7 +373,7 @@ libcurl is the library curl is using to do its job. It is readily available to b
 
 
 
-### libuv
+### libuv *
 
 Cross-platform asynchronous I/O
 
@@ -398,7 +402,7 @@ libuv is a multi-platform support library with a focus on asynchronous I/O. It w
 
 
 
-### libhv *
+### libhv
 
 比libevent/libuv/asio更易用的网络库。A c/c++ network library for developing TCP/UDP/SSL/HTTP/WebSocket/MQTT client/server.
 
@@ -491,7 +495,7 @@ Inja is a template engine for modern C++, loosely inspired by [jinja](http://jin
 
 
 
-#### Ada *
+#### Ada-url*
 
 ada_url
 
@@ -505,6 +509,34 @@ The Ada library passes the full range of tests from the specification, across a 
 
 
 
+#### MQTT lib comparison table
+
+- 选择 paho.mqtt.c：如果你需要全面的 MQTT 功能支持（如 MQTT 5.0）、跨平台兼容性和较强的社区支持，特别是当你的应用需要较复杂的消息管理时，`paho.mqtt.c` 是一个优秀的选择。
+- 选择 MQTT-C：如果你的应用资源受限，或者你需要一个简单、轻量的 MQTT 客户端库来快速集成，`MQTT-C` 会是一个理想选择，特别适用于嵌入式设备。
+- 选择 Mosquitto：如果你已经在使用 Mosquitto 作为 Broker，或者你需要一个既能作为 Broker 又能作为客户端使用的方案，那么使用 Mosquitto 提供的客户端库会更方便，尤其是在搭建全套 MQTT 系统时。
+
+
+
+#### Paho.mqtt.c *
+
+This repository contains the source code for the [Eclipse Paho](http://eclipse.org/paho) MQTT C client library.
+
+This code builds libraries which enable applications to connect to an [MQTT](http://mqtt.org/) broker to publish messages, and to subscribe to topics and receive published messages.
+
+Synchronous and various asynchronous programming models are supported.
+
+[eclipse-paho/paho.mqtt.c: An Eclipse Paho C client library for MQTT for Windows, Linux and MacOS. API documentation: https://eclipse-paho.github.io/paho.mqtt.c/](https://github.com/eclipse-paho/paho.mqtt.c)。
+
+[eclipse-paho/paho.mqtt.cpp (github.com)](https://github.com/eclipse-paho/paho.mqtt.cpp)。
+
+
+
+doc：
+
+[Paho MQTT C Client Library: MQTT Client library for C (MQTTClient) (eclipse-paho.github.io)](https://eclipse-paho.github.io/paho.mqtt.c/MQTTClient/html/)
+
+
+
 #### MQTT-C *
 
 MQTT-C is an [MQTT v3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) client written in C. MQTT is a lightweight publisher-subscriber-based messaging protocol that is commonly used in IoT and networking applications where high-latency and low data-rate links are expected. The purpose of MQTT-C is to provide a **portable** MQTT client, **written in C**, for embedded systems and PC's alike. MQTT-C does this by providing a transparent Platform Abstraction Layer (PAL) which makes porting to new platforms easy. MQTT-C is completely thread-safe but can also run perfectly fine on single-threaded systems making MQTT-C well-suited for embedded systems and microcontrollers. Finally, MQTT-C is small; there are only two source files totalling less than 2000 lines.
@@ -513,13 +545,21 @@ MQTT-C is an [MQTT v3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v
 
 
 
-#### Eclipse Mosquitto
+#### Mosquitto
+
+Mosquitto is an open source implementation of a server for version 5.0, 3.1.1, and 3.1 of the MQTT protocol. It also includes a C and C++ client library, and the `mosquitto_pub` and `mosquitto_sub` utilities for publishing and subscribing.
 
 [eclipse-mosquitto/mosquitto: Eclipse Mosquitto - An open source MQTT broker (github.com)](https://github.com/eclipse-mosquitto/mosquitto)
 
 
 
-#### nlohmann/json *
+doc:
+
+[Documentation | Eclipse Mosquitto](https://mosquitto.org/documentation/)
+
+
+
+#### nlohmann-json *
 
 There are myriads of [JSON](https://json.org/) libraries out there, and each may even have its reason to exist. Our class had these design goals:
 
@@ -541,14 +581,6 @@ Other aspects were not so important to us:
 Ultralightweight JSON parser in ANSI C.
 
 [DaveGamble/cJSON: Ultralightweight JSON parser in ANSI C (github.com)](https://github.com/DaveGamble/cJSON)
-
-
-
-#### sjson
-
-a light weight json streaming library, run fast without any memory allocation
-
-[tristanlee/sjson: a light weight json streaming library, run fast without any memory allocation (github.com)](https://github.com/tristanlee/sjson)
 
 
 
