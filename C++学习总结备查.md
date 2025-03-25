@@ -20,7 +20,7 @@
 
 ------
 
-## C/C++ 有迹可循 / 汇总
+## C/C++ 精品文 汇总
 
 下面的教程会列举很多，选择合适自己的去看即可。
 
@@ -96,7 +96,7 @@
 
 
 
-- [chengxumiaodaren/cpp-learning (github.com)](https://github.com/chengxumiaodaren/cpp-learning)。
+- [chengxumiaodaren/cpp-learning (github.com)](https://github.com/chengxumiaodaren/cpp-learning)。[CPP学习资料汇总 - 飞书云文档 (feishu.cn)](https://lb3fn675fh.feishu.cn/docx/VUjdd8uCdoufThxHEOzcQQaonCh)。
 - [C++11/14/17/20/23新特性，哪些是必须掌握的，哪些基本用得不多？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/474664436/answer/3612037757)。
 
 **C++ 精品仓库**
@@ -108,12 +108,39 @@
 - [czs108/Cpp-Primer-5th-Notes-CN: 📚 《C++ Primer中文版（第5版）》笔记 (github.com)](https://github.com/czs108/Cpp-Primer-5th-Notes-CN)。
 - [demon90s/CppStudy: My study notes for c/cpp language (github.com)](https://github.com/demon90s/CppStudy)。
 - [Light-City/CPlusPlusThings: C++那些事 (github.com)](https://github.com/Light-City/CPlusPlusThings)。
+
+
+
 - [0voice/introduce_c-cpp_manual: 一个收集C/C++新手学习的入门项目，整理收纳开发者开源的小项目、工具、框架、游戏等，视频，书籍，面试题/算法题，技术文章。 (github.com)](https://github.com/0voice/introduce_c-cpp_manual)。
-- [0voice/cpp_new_features: 2021年最新整理， C++ 学习资料，含C++ 11 / 14 / 17 / 20 / 23 新特性、入门教程、推荐书籍、优质文章、学习笔记、教学视频等 (github.com)](https://github.com/0voice/cpp_new_features)。
+- [0voice/cpp_new_features: 2021年最新整理， C++ 学习资料，含C++ 11 / 14 / 17 / 20 / 23 新特性、入门教程、推荐书籍、优质文章、学习笔记、教学视频等 (github.com)](https://github.com/0voice/cpp_new_features)。好内容非常多。这个没有离线到本地。
+
+
+
 - [FunctionDou/STL: STL源码分析 (github.com)](https://github.com/FunctionDou/STL)。
 - 推荐源码库可读 1：[你读过的最好的 C++ 开源代码是什么？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/21376384)。
 - 推荐源码库可读 2：[你读过的最好的 C++ 开源代码是什么？ - 知乎 (zhihu.com)](https://www.zhihu.com/question/21376384/answer/29689529)。
 - 推荐源码库可读 3：[chenshuo/muduo: Event-driven network library for multi-threaded Linux server in C++11 (github.com)](https://github.com/chenshuo/muduo)。
+- [miloyip/json-tutorial: 从零开始的 JSON 库教程 (github.com)](https://github.com/miloyip/json-tutorial)。
+
+
+
+- [CnTransGroup/EffectiveModernCppChinese: 《Effective Modern C++》- 完成翻译 (github.com)](https://github.com/CnTransGroup/EffectiveModernCppChinese)。
+- [balloonwj/CppGuide: C/C++学习，后端开发进阶指南。 (github.com)](https://github.com/balloonwj/CppGuide)。
+
+**C++ 精品杂文**
+
+- [C++_路过的小熊~的博客-CSDN博客](https://blog.csdn.net/qq_32348883/category_11547008.html)。
+- [C++ 实例 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-examples.html)。
+
+
+
+- [C/C++ 编程技术 - 知乎 (zhihu.com)](https://www.zhihu.com/column/c_1662775871361613824)。
+- [C/C++ Linux 软件开发模拟面试 - 知乎 (zhihu.com)](https://www.zhihu.com/column/c_1697924273321160704)。
+- [Linux 开发 - 知乎 (zhihu.com)](https://www.zhihu.com/column/c_1697391693194809344)。
+
+
+
+- .etc
 
 **C++ 参考 / 字典 / 特性快速索引**
 
@@ -144,22 +171,7 @@
 
 - .etc
 
-**C/C++ 标准原文**
-
-高阶的 直接拿 C/C++语言标准原文 做备查：
-
-- ISO IEC 9899 1999 (C99)。
-- ISO IEC 14882 2003 (C++03)。
-- ISO IEC 14882 2011 (C++11)。
-- .etc
-
-**C++ 杂文**
-
-- [C++_路过的小熊~的博客-CSDN博客](https://blog.csdn.net/qq_32348883/category_11547008.html)。
-- [C++ 实例 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-examples.html)。
-- .etc
-
-## C/C++ 精品库
+## C/C++ 精品库 汇总
 
 看到的小巧精良的小型 c/cpp 库/项目列举。
 
@@ -167,28 +179,29 @@
 
 C 精品仓库
 
-- [jobbole/awesome-c-cn: C 资源大全中文版，包括了：构建系统、编译器、数据库、加密、初中高的教程/指南、书籍、库等。 (github.com)](https://github.com/jobbole/awesome-c-cn)。
+[jobbole/awesome-c-cn: C 资源大全中文版，包括了：构建系统、编译器、数据库、加密、初中高的教程/指南、书籍、库等。 (github.com)](https://github.com/jobbole/awesome-c-cn)。
 
 
 
 C++ 精品仓库
 
-- 同目录的 `C-C++实用库备查.md` 文章
-- [Your list / 实用库 / EE-CS (github.com)](https://github.com/stars/Staok/lists/实用库-ee-cs)。
+[Your list / 实用库 / EE-CS (github.com)](https://github.com/stars/Staok/lists/实用库-ee-cs)。
 
 
 
-## 编程提高杂文
-
-- [C/C++ 编程技术 - 知乎 (zhihu.com)](https://www.zhihu.com/column/c_1662775871361613824)。
-- [C/C++ Linux 软件开发模拟面试 - 知乎 (zhihu.com)](https://www.zhihu.com/column/c_1697924273321160704)。
-- [Linux 开发 - 知乎 (zhihu.com)](https://www.zhihu.com/column/c_1697391693194809344)。
+以及 见同目录的 `C-C++实用库备查.md` 文章。
 
 
 
 ## 编程经验、调试、性能和内存检查工具集合
 
 见同目录的 `编程经验、调试、性能和内存检查工具集合` 文章。
+
+
+
+## Shell 脚本 汇总
+
+- [fengyuhetao/shell: Linux命令行与shell脚本编程大全案例 (github.com)](https://github.com/fengyuhetao/shell)。
 
 
 
@@ -861,7 +874,7 @@ set就是集合，STL的set用二叉树实现，集合中的每个元素只出�
 #include <unordered_map>
 
 unordered_map<char, int> map;
-unordered_map<int, string> myMap={{ 5, "张大" },{ 6, "李五" }}; // 使用{}赋值
+unordered_map<int, string> myMap = { { 5, "张大" },{ 6, "李五" } }; // 使用{}赋值
 
 
 // 插入元素
@@ -2826,50 +2839,6 @@ int main()
 
 
 
-### 单例模式
-
-即类的对象只有一个的情况，补充参考视频 [shellmad-c++_44 单例模式的原理及实现_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1Gz4y1d7RJ/)。
-
-一个简单例子：
-
-```c++
-class ClassASolo { // 这个类目的是只有全局一个实例，只能用 "ClassASolo::inst()" 来访问
-public:
-    explicit ClassASolo() = default;
-    virtual ~ClassASolo() = default;
-
-    static ClassASolo* inst(void) { // 关键方法
-        std::lock_guard<std::mutex> lock(mMutex); // 防止多个线程都第一次调用从而创建多次
-        static ClassASolo inst;
-        return &inst;
-    }
-
-    int32_t setVar(const int32_t& _var) {
-        if(mVar != _var) {
-            mVar = _var;
-            return 0;
-        } else {
-            return EIO;
-        }
-    }
-    int32_t getVar(void) const {
-        return mVar;
-    }
-private:
-    int32_t mVar = 0;
-    static std::mutex mMutex;
-};
-
-int main(void)
-{
-    ClassASolo::inst()->setVar(1);
-    int32_t var = ClassASolo::inst()->getVar();
-    ...
-}
-```
-
-
-
 ### 初始化列表实现 std::initializer_list
 
 不同于 `类构造函数的初始化列表`，那个也有叫 `委托构造函数`，这里是 自写类实现 `= { ..., ...}` 形式的初始化。
@@ -3290,13 +3259,14 @@ int main()
 
 ## 运算符重载
 
-或叫 重载运算符。
+- 参考 [C++ 重载运算符和重载函数 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-overloading.html)、[C++函数重载详解 (biancheng.net)](http://c.biancheng.net/view/2206.html)、[C++运算符重载基础教程 (biancheng.net)](http://c.biancheng.net/view/2306.html)。
 
-参考 [C++ 重载运算符和重载函数 | 菜鸟教程 (runoob.com)](https://www.runoob.com/cplusplus/cpp-overloading.html)、[C++函数重载详解 (biancheng.net)](http://c.biancheng.net/view/2206.html)、[C++运算符重载基础教程 (biancheng.net)](http://c.biancheng.net/view/2306.html)。
 
-参考视频：[shellmad-c++_51 运算符重载_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13A411q7bE/)，[shellmad-c++_52 cin&cout的奥秘_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1kC4y1H7G7/)，[shellmad-c++_53 自己动手编写字符串类_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1eC4y1H7uC/?vd_source=c633af9518bed5572b1614612e2be3df)，[shellmad-c++_54 转换运算符_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV15z411B7W8/)。
+- 参考视频：[shellmad-c++_51 运算符重载_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV13A411q7bE/)，[shellmad-c++_52 cin&cout的奥秘_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1kC4y1H7G7/)，[shellmad-c++_53 自己动手编写字符串类_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV1eC4y1H7uC/?vd_source=c633af9518bed5572b1614612e2be3df)，[shellmad-c++_54 转换运算符_哔哩哔哩_bilibili](https://www.bilibili.com/video/BV15z411B7W8/)。
 
-[C++类和对象(4):运算符重载——=、==、()函数调用运算符_重载操作符=和()-CSDN博客](https://blog.csdn.net/ITJAVAtao/article/details/120922956)。
+
+- [C++类和对象(4):运算符重载——=、==、()函数调用运算符_重载操作符=和()-CSDN博客](https://blog.csdn.net/ITJAVAtao/article/details/120922956)。
+- [C++基础-运算符重载详解_C++语言-CSDN专栏](https://download.csdn.net/blog/column/12435130/135169738)。
 
 
 

@@ -584,11 +584,25 @@ Ultralightweight JSON parser in ANSI C.
 
 
 
+#### jsmn
+
+jsmn (pronounced like 'jasmine') is a minimalistic JSON parser in C. It can be easily integrated into resource-limited or embedded projects.
+
+[zserge/jsmn: Jsmn is a world fastest JSON parser/tokenizer. This is the official repo replacing the old one at Bitbucket (github.com)](https://github.com/zserge/jsmn)
+
+
+
 #### tinyxml2 *
 
 TinyXML-2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs.
 
 [leethomason/tinyxml2: TinyXML2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs. (github.com)](https://github.com/leethomason/tinyxml2)
+
+
+
+#### libexpat
+
+[libexpat/libexpat: :herb: Fast streaming XML parser written in C99 with >90% test coverage; moved from SourceForge to GitHub](https://github.com/libexpat/libexpat)
 
 
 
@@ -768,6 +782,18 @@ Embedded RPC
 
 
 
+### libmodbus
+
+[stephane/libmodbus: A Modbus library for Linux, Mac OS, FreeBSD and Windows (github.com)](https://github.com/stephane/libmodbus)
+
+
+
+### Modbus
+
+[foxclever/Modbus: 一个Modbus通讯协议栈 (github.com)](https://github.com/foxclever/Modbus)
+
+
+
 ## Argo / Crypto
 
 
@@ -899,7 +925,7 @@ sol2 is a C++ library binding to Lua. It currently supports all Lua versions 5.1
 
 
 
-### UDisks
+UDisks
 
 The UDisks project provides a daemon, tools and libraries to access and manipulate disks, storage devices and technologies.
 
@@ -909,7 +935,7 @@ For API stability and intended audience of UDisks, see the API STABILITY and AUD
 
 
 
-### libusb
+libusb
 
 libusb is a library for USB device access from Linux, macOS, Windows, OpenBSD/NetBSD, Haiku, Solaris userspace, and WebAssembly via WebUSB. It is written in C (Haiku backend in C++) and licensed under the GNU Lesser General Public License version 2.1 or, at your option, any later version (see [COPYING](https://github.com/libusb/libusb/blob/master/COPYING)).
 
@@ -921,11 +947,143 @@ libusb homepage: https://libusb.info/
 
 
 
+CherryUSB
+
+Easy to study USB
+
+In order to make it easier for users to learn USB basics, enumeration, driver loading and IP drivers, the code has been written with the following advantages:
+
+- Lean code, simple logic, no complex C syntax
+- Tree-based programming with cascading code
+- Class-drivers and porting-drivers are templating and simplification
+- Clear API classification (slave: initialisation, registration api, command callback api, data sending and receiving api; host: initialisation, lookup api, data sending and receiving api)
+
+[cherry-embedded/CherryUSB: CherryUSB is a tiny and beautiful, portable and high performace USB host and device stack for embedded system with USB IP (github.com)](https://github.com/cherry-embedded/CherryUSB)
+
+
+
 ## Embedded
 
+取自 [Your list / 嵌入式项目 / 协议栈 / 库 (github.com)](https://github.com/stars/Staok/lists/嵌入式项目-协议栈-库)。
 
 
-### ETL
+
+新加：
+
+https://github.com/Sheep118/WouoUI-PageVersion
+https://github.com/ErBWs/Easy-UI
+https://github.com/RQNG/WouoUI
+https://github.com/jiejieTop/ButtonDrive
+
+
+
+FreeRTOS
+
+
+
+LVGL
+
+[lvgl/lvgl: Embedded graphics library to create beautiful UIs for any MCU, MPU and display type. (github.com)](https://github.com/lvgl/lvgl)
+
+[Your list / LVGL (github.com)](https://github.com/stars/Staok/lists/lvgl)
+
+
+
+u8g2
+
+U8glib library for monochrome displays
+
+[olikraus/u8g2: U8glib library for monochrome displays, version 2 (github.com)](https://github.com/olikraus/u8g2)
+
+
+
+letter-shell
+
+嵌入式shell
+
+[NevermindZZT/letter-shell: letter shell (github.com)](https://github.com/NevermindZZT/letter-shell)
+
+
+
+nr_micro_shell
+
+shell for MCU. 单片机命令行交互。
+
+[Nrusher/nr_micro_shell: shell for MCU. 单片机命令行交互。 (github.com)](https://github.com/Nrusher/nr_micro_shell)
+
+
+
+lwshell
+
+Lightweight shell implementation for embedded systems
+
+[MaJerle/lwshell: Lightweight shell implementation for embedded systems (github.com)](https://github.com/MaJerle/lwshell)
+
+
+
+lwrb
+
+Library provides generic FIFO ring buffer implementation.
+
+[MaJerle/lwrb: Lightweight generic ring buffer manager library (github.com)](https://github.com/MaJerle/lwrb)
+
+
+
+printf
+
+[mpaland/printf: Tiny, fast, non-dependent and fully loaded printf implementation for embedded systems. Extensive test suite passing. (github.com)](https://github.com/mpaland/printf)
+
+
+
+TeenyUSB
+
+一个简易的单片机USB主机和设备协议栈，现在支持3.0设备。
+
+A teeny USB device and host stack for MCUs, support super speed device.
+
+关于TeenyUSB的实现细节和使用方式请阅读《STM32 USB设备开发指南》
+
+Lightweight USB device and host stack for STM32 and other MCUs. Ready for USB 3.0 device.
+
+[xtoolbox/TeenyUSB: Lightweight USB device and host stack for STM32 and other MCUs. Ready for USB 3.0 device. (github.com)](https://github.com/xtoolbox/TeenyUSB)
+
+
+
+libusb_stm32
+
+Lightweight USB Device Stack
+
+- Lightweight and fast
+- Event-driven process workflow
+- Completely separated USB hardware driver and usb core
+- Easy to use.
+
+[dmitrystu/libusb_stm32: Lightweight USB device Stack for STM32 microcontrollers (github.com)](https://github.com/dmitrystu/libusb_stm32)
+
+
+
+SFUD
+
+An using JEDEC's SFDP standard serial (SPI) flash universal driver library | 一款使用 JEDEC SFDP 标准的串行 (SPI) Flash 通用驱动库
+
+[armink/SFUD: An using JEDEC's SFDP standard serial (SPI) flash universal driver library | 一款使用 JEDEC SFDP 标准的串行 (SPI) Flash 通用驱动库 (github.com)](https://github.com/armink/SFUD)
+
+
+
+FlashDB
+
+[FlashDB](http://armink.gitee.io/flashdb/#/zh-cn/) 是一款超轻量级的嵌入式数据库，专注于提供嵌入式产品的数据存储方案。FlashDB 不仅支持传统的基于文件系统的数据库模式，而且结合了 Flash 的特性，具有较强的性能及可靠性。并在保证极低的资源占用前提下，尽可能延长 Flash 使用寿命。
+
+FlashDB 提供两种数据库模式：
+
+- **键值数据库** ：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。
+- **时序数据库** ：时间序列数据库 （Time Series Database , 简称 TSDB），它将数据按照 **时间顺序存储** 。TSDB 数据具有时间戳，数据存储量大，插入及查询性能高。
+
+[armink/FlashDB: An ultra-lightweight database that supports key-value and time series data | 一款支持 KV 数据和时序数据的超轻量级数据库 (github.com)](https://github.com/armink/FlashDB)
+
+
+
+ETL
 
 实现了资源节省的、固定内存分配的 C++ 的各种基本功能，采用回调函数的方式与 嵌入式 mcu 设备中的 各种 uart、timer 等中断回调进行连接，来使得能够用 c++ 来编写 mcu 代码。
 
@@ -936,6 +1094,14 @@ What is needed is a template library where the user can declare the size, or max
 This is what the ETL attempts to achieve.
 
 [ETLCPP/etl: Embedded Template Library (github.com)](https://github.com/ETLCPP/etl)
+
+
+
+BabyOS
+
+专为MCU项目开发提速的代码框架
+
+[notrynohigh/BabyOS: 专为MCU项目开发提速的代码框架 (github.com)](https://github.com/notrynohigh/BabyOS)
 
 
 
