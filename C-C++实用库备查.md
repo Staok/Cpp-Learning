@@ -34,6 +34,12 @@ TODO：以下还缺少 ui、cv、ml 领域相关的库，好用的基本上也�
 
 
 
+### GUN
+
+[软件 - GNU 工程 - 自由软件基金会](https://www.gnu.org/software/software.html#allgnupkgs)。
+
+
+
 ### glibc
 
 即 GNU C Library，Linux 的标准 c 库（直接使用并编译，不用附带加载库），Linux 下原来的 标准 c 库 libc 逐渐不再被维护。
@@ -336,6 +342,59 @@ The *libevent* API provides a mechanism to execute a callback function when a sp
 
 
 
+### fswatch *
+
+`fswatch` is a file change monitor that receives notifications when the contents of the specified files or directories are modified. `fswatch` implements several monitors:
+
+- A monitor based on the *File System Events API* of Apple macOS.
+- A monitor based on *kqueue*, a notification interface introduced in FreeBSD 4.1 (and supported on most *BSD systems, including macOS).
+- A monitor based on the *File Events Notification* API of the Solaris kernel and its derivatives.
+- **A monitor based on *inotify*, a Linux kernel subsystem that reports file system changes to applications.**
+- **A monitor based on *ReadDirectoryChangesW*, a Microsoft Windows API that reports changes to a directory.**
+- A monitor which periodically stats the file system, saves file modification times in memory, and manually calculates file system changes (which works anywhere `stat (2)` can be used).
+
+`fswatch` should build and work correctly on any system shipping either of the aforementioned APIs.
+
+[emcrisostomo/fswatch: A cross-platform file change monitor with multiple backends: Apple macOS File System Events, *BSD kqueue, Solaris/Illumos File Events Notification, Linux inotify, Microsoft Windows and a stat()-based backend. (github.com)](https://github.com/emcrisostomo/fswatch)
+
+
+
+注意 分为 fswatch （bin 固件，命令行使用） 和 libfswatch（C/C++ 库），具体文档：
+[fswatch - Documentation (emcrisostomo.github.io)](https://emcrisostomo.github.io/fswatch/doc/)。
+
+
+
+msys2 目前（2025.5）没有提供 libfswatch 库。自己手动编译，在 win 上：github 仓库下载最新 release 源码包：
+
+libfswatch 可选 ./configure 的方式来编译库，具体查看文档。
+
+- [fswatch/README.windows at master · emcrisostomo/fswatch (github.com)](https://github.com/emcrisostomo/fswatch/blob/master/README.windows)。
+- [fswatch/README.gnu-build-system at master · emcrisostomo/fswatch (github.com)](https://github.com/emcrisostomo/fswatch/blob/master/README.gnu-build-system)。
+
+首先确保这几个工具都在：
+
+```bash
+* Get the GNU Build System components:
+    - [Autoconf] (>= v. 2.69).
+    - [Automake]: (>= v. 1.14.1).
+    - [Libtool]: (>= v. 2.4.2).
+    - [Gettext]: (>= v. 0.19.4).
+```
+
+基本工具都在如 gcc/g++/make 等。
+
+使用命令：注意指定下编译器，可以用绝对路径
+
+```bash
+./configure --prefix=<path/to/build> CC=gcc CXX=g++
+make
+make install
+```
+
+然后把编译产物放到 工具链目录里面，使用 pkg-config 等在工程里面引入即可。
+
+
+
 ### inotify-cpp
 
 **Inotify-cpp** is a C++ wrapper for linux inotify. It lets you watch for filesystem events on your filesystem tree. The following usage example shows the implementation of a simple filesystem event watcher for the commandline.
@@ -344,15 +403,7 @@ The *libevent* API provides a mechanism to execute a callback function when a sp
 
 
 
-## Web / Net / Async
-
-
-
-### curl
-
-libcurl is the library curl is using to do its job. It is readily available to be used by your software. Read [the libcurl manpage](https://curl.se/libcurl/c/libcurl.html) to learn how.
-
-[curl/curl: A command line tool and library for transferring data with URL syntax, supporting DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, TELNET, TFTP, WS and WSS. libcurl offers a myriad of powerful features (github.com)](https://github.com/curl/curl)
+## Socket / IO poll / Async
 
 
 
@@ -369,7 +420,7 @@ libcurl is the library curl is using to do its job. It is readily available to b
 | **轻量程度**   | 较重                                                         | 中等                                                         | 轻量                                                         | 极轻                                                         |                                                              |
 | **性能**       | 中等                                                         | 较高                                                         | 高                                                           | 最高                                                         |                                                              |
 | **复杂性**     | 高                                                           | 中等                                                         | 中等                                                         | 低                                                           |                                                              |
-| **支持场景**   | 过于庞大，可能会为轻量级项目引入不必要的复杂性。 <br />性能相较其他轻量级库（如 `libev`）可能稍低。 <br />更倾向于**桌面环境的开发**。<br />**构建基于 GTK+ 的 GUI 应用程序**。 <br />GNOME 项目的插件开发或扩展。 <br />需要丰富工具支持的非网络类应用程序。 | **跨平台支持好**，代码高度一致（尤其适用于 Windows 和 Linux 的统一开发）。<br />提供内置的线程池支持，适合处理复杂异步操作（如文件 IO）。 <br />构建跨平台的高性能**网络服务**或工具。 <br />需要线程池支持的复杂 IO 操作场景（如文件操作、DNS 解析等）。 | 不支持线程池或高级异步操作，需要额外实现。 <br />长期以来更新速度较慢，社区活跃度比 `libuv` 和 `libev` 稍低。<br /><br />构建高性能的网络服务或服务器。 <br />不需要线程池或其他附加功能的事件驱动应用。 <br />专注于**事件和 IO 模型的小型项目**。 | 功能相对单一，仅适用于事件驱动。<br />**Windows 支持不佳**（虽然可以通过兼容层解决）。<br />需要开发者自行实现线程池或复杂操作的支持。<br />需要极高性能的事件驱动应用程序。 <br />构建单线程、高效的网络服务器。 <br />**Linux 或 Unix 系统上的轻量级服务**。 |                                                              |
+| **支持场景**   | 过于庞大，可能会为轻量级项目引入不必要的复杂性。 <br />性能相较其他轻量级库（如 `libev`）可能稍低。 <br />更倾向于**桌面环境的开发**。<br />**构建基于 GTK+ 的 GUI 应用程序**。 <br />GNOME 项目的插件开发或扩展。 <br />需要丰富工具支持的非网络类应用程序。 | **跨平台支持好**，代码高度一致（尤其适用于 Windows 和 Linux 的统一开发）。<br />提供内置的线程池支持，适合处理复杂异步操作（如文件 IO）。 <br />构建跨平台的高性能**网络服务**或工具。 <br />需要线程池支持的复杂 IO 操作场景（如**文件操作、DNS 解析**等）。 | 不支持线程池或高级异步操作，需要额外实现。 <br />长期以来更新速度较慢，**社区活跃度比 `libuv` 和 `libev` 稍低。**<br /><br />构建高性能的网络服务或服务器。 <br />不需要线程池或其他附加功能的事件驱动应用。 <br />专注于**事件和 IO 模型的小型项目**。 | 功能相对单一，仅适用于事件驱动。<br />**Windows 支持不佳**（虽然可以通过兼容层解决）。<br />需要开发者自行实现线程池或复杂操作的支持。<br />需要极高性能的事件驱动应用程序。 <br />构建单线程、高效的网络服务器。 <br />**Linux 或 Unix 系统上的轻量级服务**。 |                                                              |
 
 
 
@@ -396,9 +447,189 @@ libuv is a multi-platform support library with a focus on asynchronous I/O. It w
 
 
 
+实现的监控事件类型：
+
+需要注意不同平台的行为略有不同，尤其是 linux 和 win 的差异，多看手册，和试验，官方文档不一定对每一块细节有详细描述，或问 AI大模型（会搜集一些网友的测试结果）
+
+```c
+typedef struct uv_loop_s uv_loop_t;     // 基本 loop 句柄，可以用 uv 内部默认的一个 uv_default_loop()
+typedef struct uv_handle_s uv_handle_t; // 下面 各个具体提交异步事件 的 "基类" 句柄，可看 uv.h 里面的做法，下面的 uv_xxx_t 都可以 cast 到这个，然后用基础的 api 操作，一般不推荐，用 uv_xxx_ 对应的 API 操作即可。
+
+// 每次事件循环 按照 idle、prepare、poll io、check、close cb、update loop time / tick、timers cb 等 顺序 执行被提交的 事件 cb
+// 图示见 https://docs.libuv.org/en/v1.x/design.html#the-i-o-loop
+typedef struct uv_idle_s uv_idle_t;
+typedef struct uv_prepare_s uv_prepare_t;
+typedef struct uv_check_s uv_check_t;
+
+// 网络相关
+typedef struct uv_tcp_s uv_tcp_t;
+typedef struct uv_udp_s uv_udp_t;
+typedef struct uv_stream_s uv_stream_t;
+
+typedef struct uv_pipe_s uv_pipe_t; // 类似于 unix 的 管道 / 命名管道
+typedef struct uv_tty_s uv_tty_t;   // 封装了 命令行 / 串口 读写 和 设置 的一些 系统 API
+
+// 用于 poll 一些 文件描述符 可读、可写 事件的，对于网络 推荐用 uv_tcp 和 uv_udp 而不是这个，对于文件则有 fs_event 或 fs_poll
+typedef struct uv_poll_s uv_poll_t;
+
+// 监视 文件 或 文件夹，event 使用系统的文件事件机制，poll 则是单纯的 每个事件循环对比 文件 stat 信息
+typedef struct uv_fs_event_s uv_fs_event_t;
+typedef struct uv_fs_poll_s uv_fs_poll_t;
+
+typedef struct uv_timer_s uv_timer_t; // 造各定时器，每次 事件循环（1ms） 检查 并 跑回调，可设 启动延时（timeout 参数） 和 间隔时间（repeat 参数，ms）。
+
+typedef struct uv_async_s uv_async_t; // 提交一个 cb， 调用 uv_async_send() 一次或多次后，下一个 事件循环 会 调用一次 cb
+
+typedef struct uv_process_s uv_process_t; // 类似于 unix 的 进程管理
+typedef struct uv_signal_s uv_signal_t;   // 类似于 unix 的 信号
+
+// 如果 回调函数里面 运行超过一次时间循环周期 如 1ms，可以调用一下 uv_update_time(loop); 来更新 uv 内部 tick 计数（跟上绝对时间） 而为 本次循环后面可能的 回调函数 里面获取最新 tick 的需要。每次事件循环一轮后会自动内部更新 tick 的。按需用。
+// 使用 uv_now(loop); 获取 uv 内部 tick 计数，只自增，且开始值随机，只能用于 时差 而不是 绝对时间，tick 如 1ms 周期自增。
+
+// 另外 libuv 还有一些杂项功能，具体看 官方手册：
+// File system operations
+// Thread pool work scheduling
+// DNS utility functions。 有 API，从 网址 获取 IP（可用 uv_ip4_name() 或 uv_ip_name() 把 ip 数据结构体 转换为 字符串来显示），或 反之（可用 uv_ip4_addr() 把 ip 字符串 转为 数据结构体）
+// Shared library handling
+// Threading and synchronization utilities
+// Miscellaneous utilities
+// Metrics operations
+```
+
+
+
+手册
+
+[luohaha/Chinese-uvbook: 翻译的libuv的中文教程 (github.com)](https://github.com/luohaha/Chinese-uvbook)
+
+网文
+
+[libuv和libev 异步I/O库的比较 - findumars - 博客园 (cnblogs.com)](https://www.cnblogs.com/findumars/p/7465291.html)
+
+[简单对比 Libevent、libev、libuv-腾讯云开发者社区-腾讯云 (tencent.com)](https://cloud.tencent.com/developer/article/1683144)
+
+[libuv：构建高性能网络应用的跨平台异步I/O库详解-CSDN博客](https://blog.csdn.net/LittleBoy_IT/article/details/138140241)
+
+
+
+c++ wrap
+
+[skypjack/uvw: Header-only, event based, tiny and easy to use libuv wrapper in modern C++ - now available as also shared/static library! (github.com)](https://github.com/skypjack/uvw)
+
+[wlgq2/uv-cpp: libuv wrapper in C++11 /libuv C++11网络库 (github.com)](https://github.com/wlgq2/uv-cpp)
+
+
+
 基于libuv实现的C++11风格网络库。接口简洁，性能优越，做过业务压测，稳定线上运行。
 
 [wlgq2/uv-cpp: libuv wrapper in C++11 /libuv C++11网络库 (github.com)](https://github.com/wlgq2/uv-cpp)
+
+
+
+B站上也有很多相关视频。
+
+
+
+一个文件监控的简单例子：在 win 上测试（VsCode + clangd + MSYS64(mingw, libuv .etc)）
+
+```c
+#include <sys/stat.h>
+
+#include <cerrno>
+#include <cstdint>
+#include <cstdio>
+#include <cstdlib>
+
+#include <iostream>
+#include <ostream>
+#include <string>
+
+#include <uv.h>
+
+uv_fs_event_t fs_event;
+uv_fs_poll_t fs_poll;
+
+void on_fs_event(uv_fs_event_t *handle, const char *filename, int events, int status)
+{
+    (void)status;
+    (void)filename; // just the file name str passed into "uv_fs_event_start()"
+
+    char path[1024];
+    size_t size = 1023;
+    uv_fs_event_getpath(handle, path, &size); // the whole path and file name str
+    path[size] = '\0';
+
+    fprintf(stdout, "Change detected in %s: ", path);
+
+    if (events & UV_RENAME) {
+        fprintf(stdout, "renamed\n");
+    } else if (events & UV_CHANGE) {
+        fprintf(stdout, "changed\n");
+    } else {
+        fprintf(stdout, "happend what?\n");
+    }
+
+     // if the file changed name to others and change back, the uv_fs_event continues watch
+}
+
+void on_fs_pool (uv_fs_poll_t* handle,
+    int status,
+    const uv_stat_t* prev,
+    const uv_stat_t* curr)
+{
+    (void)prev;
+    if(status < 0) {
+        printf("status < 0\n"); // file deleted / renamed or something
+        // if the file changed name to others and change back, the uv_fs_pool continues watch
+        // uv_fs_poll_stop(&fs_poll); no need stop, keep watching the file of the very name
+        return;
+    }
+
+    char path[1024];
+    size_t size = 1023;
+    uv_fs_poll_getpath(handle, path, &size); // the whole path and file name str
+    path[size] = '\0';
+
+    printf("Change detected in %s: ", path);
+    printf("%lld, %lld, %lld, %ld, %ld - ",
+            curr->st_ino, curr->st_size, curr->st_uid, curr->st_birthtim.tv_sec, curr->st_mtim.tv_sec);
+    printf("is dir or file: %d", S_ISDIR(curr->st_mode));
+    printf("\n");
+}
+
+int main(void)
+{
+    std::cout << " ------------------ main begin" << std::endl;
+
+    // both uv_fs_event and uv_fs_poll, for file can give some detail info
+    // but for dir change, only know changed, but not know what changed
+
+    uv_fs_event_init(uv_default_loop(), &fs_event); // this know file/dir changed by fs event
+    uv_fs_event_start(&fs_event, on_fs_event,
+        "D:/toolchain/text1.txt",
+        UV_FS_EVENT_RECURSIVE);
+
+    uv_fs_poll_init(uv_default_loop(), &fs_poll); // this know file/dir changed just by intervaly scan
+    uv_fs_poll_start(&fs_poll, on_fs_pool,
+        "D:/toolchain/text.txt",
+        100 ); // the interval time in ms
+
+    uv_run(uv_default_loop(), UV_RUN_DEFAULT);
+
+    uv_loop_close(uv_default_loop());
+
+    std::cout << " ------------------ main end" << std::endl;
+    return;
+}
+```
+
+
+
+### libev
+
+Full-featured high-performance event loop loosely modelled after libevent
+
+[enki/libev: Full-featured high-performance event loop loosely modelled after libevent (github.com)](https://github.com/enki/libev)
 
 
 
@@ -412,11 +643,64 @@ libuv is a multi-platform support library with a focus on asynchronous I/O. It w
 
 
 
-### Tinyhttpd
+## Http
 
-Tinyhttpd 是J. David Blackstone在1999年写的一个不到 500 行的超轻量型 Http Server，用来学习非常不错，可以帮助我们真正理解服务器程序的本质。官网:[http://tinyhttpd.sourceforge.net](http://tinyhttpd.sourceforge.net/)
 
-[EZLippi/Tinyhttpd: Tinyhttpd 是J. David Blackstone在1999年写的一个不到 500 行的超轻量型 Http Server，用来学习非常不错，可以帮助我们真正理解服务器程序的本质。官网:http://tinyhttpd.sourceforge.net (github.com)](https://github.com/EZLippi/Tinyhttpd)
+
+可优先 C 库，C 库 可应用的平台比 C++ 更广泛一些。
+
+若资源受限或需嵌入式部署，选择 Mongoose 或 libcurl。
+
+
+
+### curl
+
+libcurl is the library curl is using to do its job. It is readily available to be used by your software. Read [the libcurl manpage](https://curl.se/libcurl/c/libcurl.html) to learn how.
+
+[curl/curl: A command line tool and library for transferring data with URL syntax, supporting DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, TELNET, TFTP, WS and WSS. libcurl offers a myriad of powerful features (github.com)](https://github.com/curl/curl)
+
+
+
+### Mongoose
+
+Mongoose - Embedded Web Server / Embedded Network Library
+
+Mongoose is a network library for C/C++. It provides event-driven non-blocking APIs for TCP, UDP, HTTP, WebSocket, MQTT, and other protocols. It is designed for connecting devices and bringing them online.
+
+- Cross-platform:
+  - works on Linux/UNIX, MacOS, Windows, Android
+  - works on ST, NXP, ESP32, Nordic, TI, Microchip, Infineon, Renesas and other chips
+  - write code once - and it'll work everywhere
+  - ideal for the unification of the network infrastructure code across company
+- Built-in protocols: plain TCP/UDP, SNTP, HTTP, MQTT, Websocket, and other
+- Asynchronous DNS resolver
+- Tiny static and run-time footprint
+- Source code is both ISO C and ISO C++ compliant
+- Easy to integrate: just copy [mongoose.c](https://raw.githubusercontent.com/cesanta/mongoose/master/mongoose.c) and [mongoose.h](https://raw.githubusercontent.com/cesanta/mongoose/master/mongoose.h) files to your source tree
+- Built-in TCP/IP stack with drivers for bare metal or RTOS systems
+  - Available drivers: STM32F, STM32H; NXP RT1xxx; TI TM4C; Microchip SAME54; Wiznet W5500
+  - A complete Web device dashboard on bare metal ST Nucleo boards is only 6 files
+  - For comparison, a CubeIDE generated HTTP example is 400+ files
+- Can run on top of an existing TCP/IP stack with BSD API, e.g. lwIP, Zephyr, Azure, etc
+- Built-in TLS 1.3 ECC stack. Also can use external TLS libraries - mbedTLS, OpenSSL, or other
+- Does not depend on any other software to implement networking
+- Built-in firmware updates for STM32 H5, STM32 H7
+
+See https://mongoose.ws/ for complete documentation, videos, case studies, etc.
+
+[cesanta/mongoose: Embedded web server, with TCP/IP network stack, MQTT and Websocket (github.com)](https://github.com/cesanta/mongoose)
+
+
+
+### LibHTTP
+
+The project mission is to provide easy to use, powerful, C/C++ embeddable web server with IPv6, CGI and SSL support. LibHTTP has a MIT license so you can innovate without restrictions.
+
+LibHTTP can be used by developers as a library to add web server functionality to an existing application. It can also be used by end users as a stand-alone web server. It is available as single executable, no installation is required.
+
+LibHTTP is a fork of the Mongoose (MIT)/Civetweb family of http server libraries with the focus on event driven efficient communication, clean code and good documentation.
+
+[lammertb/libhttp: Multi platform HTTP and HTTPS library (github.com)](https://github.com/lammertb/libhttp)
 
 
 
@@ -428,13 +712,19 @@ Linux下C++轻量级WebServer服务器
 
 
 
-
-
 ### cpp-httplib
 
 A C++ header-only HTTP/HTTPS server and client library
 
 [yhirose/cpp-httplib: A C++ header-only HTTP/HTTPS server and client library (github.com)](https://github.com/yhirose/cpp-httplib)
+
+
+
+cpp-httplib 可跨平台
+
+[C++第三方库 【HTTP/HTTPS】— httplib库-CSDN博客](https://blog.csdn.net/m0_72563041/article/details/139184349)。
+
+[C++ 跨平台轻量级服务器框架httplib_c++ 服务端框架-CSDN博客](https://blog.csdn.net/weixin_42627407/article/details/144050478)。
 
 
 
@@ -466,6 +756,14 @@ Cppnet is a proactor mode and multithreaded network with C++11 on tcp. Support W
   - The interface decoupling module is used to meet the minimum interface principle and dependency inversion principle
 
 [caozhiyi/CppNet: Cross platform network library with C++11 (github.com)](https://github.com/caozhiyi/CppNet)
+
+
+
+### Tinyhttpd
+
+Tinyhttpd 是J. David Blackstone在1999年写的一个不到 500 行的超轻量型 Http Server，用来学习非常不错，可以帮助我们真正理解服务器程序的本质。官网:[http://tinyhttpd.sourceforge.net](http://tinyhttpd.sourceforge.net/)
+
+[EZLippi/Tinyhttpd: Tinyhttpd 是J. David Blackstone在1999年写的一个不到 500 行的超轻量型 Http Server，用来学习非常不错，可以帮助我们真正理解服务器程序的本质。官网:http://tinyhttpd.sourceforge.net (github.com)](https://github.com/EZLippi/Tinyhttpd)
 
 
 
@@ -514,6 +812,12 @@ The Ada library passes the full range of tests from the specification, across a 
 - 选择 paho.mqtt.c：如果你需要全面的 MQTT 功能支持（如 MQTT 5.0）、跨平台兼容性和较强的社区支持，特别是当你的应用需要较复杂的消息管理时，`paho.mqtt.c` 是一个优秀的选择。
 - 选择 MQTT-C：如果你的应用资源受限，或者你需要一个简单、轻量的 MQTT 客户端库来快速集成，`MQTT-C` 会是一个理想选择，特别适用于嵌入式设备。
 - 选择 Mosquitto：如果你已经在使用 Mosquitto 作为 Broker，或者你需要一个既能作为 Broker 又能作为客户端使用的方案，那么使用 Mosquitto 提供的客户端库会更方便，尤其是在搭建全套 MQTT 系统时。
+
+
+
+**服务端和客户端快速搭建**
+
+[MQTT教程--服务器使用EMQX和客户端使用MQTTX_mqttx使用-CSDN博客](https://blog.csdn.net/weixin_39291021/article/details/140147976)。
 
 
 
@@ -650,11 +954,30 @@ Cista++ is a simple, open source (MIT license) C++17 compatible way of (de-)seri
 
 
 
+Fast-CDR
+
+*eProsima Fast CDR* is a C++ library that provides two serialization mechanisms. One is the standard CDR serialization mechanism, while the other is a faster implementation that modifies the standard.
+
+[eProsima/Fast-CDR: eProsima FastCDR library provides two serialization mechanisms. One is the standard CDR serialization mechanism, while the other is a faster implementation of it. Looking for commercial support? Contact info@eprosima.com (github.com)](https://github.com/eProsima/Fast-CDR)
+
+
+
 #### CLI11 *
 
 CLI11 is a command line parser for C++11 and beyond that provides a rich feature set with a simple and intuitive interface.
 
 [CLIUtils/CLI11: CLI11 is a command line parser for C++11 and beyond that provides a rich feature set with a simple and intuitive interface. (github.com)](https://github.com/CLIUtils/CLI11)
+
+
+
+#### argparse
+
+Argument Parser for Modern C++
+
+- Single header file
+- Requires C++17
+
+[p-ranav/argparse: Argument Parser for Modern C++ (github.com)](https://github.com/p-ranav/argparse)
 
 
 
@@ -682,7 +1005,7 @@ SQLiteC++ (SQLiteCpp) is a smart and easy to use C++ SQLite3 wrapper.
 
 ### Log
 
-#### log4cplus *
+log4cplus *
 
 [log4cplus](https://github.com/log4cplus/log4cplus) is a simple to use C++23 logging API providing thread--safe, flexible, and arbitrarily granular control over log management and configuration. It is modeled after the Java log4j API.
 
@@ -690,13 +1013,15 @@ SQLiteC++ (SQLiteCpp) is a smart and easy to use C++ SQLite3 wrapper.
 
 
 
-#### EasyLogger
+EasyLogger
 
 An ultra-lightweight(ROM<1.6K, RAM<0.3k), high-performance C/C++ log library. | 一款超轻量级(ROM<1.6K, RAM<0.3k)、高性能的 C/C++ 日志库
 
 [armink/EasyLogger: An ultra-lightweight(ROM<1.6K, RAM<0.3k), high-performance C/C++ log library. | 一款超轻量级(ROM<1.6K, RAM<0.3k)、高性能的 C/C++ 日志库 (github.com)](https://github.com/armink/EasyLogger)
 
-#### FlashDB
+
+
+FlashDB
 
 An ultra-lightweight database that supports key-value and time series data | 一款支持 KV 数据和时序数据的超轻量级数据库
 
@@ -708,7 +1033,7 @@ https://github.com/storaged-project/udisks)
 
 
 
-#### spdlog
+spdlog
 
 Fast C++ logging library.
 
@@ -716,9 +1041,15 @@ Fast C++ logging library.
 
 
 
-#### pdf
+Minilogger
 
-##### JagPDF
+[ysbbswork/Minilogger: Mini c++ logger tool (github.com)](https://github.com/ysbbswork/Minilogger)
+
+
+
+### pdf
+
+JagPDF
 
 JagPDF is a free, open source library for generating PDF documents.
 
@@ -732,7 +1063,7 @@ The library is distributed under the [MIT license](http://www.jagpdf.org/license
 
 
 
-##### libharu
+libharu
 
 Haru is a free, cross platform, open-sourced software library for generating PDF. It supports the following features.
 
@@ -763,6 +1094,22 @@ DBus-cxx provides an object-oriented view of all programs on the DBus, and allow
 This new 2.0 version(that you are looking at now) is a complete ground-up implementation of the DBus protocol, without libdbus, in part to fix a number of known multithreading issues with libdbus. This also allows for templates to be used throughout the system, for methods, signals, and properties.
 
 [dbus-cxx/dbus-cxx: DBus-cxx provides an object-oriented interface to DBus (github.com)](https://github.com/dbus-cxx/dbus-cxx)
+
+
+
+### gRPC *
+
+gRPC is a modern, open source, high-performance remote procedure call (RPC) framework that can run anywhere. gRPC enables client and server applications to communicate transparently, and simplifies the building of connected systems.
+
+[grpc/grpc: The C based gRPC (C++, Python, Ruby, Objective-C, PHP, C#) (github.com)](https://github.com/grpc/grpc)
+
+[grpc/src/cpp at master · grpc/grpc (github.com)](https://github.com/grpc/grpc/tree/master/src/cpp) C++版本
+
+
+
+[一文掌握gRPC-CSDN博客](https://blog.csdn.net/qq_43456605/article/details/138647102)
+
+B站上也有很多相关视频。
 
 
 
@@ -826,9 +1173,9 @@ You can override the default key-size of 128 bit with 192 or 256 bit by defining
 
 
 
-### zip
+### zip libs
 
-#### zlib
+**zlib**
 
 zlib is a general purpose data compression library.  All the code is thread safe.  The data format used by the zlib library is described by RFCs (Request for Comments)
 
@@ -836,7 +1183,7 @@ zlib is a general purpose data compression library.  All the code is thread safe
 
 
 
-#### zstr
+**zstr**
 
 A C++ header-only ZLib wrapper
 
@@ -844,7 +1191,7 @@ A C++ header-only ZLib wrapper
 
 
 
-#### libzip
+**libzip**
 
 This is libzip, a C library for reading, creating, and modifying zip and zip64 archives. Files can be added from data buffers, files, or compressed data copied directly from other zip archives. Changes made without closing the archive can be reverted. Decryption and encryption of Winzip AES and legacy PKware encrypted files is supported.
 
@@ -854,7 +1201,7 @@ libzip is fully documented via man pages. HTML versions of the man pages are on 
 
 
 
-#### LibZippp
+**LibZippp**
 
 libzippp is a simple basic C++ wrapper around the libzip library. It is meant to be a portable and easy-to-use library for ZIP handling.
 
@@ -876,6 +1223,18 @@ This project aims to be the best, clearest QR Code generator library in multiple
 
 
 ## Scientific Computing
+
+
+
+### GNU GSL
+
+The GNU Scientific Library (GSL) is a numerical library for C and C++ programmers. It is free software under the GNU General Public License.
+
+The library provides a wide range of mathematical routines such as random number generators, special functions and least-squares fitting. There are over 1000 functions in total with an extensive test suite.
+
+Unlike the licenses of proprietary numerical libraries the license of GSL does not restrict scientific cooperation. It allows you to share your programs freely with others.
+
+[GSL - GNU Scientific Library - GNU Project - Free Software Foundation](https://www.gnu.org/software/gsl/)
 
 
 
@@ -935,7 +1294,7 @@ For API stability and intended audience of UDisks, see the API STABILITY and AUD
 
 
 
-libusb
+libusb *
 
 libusb is a library for USB device access from Linux, macOS, Windows, OpenBSD/NetBSD, Haiku, Solaris userspace, and WebAssembly via WebUSB. It is written in C (Haiku backend in C++) and licensed under the GNU Lesser General Public License version 2.1 or, at your option, any later version (see [COPYING](https://github.com/libusb/libusb/blob/master/COPYING)).
 
@@ -944,6 +1303,14 @@ libusb is abstracted internally in such a way that it can hopefully be ported to
 libusb homepage: https://libusb.info/
 
 [libusb/libusb: A cross-platform library to access USB devices (github.com)](https://github.com/libusb/libusb)
+
+
+
+libuvc *
+
+`libuvc` is a cross-platform library for USB video devices, built atop `libusb`. It enables fine-grained control over USB video devices exporting the standard USB Video Class (UVC) interface, enabling developers to write drivers for previously unsupported devices, or just access UVC devices in a generic fashion.
+
+[libuvc/libuvc: a cross-platform library for USB video devices (github.com)](https://github.com/libuvc/libuvc)
 
 
 
@@ -968,11 +1335,15 @@ In order to make it easier for users to learn USB basics, enumeration, driver lo
 
 
 
+各种芯片驱动！
+
+[libdriver (LibDriver) (github.com)](https://github.com/libdriver)
+
+
+
 新加：
 
-https://github.com/Sheep118/WouoUI-PageVersion
-https://github.com/ErBWs/Easy-UI
-https://github.com/RQNG/WouoUI
+
 https://github.com/jiejieTop/ButtonDrive
 
 
@@ -981,25 +1352,13 @@ FreeRTOS
 
 
 
-LVGL
-
-[lvgl/lvgl: Embedded graphics library to create beautiful UIs for any MCU, MPU and display type. (github.com)](https://github.com/lvgl/lvgl)
-
-[Your list / LVGL (github.com)](https://github.com/stars/Staok/lists/lvgl)
-
-
-
-u8g2
-
-U8glib library for monochrome displays
-
-[olikraus/u8g2: U8glib library for monochrome displays, version 2 (github.com)](https://github.com/olikraus/u8g2)
+正点原子 等出过 FreeRTOS 的手册，看就会了
 
 
 
 letter-shell
 
-嵌入式shell
+嵌入式 shell
 
 [NevermindZZT/letter-shell: letter shell (github.com)](https://github.com/NevermindZZT/letter-shell)
 
@@ -1102,6 +1461,181 @@ BabyOS
 专为MCU项目开发提速的代码框架
 
 [notrynohigh/BabyOS: 专为MCU项目开发提速的代码框架 (github.com)](https://github.com/notrynohigh/BabyOS)
+
+
+
+W5500 系列芯片驱动封装
+
+[Wiznet/ioLibrary_Driver: ioLibrary_Driver can be used for the application design of WIZnet TCP/IP chips as W5500, W5300, W5200, W5100 W5100S. (github.com)](https://github.com/Wiznet/ioLibrary_Driver)
+
+
+
+## UI
+
+
+
+综合性的大库
+
+
+
+**Flutter**
+
+Flutter is Google's SDK for crafting beautiful, fast user experiences for **mobile, web, and desktop from a single codebase**. Flutter works with existing code, is used by developers and organizations around the world, and is free and open source.
+
+[flutter/flutter: Flutter makes it easy and fast to build beautiful apps for mobile and beyond (github.com)](https://github.com/flutter/flutter)
+
+
+
+**wxWidgets**
+
+wxWidgets is a free and open source cross-platform C++ framework for writing advanced GUI applications using native controls.
+
+wxWidgets allows you to write native-looking GUI applications for all the major desktop platforms and also helps with abstracting the differences in the non-GUI aspects between them. It is free for the use in both open source and commercial applications, comes with the full, easy to read and modify, source and extensive documentation and a collection of more than a hundred examples. You can learn more about wxWidgets at https://www.wxwidgets.org/ and read its documentation online at https://docs.wxwidgets.org/
+
+[wxWidgets/wxWidgets: Cross-Platform C++ GUI Library (github.com)](https://github.com/wxWidgets/wxWidgets)
+
+
+
+**ImGui**
+
+Dear ImGui is a **bloat-free graphical user interface library for C++**. It outputs optimized vertex buffers that you can render anytime in your 3D-pipeline-enabled application. It is fast, portable, renderer agnostic, and self-contained (no external dependencies).
+
+Dear ImGui is designed to **enable fast iterations** and to **empower programmers** to create **content creation tools and visualization / debug tools** (as opposed to UI for the average end-user). It favors simplicity and productivity toward this goal and lacks certain features commonly found in more high-level libraries. Among other things, full internationalization (right-to-left text, bidirectional text, text shaping etc.) and accessibility features are not supported.
+
+Dear ImGui is particularly suited to integration in game engines (for tooling), real-time 3D applications, fullscreen applications, embedded applications, or any applications on console platforms where operating system features are non-standard.
+
+- Minimize state synchronization.
+- Minimize UI-related state storage on user side.
+- Minimize setup and maintenance.
+- Easy to use to create dynamic UI which are the reflection of a dynamic data set.
+- Easy to use to create code-driven and data-driven tools.
+- Easy to use to create ad hoc short-lived tools and long-lived, more elaborate tools.
+- Easy to hack and improve.
+- Portable, minimize dependencies, run on target (consoles, phones, etc.).
+- Efficient runtime and memory consumption.
+- Battle-tested, used by [many major actors in the game industry](https://github.com/ocornut/imgui/wiki/Software-using-dear-imgui).
+
+[ocornut/imgui: Dear ImGui: Bloat-free Graphical User interface for C++ with minimal dependencies (github.com)](https://github.com/ocornut/imgui)
+
+
+
+一个文件浏览实现
+
+[AirGuanZ/imgui-filebrowser: File browser implementation for dear-imgui. C++17 is required. (github.com)](https://github.com/AirGuanZ/imgui-filebrowser)
+
+即说明，github 上还有更多例子和实现。
+
+
+
+**CopperSpice**
+
+qt 的一个 开源的 fork 库。几乎各方面和 qt 很像。
+
+[copperspice/copperspice: Set of cross platform C++ libraries (Core, Gui, Network, Multimedia, SQL, Vulkan, etc) (github.com)](https://github.com/copperspice/copperspice)
+
+[copperspice/cs_designer: Program used by developers to create a graphical interface .ui file (github.com)](https://github.com/copperspice/cs_designer)
+
+
+
+
+
+**Tkinter**
+
+Python 库。以下是一些UI设计辅助工具和教程。
+
+[Tkinter-Designer/docs/README.zh-CN.md at master · ParthJadhav/Tkinter-Designer (github.com)](https://github.com/ParthJadhav/Tkinter-Designer/blob/master/docs/README.zh-CN.md)。
+
+[iamxcd/tkinter-helper: 为tkinter打造的可视化拖拽布局界面设计小工具 (github.com)](https://github.com/iamxcd/tkinter-helper)。
+
+[Dvlv/Tkinter-By-Example: Learn Tkinter By Example - a free book (github.com)](https://github.com/Dvlv/Tkinter-By-Example)。
+
+
+
+demo
+
+[copperspice/kitchensink: C++ application examples showing how to use the CS libraries (github.com)](https://github.com/copperspice/kitchensink)
+
+
+
+
+
+**libui**
+
+[andlabs/libui: Simple and portable (but not inflexible) GUI library in C that uses the native GUI technologies of each platform it supports. (github.com)](https://github.com/andlabs/libui)。
+
+
+
+以下为 嵌入式强相关的
+
+
+
+彩屏
+
+
+
+**LVGL**
+
+[lvgl/lvgl: Embedded graphics library to create beautiful UIs for any MCU, MPU and display type. (github.com)](https://github.com/lvgl/lvgl)
+
+[Your list / LVGL (github.com)](https://github.com/stars/Staok/lists/lvgl)
+
+
+
+可视化 UI 设计工具：
+
+eez studio（开源免费）推荐
+
+squareLine（收费）
+
+等等
+
+
+
+LVGL 也有单色模式，可以兼容 OLED 等单色屏显示，LVGL 更易用且功能丰富、可裁剪。推荐嵌入式设备端优先使用 LVGL。
+
+
+
+单色屏
+
+
+
+**u8g2**
+
+U8glib library for monochrome displays
+
+[olikraus/u8g2: U8glib library for monochrome displays, version 2 (github.com)](https://github.com/olikraus/u8g2)
+
+
+
+一个便捷制作 ui 的工具 Lopaka
+
+- 一篇介绍 [拯救开发者！这款在线神器让LCD/OLED屏幕UI设计效率翻倍 (qq.com)](https://mp.weixin.qq.com/s?__biz=Mzg5Nzk3OTcxNw==&mid=2247484157&idx=1&sn=19342f8bcc324b35898d1c0951694168&chksm=c068c6d7f71f4fc138c461a2a39704b39f681f165ed188706980acd6c0113406cfa7a72b2190&cur_album_id=3849885104136470528&scene=189#wechat_redirect)。
+
+- [sbrin/lopaka: Lopaka - Stunning graphics for embedded systems displays (github.com)](https://github.com/sbrin/lopaka)
+
+- 在线地址 [Graphics editor and image converter for Arduino, ESP32, Adafruit_GFX, u8g2, TFT_eSPI (lopaka.app)](https://lopaka.app/sandbox)
+
+
+
+
+初始化库和使用 [u8g2setupc · olikraus/u8g2 Wiki (github.com)](https://github.com/olikraus/u8g2/wiki/u8g2setupc#introduction)
+
+移植 [Porting to new MCU platform · olikraus/u8g2 Wiki (github.com) ](https://github.com/olikraus/u8g2/wiki/Porting-to-new-MCU-platform) 这里面也有一些平台的模板工程可以参考
+
+主要是 选择 `u8g2_Setup_<display>_<i2c>_<memory>()` 初始化函数，填入通讯线和杂项这两个回调函数，前者可以选择u8g2内置的软件实现的通讯协议为`u8x8_byte_xxx()` 函数，后者要自己实现并填入（一些 IO 口设置、延时 等等的回调函数） `typedef uint8_t (*u8x8_msg_cb)(u8x8_t *u8x8, uint8_t msg, uint8_t arg_int, void *arg_ptr);`
+
+
+
+API 手册 [u8g2reference · olikraus/u8g2 Wiki (github.com)](https://github.com/olikraus/u8g2/wiki/u8g2reference)
+
+
+
+**MonoUI 库 及其衍生**
+
+- https://github.com/Sheep118/WouoUI-PageVersion
+
+- https://github.com/ErBWs/Easy-UI
+- https://github.com/RQNG/WouoUI
 
 
 
