@@ -28,6 +28,57 @@ TODO：以下还缺少 ui、cv、ml 领域相关的库，好用的基本上也�
 
 
 
+综合贴
+
+- [jobbole/awesome-cpp-cn: C++ 资源大全中文版，标准库、Web应用框架、人工智能、数据库、图片处理、机器学习、日志、代码分析等。由「开源前哨」和「CPP开发者」微信公号团队维护更新。](https://github.com/jobbole/awesome-cpp-cn)。
+- [用于数据科学的顶级 C/C++ 机器学习库整理 - Xu_Lin - 博客园](https://www.cnblogs.com/isLinXu/p/16875279.html)。
+
+
+
+## Scripts
+
+
+
+Oh My Zsh
+
+[ohmyzsh/ohmyzsh: 🙃 A delightful community-driven (with 2,400+ contributors) framework for managing your zsh configuration. Includes 300+ optional plugins (rails, git, macOS, hub, docker, homebrew, node, php, python, etc), 140+ themes to spice up your morning, and an auto-update tool that makes it easy to keep up with the latest updates from the community.](https://github.com/ohmyzsh/ohmyzsh)
+
+
+
+vimrc
+
+[amix/vimrc: The ultimate Vim configuration (vimrc)](https://github.com/amix/vimrc)
+
+
+
+Git alias
+
+[GitAlias/gitalias: Git alias commands for faster easier version control](https://github.com/GitAlias/gitalias)
+
+
+
+Linux命令行与shell脚本编程大全案例
+
+[fengyuhetao/shell: Linux命令行与shell脚本编程大全案例](https://github.com/fengyuhetao/shell)
+
+
+
+gitignore
+
+[github/gitignore: A collection of useful .gitignore templates](https://github.com/github/gitignore)
+
+
+
+regex-vis
+
+[Bowen7/regex-vis: 🎨 Regex visualizer & editor](https://github.com/Bowen7/regex-vis)
+
+正则表达式可视化：[Regex Vis](https://regex-vis.com/)
+
+
+
+
+
 ## Misc
 
 这里的几个库是综合性的，内涵丰富，但也比较重型，按需。
@@ -152,7 +203,43 @@ Ultimate++：C++跨平台快速应用程序开发框架，框架应该比较大�
 
 
 
-## Parallel / Async
+## Robotic
+
+
+
+### pcl
+
+常用点云处理库。
+
+[PointCloudLibrary/pcl: Point Cloud Library (PCL)](https://github.com/PointCloudLibrary/pcl)。
+
+参考：
+
+- 官方文档 [Introduction — Point Cloud Library 0.0 documentation](https://pcl.readthedocs.io/projects/tutorials/en/latest/index.html)。
+
+- https://blog.csdn.net/yangziluomu/article/details/82631123
+- https://zhuanlan.zhihu.com/p/95679543
+- PCL Visualization https://zhuanlan.zhihu.com/p/107419624
+- PCL Filtering https://zhuanlan.zhihu.com/p/95983353
+
+
+
+安装：
+
+库很大，依赖很多，就不要本地编译了，直接用现成的：
+
+- Ubuntu 上使用：
+  - 直接安装 `sudo apt install libpcl-dev`。
+- Win 上使用：必须使用 MSVC 的编译器进行链接库：
+  - 下载 github 仓库的 release 的 `PCL-x.xx-AllInOne-msvc2022-win64.exe`，安装，勾上给当前用户添加路径到系统环境变量。
+
+cmake 引入：[Using PCL in your own project — Point Cloud Library 0.0 documentation](https://pcl.readthedocs.io/projects/tutorials/en/latest/using_pcl_pcl_config.html#using-pcl-pcl-config)。
+
+- 
+
+
+
+## Parallel / Async / Task framework
 
 
 
@@ -162,29 +249,51 @@ Ultimate++：C++跨平台快速应用程序开发框架，框架应该比较大�
 
 几个库的使用场景（使用 gpt）
 
-> - **oneTBB** 适合大规模并行计算和高效利用多核处理器的场景。
 > - **workflow** 适合需要并行计算和异步网络处理的复杂应用，尤其在分布式和高性能环境中。
+>
 > - **workspace** 更加适用于轻量级异步任务调度和并发执行，尤其在需要精细控制优先级和任务管理时。
+>
 > - **taskflow** 适合高效的任务调度系统，特别是有异构计算需求的场景（例如同时使用 CPU 和 GPU）。
+>
+>   官网测试 taskflow 比  oneTBB 更好
+>
+> - **oneTBB** 适合大规模并行计算和高效利用多核处理器的场景。
+>
 > - **Asio** 则专注于网络和 I/O 密集型任务，尤其是需要处理大量并发连接的应用。
+>
+>   libuv 和 asio 对比 见 `libuv` 一节。
 
 
 
-### oneTBB
+因此进行 workflow、workspace、taskflow 三个库对比，说的很清晰了：
 
-oneAPI Threading Building Blocks (oneTBB)
+[对比 C++ 框架库 - 豆包](https://www.doubao.com/thread/w7d037517775ebe5e)。
 
-[uxlfoundation/oneTBB: oneAPI Threading Building Blocks (oneTBB) (github.com)](https://github.com/uxlfoundation/oneTBB)
-
-
-
-[Intel Threading Building Blocks 之 并行循环_intel threading building blocks在哪里下载-CSDN博客](https://blog.csdn.net/plutus_sutulp/article/details/21445193)
-
-[SSE_TBB加速编程_Belial_2010的博客-CSDN博客](https://blog.csdn.net/kezunhai/category_3069039.html)
+这个给第一次接触这几个库的人看的，但是别全信，有臆想部分，整体表述还好，就先大概看一下有个印象进行初步判读那，然后具体每个库去看文档）
 
 
 
-### workflow
+若你的业务需要 “网络交互 + 并行计算”（如异步网络微服务HTTP/RPC的并行处理、分布式任务调度）→ 优先看 workflow。
+
+**workflow 即是有点大而全的网络库（http、redis、mysql、websocket和kafka等服务）、IO、任务流编排的库。开源协议为 Apache-2.0 license，比较友好。**
+
+
+
+若你的业务是 “纯本地任务调度”（如本地工具类程序、对编译体积敏感的场景），且想少写代码 → 优先看 workspace。
+
+**workspace 即是一个线程池，且具有多线程负载均衡，空闲快速响应机制等。开源协议为 Apache-2.0 license，比较友好。**
+
+是个线程池，放到了后面 `ThreadPool lib` 小节里面。
+
+
+
+若你的业务是 “复杂并行计算”（如计算密集型应用、复杂流程编排、异构计算场景（CPU 并行预处理 + GPU 加速计算）），甚至需要 GPU → 优先看 taskflow。
+
+**taskflow 即是函数执行流程编排编程，可并行、顺序和分支，支持cuda，可以导出 dot 流程图。开源协议为 MIT。**
+
+
+
+**workflow**
 
 C++ Parallel Computing and Asynchronous Networking Framework
 
@@ -204,15 +313,7 @@ C++ Parallel Computing and Asynchronous Networking Framework
 
 
 
-### workspace *
-
-workspace是基于C++11的轻量级异步执行框架，支持：通用任务异步并发执行、优先级任务调度、自适应动态线程池、高效静态线程池、异常处理机制等。
-
-[CodingHanYa/workspace: workspace是基于C++11的轻量级异步执行框架，支持：通用任务异步并发执行、优先级任务调度、自适应动态线程池、高效静态线程池、异常处理机制等。 (github.com)](https://github.com/CodingHanYa/workspace)
-
-
-
-### taskflow *
+**taskflow ***
 
 A General-purpose Task-parallel Programming System using Modern C++
 
@@ -224,7 +325,43 @@ Taskflow helps you quickly write parallel and heterogeneous task programs in mod
 
 
 
-### Asio *
+**oneTBB**
+
+oneAPI Threading Building Blocks (oneTBB)
+
+[uxlfoundation/oneTBB: oneAPI Threading Building Blocks (oneTBB) (github.com)](https://github.com/uxlfoundation/oneTBB)。
+
+
+
+[Intel Threading Building Blocks 之 并行循环_intel threading building blocks在哪里下载-CSDN博客](https://blog.csdn.net/plutus_sutulp/article/details/21445193)。
+
+[SSE_TBB加速编程_Belial_2010的博客-CSDN博客](https://blog.csdn.net/kezunhai/category_3069039.html)。
+
+
+
+**OpenMP**
+
+并行计算库。
+
+
+
+### Behavioral Tree libs
+
+
+
+btsk
+
+[BTSK 开源项目教程-CSDN博客](https://blog.csdn.net/gitblog_00923/article/details/141414404)。
+
+[aigamedev/btsk: Behavior Tree Starter Kit](https://github.com/aigamedev/btsk)。
+
+
+
+### Async lib
+
+
+
+**Asio**
 
 Asio C++ Library
 
@@ -238,7 +375,15 @@ Folly.ThreadPoolExecutor [folly/folly/executors/ThreadPoolExecutor.h at main · 
 
 
 
-### ThreadPool *
+libuv 和 asio 对比 见 `libuv` 一节。
+
+
+
+### ThreadPool lib
+
+
+
+**ThreadPool ***
 
 A simple C++11 Thread Pool implementation
 
@@ -246,7 +391,15 @@ A simple C++11 Thread Pool implementation
 
 
 
-### dpool
+**workspace ***
+
+workspace是基于C++11的轻量级异步执行框架，支持：通用任务异步并发执行、优先级任务调度、自适应动态线程池、高效静态线程池、异常处理机制等。
+
+[CodingHanYa/workspace: workspace是基于C++11的轻量级异步执行框架，支持：通用任务异步并发执行、优先级任务调度、自适应动态线程池、高效静态线程池、异常处理机制等。 (github.com)](https://github.com/CodingHanYa/workspace)。
+
+
+
+**dpool**
 
 使用 C++11 实现的动态线程池，主要特性：
 
@@ -259,7 +412,7 @@ A simple C++11 Thread Pool implementation
 
 
 
-### CThreadPool
+**CThreadPool**
 
 `CThreadPool` 是一个跨平台的、无任何三方依赖的、高性能的C++11（含以上版本）版本的线程池，也是 [CGraph](https://github.com/ChunelFeng/CGraph) 项目中使用的跨平台线程池组件功能的最小集。
 
@@ -283,7 +436,7 @@ The project is being developed mainly to be a coroutine backend for the [Nelua](
 
 
 
-## Event
+## Sig-Slot
 
 
 
@@ -330,19 +483,55 @@ From plain C++ you get:
 
 
 
-### Libevent
+RxCpp
 
-[libevent](https://libevent.org/)
+The Reactive Extensions for C++ (**RxCpp**) is a library of algorithms for values-distributed-in-time. The [**Range-v3**](https://github.com/ericniebler/range-v3) library does the same for values-distributed-in-space.
 
-The *libevent* API provides a mechanism to execute a callback function when a specific event occurs on a file descriptor or after a timeout has been reached. Furthermore, *libevent* also support callbacks due to **signals** or regular **timeouts**.
-
-*libevent* is meant to replace the event loop found in event driven network servers. An application just needs to call *event_dispatch()* and then add or remove events dynamically without having to change the event loop.
-
-[libevent/libevent: Event notification library (github.com)](https://github.com/libevent/libevent)
+[ReactiveX/RxCpp: Reactive Extensions for C++](https://github.com/ReactiveX/RxCpp)。
 
 
 
-### fswatch *
+
+
+## FileSystem Watcher
+
+
+
+### efsw *
+
+**efsw** is a C++ cross-platform file system watcher and notifier.
+
+**efsw** monitors the file system asynchronously for changes to files and directories by watching a list of specified paths, and raises events when a directory or file change.
+
+**efsw** supports recursive directories watch, tracking the entire sub directory tree.
+
+**efsw** currently supports the following platforms:
+
+- Linux via [inotify](http://en.wikipedia.org/wiki/Inotify)
+- Windows via [I/O Completion Ports](http://en.wikipedia.org/wiki/IOCP)
+- macOS via [FSEvents](http://en.wikipedia.org/wiki/FSEvents) or [kqueue](http://en.wikipedia.org/wiki/Kqueue)
+- FreeBSD/BSD via [kqueue](http://en.wikipedia.org/wiki/Kqueue)
+- OS-independent generic watcher (polling the disk for directory snapshots and comparing them periodically)
+
+[SpartanJ/efsw: efsw is a C++ cross-platform file system watcher and notifier. (github.com)](https://github.com/SpartanJ/efsw)
+
+
+
+本地编译过后，编译产物 投放到 编译器根目录中，使用 如下 cmek 语句引入即可，然后程序里面 引入头文件 使用即可。
+
+```cmake
+find_package(efsw REQUIRED) # 这里面查找和执行编译产物 efswTargets.cmake
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    efsw::efsw # 查看编译产物 efswTargets.cmake，里面通过 add_library() 创建了目标，因此这里引入该目标即可
+)
+
+# 在程序里面， 通过 #include "efsw/efsw.hpp" 引入 头文件。因为上面 cmake 里面没有 target_include_directories（），因此这里 头文件路径相对于 <编译器路径>/include
+```
+
+
+
+### fswatch
 
 `fswatch` is a file change monitor that receives notifications when the contents of the specified files or directories are modified. `fswatch` implements several monitors:
 
@@ -364,7 +553,11 @@ The *libevent* API provides a mechanism to execute a callback function when a sp
 
 
 
-msys2 目前（2025.5）没有提供 libfswatch 库。自己手动编译，在 win 上：github 仓库下载最新 release 源码包：
+msys2 目前（2025.5）只提供 fswatch 的 bin 包，没有提供 libfswatch 封装为 pkg 形式的库（但是提供了 库文件 .a（后来才发现））。
+
+
+
+因为早期没有发现 msys2 提供了库，所以费劲自己手动编译，在 win 上：github 仓库下载最新 release 源码包：
 
 libfswatch 可选 ./configure 的方式来编译库，具体查看文档。
 
@@ -391,7 +584,74 @@ make
 make install
 ```
 
-然后把编译产物放到 工具链目录里面，使用 pkg-config 等在工程里面引入即可。
+如果编译成功，然后把编译产物放到 工具链目录里面，使用 find_package / pkg-config 等在工程里面引入即可。
+
+
+
+注意：目前编译有报错，自己编译暂时无解...详见 [Get compile err with fswatch-1.18.3, please have a watch of this · Issue #344 · emcrisostomo/fswatch (github.com)](https://github.com/emcrisostomo/fswatch/issues/344)。
+
+
+
+===============================
+
+
+
+柳暗花明：
+
+发现了 MSYS2 里面 fswatch 包下载后，在 `<编译器路径>/lib` 文件夹下提供了 库文件 `liblibfswatch.dll.a`，且提供了头文件 `<编译器路径>/include/libfswatch`，由此直接 cmake 里面引入：
+
+```cmake
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    libfswatch
+)
+```
+
+程序中引入头文件：`#include "libfswatch/..."`，分为 C 和 C++ 的 APIs，具体看官方使用手册：
+
+1.17.1 版本：[fswatch: fswatch (emcrisostomo.github.io)](https://emcrisostomo.github.io/fswatch/doc/1.17.1/libfswatch.html/index.html)。
+
+CPP APIs：[fswatch: C++ API (emcrisostomo.github.io)](https://emcrisostomo.github.io/fswatch/doc/1.17.1/libfswatch.html/cpp-api.html)。
+
+C APIs：[fswatch: C API (emcrisostomo.github.io)](https://emcrisostomo.github.io/fswatch/doc/1.17.1/libfswatch.html/c-api.html)。
+
+可以用了。
+
+C API 简易测试程序：
+
+```cpp
+#include "libfswatch/c/libfswatch.h"
+
+void my_callback(
+    fsw_cevent const *const events, // events 数组，结构体
+    const unsigned int event_num,   // event_num 表示 events 数组 的 大小
+    void *data)
+{
+    (void)data;
+    if(event_num >= 1 && events->flags_num >= 1) {
+        printf("path: %s, flags: 1: %d",
+                events[0]->path, events[0]->flags[0]); // 发生事件文件的路径，flags 数组
+    }
+}
+
+int main(int argc, char* argv[])
+{
+    (void)argc;
+    (void)argv;
+
+    FSW_STATUS ret = fsw_init_library();
+
+    const FSW_HANDLE handle = fsw_init_session(windows_monitor_type); // 创建一个 monitor
+    fsw_add_path(handle, "D:/toolchain");
+
+    fsw_set_recursive(handle, true); // 打开递归子目录监控，默认不打开，即只监控第一层目录
+    fsw_set_callback(handle, my_callback, nullptr); // 添加回调
+    // fsw_set_latency(handle, 0); 默认会延迟再调用回调函数 1s（看 .h 里面的注释说明），这里设为 不延迟
+    fsw_start_monitor(handle); // 阻塞在这里，直到调用 fsw_stop_monitor()，才返回，可以判断 fsw_start_monitor() 的返回值。
+
+    return 0;
+}
+
+```
 
 
 
@@ -447,13 +707,22 @@ libuv is a multi-platform support library with a focus on asynchronous I/O. It w
 
 
 
+libuv 和 asio 对比：
+
+如果需要跨平台支持、基础socket、轻量级的异步 I/O功能（如文件操作等），libuv 是一个不错的选择。对于复杂的网络编程需求（如 SSL、ICMP 支持）或需要与 C++ 标准库深度集成的项目，Boost.Asio（Asio库有独立使用版本） 更为适合。
+实际我都看了，就跨平台和通用性，libuv的纯c库更好。使用额外的线程池等组件配合，就可以做到便捷的网络处理编程模型。
+
+
+
 实现的监控事件类型：
 
 需要注意不同平台的行为略有不同，尤其是 linux 和 win 的差异，多看手册，和试验，官方文档不一定对每一块细节有详细描述，或问 AI大模型（会搜集一些网友的测试结果）
 
+**下面打 感叹号的 为个人认为比较重要的，而其他 比如 tty、pipe、file、thread、process 这种，用更容易跨平台的哪些 API 即可。**对于文件监控有专门的库，功能更强大，可见上面的 `FileSystem Watcher` 一节。
+
 ```c
-typedef struct uv_loop_s uv_loop_t;     // 基本 loop 句柄，可以用 uv 内部默认的一个 uv_default_loop()
-typedef struct uv_handle_s uv_handle_t; // 下面 各个具体提交异步事件 的 "基类" 句柄，可看 uv.h 里面的做法，下面的 uv_xxx_t 都可以 cast 到这个，然后用基础的 api 操作，一般不推荐，用 uv_xxx_ 对应的 API 操作即可。
+！typedef struct uv_loop_s uv_loop_t;     // 基本 loop 句柄，可以用 uv 内部默认的一个 uv_default_loop()
+！typedef struct uv_handle_s uv_handle_t; // 下面 各个具体提交异步事件 的 "基类" 句柄，可看 uv.h 里面的做法，下面的 uv_xxx_t 都可以 cast 到这个，然后用基础的 api 操作，一般不推荐，用 uv_xxx_ 对应的 API 操作即可。
 
 // 每次事件循环 按照 idle、prepare、poll io、check、close cb、update loop time / tick、timers cb 等 顺序 执行被提交的 事件 cb
 // 图示见 https://docs.libuv.org/en/v1.x/design.html#the-i-o-loop
@@ -461,13 +730,75 @@ typedef struct uv_idle_s uv_idle_t;
 typedef struct uv_prepare_s uv_prepare_t;
 typedef struct uv_check_s uv_check_t;
 
-// 网络相关
-typedef struct uv_tcp_s uv_tcp_t;
-typedef struct uv_udp_s uv_udp_t;
-typedef struct uv_stream_s uv_stream_t;
+// 流相关 API，uv_tcp_t、uv_pipe_t 和 uv_tty_t 都是 uv_stream_t 的子类，前者可以转为 uv_stream_t 指针后 使用 uv_stream_t 的 收发 等 API
+！typedef struct uv_stream_s uv_stream_t;
 
-typedef struct uv_pipe_s uv_pipe_t; // 类似于 unix 的 管道 / 命名管道
-typedef struct uv_tty_s uv_tty_t;   // 封装了 命令行 / 串口 读写 和 设置 的一些 系统 API
+// 网络相关
+！typedef struct uv_tcp_s uv_tcp_t; // 注意这个 TCP 只为 AF_INET 或 AF_INET6 模式
+！typedef struct uv_udp_s uv_udp_t; // 有自己单独的 收发 handle 和 API，而不用 uv_stream_t
+/*
+tcp udp 网络编程 调用 API 顺序：
+
+TCP 需要建立连接，进行可靠的双向通信。
+TCP 模式 API 调用顺序：
+server:
+
+socket()
+bind()
+listen()、accept()
+recv()、send()
+
+client:
+
+socket()
+connect()
+recv()、send()
+
+—————————
+UDP 不需要建立连接，适用于快速、低延迟的通信，但不保证可靠性。
+UDP 模式 API 调用顺序：
+server:
+
+socket()
+bind()
+recvfrom()、sendto()
+
+client:
+
+socket()
+recvfrom()、sendto()
+
+*/
+
+/*
+严重注意，经过查询源码，这个 uv_tcp_t 内部定死了（如 uv_tcp_init()，uv_ip4_addr()（用于填写 ip 和 端口号 产生struct sockaddr_in* 再传给 uv_tcp_bind()））是必须使用 AF_INET 或者 AF_INET6（这俩都是专用于网络通讯），不能用 AF_UNIX（专用进程间通讯的，比前面的更快）；
+如要用 AF_UNIX，则用 uv_pipe_t~，如下举例：
+*/
+
+/*
+用于 AF_UNIX 的 API 调用顺序：
+
+server:
+uv_pipe_init()
+uv_pipe_bind()
+uv_listen()、uv_accept()
+uv_read_start()、uv_write()
+
+client:
+
+uv_pipe_init()
+uv_pipe_connect()
+uv_read_start()、uv_write()
+
+用于管道的 API：
+uv_pipe() 创建一对匿名管道文件
+uv_pipe_open() 打开
+uv_read_start()、uv_write() 读写
+*/
+
+！typedef struct uv_pipe_s uv_pipe_t; // 类似于 unix 的 管道 / 命名管道，也可以用于 TCP 的 AF_INET 方式的 socket 进行 IPC~。即 uv_pipe_t 以及相关 API 是 libuv 中用于 命名管道（Named Pipe）或 UNIX 域套接字（UNIX Domain Socket） 的接口
+
+typedef struct uv_tty_s uv_tty_t;   // 封装了 命令行 / 串口 读写 和 设置 的一些 系统 API，就是对 串口（设备文件） 或 常规文件 进行 流式 读写的，别用于其它。
 
 // 用于 poll 一些 文件描述符 可读、可写 事件的，对于网络 推荐用 uv_tcp 和 uv_udp 而不是这个，对于文件则有 fs_event 或 fs_poll
 typedef struct uv_poll_s uv_poll_t;
@@ -486,21 +817,51 @@ typedef struct uv_signal_s uv_signal_t;   // 类似于 unix 的 信号
 // 如果 回调函数里面 运行超过一次时间循环周期 如 1ms，可以调用一下 uv_update_time(loop); 来更新 uv 内部 tick 计数（跟上绝对时间） 而为 本次循环后面可能的 回调函数 里面获取最新 tick 的需要。每次事件循环一轮后会自动内部更新 tick 的。按需用。
 // 使用 uv_now(loop); 获取 uv 内部 tick 计数，只自增，且开始值随机，只能用于 时差 而不是 绝对时间，tick 如 1ms 周期自增。
 
-// 另外 libuv 还有一些杂项功能，具体看 官方手册：
-// File system operations
-// Thread pool work scheduling
-// DNS utility functions。 有 API，从 网址 获取 IP（可用 uv_ip4_name() 或 uv_ip_name() 把 ip 数据结构体 转换为 字符串来显示），或 反之（可用 uv_ip4_addr() 把 ip 字符串 转为 数据结构体）
-// Shared library handling
-// Threading and synchronization utilities
-// Miscellaneous utilities
-// Metrics operations
 ```
+
+另外 libuv 还有一些杂项功能，具体看 官方手册：
+
+- [File system operations](https://docs.libuv.org/en/stable/fs.html)，封装了常用 文件IO 的 API，可以同步也可以异步操作。
+
+- ！[Thread pool work scheduling](https://docs.libuv.org/en/stable/threadpool.html)，往 `libuv` 内部维护的一个线程池 里面 添加待执行函数，这个 线程池独立于 default_loop。
+
+  > `int uv_queue_work(uv_loop_t *loop, uv_work_t *req, uv_work_cb work_cb, uv_after_work_cb after_work_cb)`
+  >
+  > Initializes a work request which will run the given work_cb in a thread from the threadpool. Once work_cb is completed, after_work_cb will be called on the loop thread.
+  >
+  > 注意：work_cb 在 libuv 内部线程池 运行，运行完之后，after_work_cb 在 loop 上运行！
+
+  `libuv` 的线程池主要用于处理一些耗时的操作，比如文件系统操作（如读写文件）、`getaddrinfo` 和 `getnameinfo` 请求等，主线程（即事件循环线程）中分离出去，交给线程池中的线程来处理。这样可以避免阻塞事件循环线程，保持事件循环的高效性。一旦这些操作完成，线程池会通过事件循环通知主线程，继续后续的回调处理。线程池大小可以修改。
+
+  绑定到 `default_loop` 的任务（如定时器事件）会在事件循环的线程中执行。
+
+  要注意区分这个区别。
+
+- ！[DNS utility functions](https://docs.libuv.org/en/stable/dns.html)， 有 API，从 网址 获取 IP（可用 uv_ip4_name() 或 uv_ip_name() 把 ip 数据结构体 转换为 字符串来显示），或 反之（可用 uv_ip4_addr() 把 ip 字符串 转为 数据结构体）
+
+- [Shared library handling](https://docs.libuv.org/en/stable/dll.html#)，提供一些如 uv_dlopen、uv_dlclose 的函数。
+
+- [Threading and synchronization utilities](https://docs.libuv.org/en/stable/threading.html)，类似 pthread API 的封装。
+
+- ！[Miscellaneous utilities](https://docs.libuv.org/en/stable/misc.html)，有关 内存、系统、进程、网络 等的杂项 API。如 uv_interface_addresses() 获取自己的网络信息。
+
+- ！[Metrics operations](https://docs.libuv.org/en/stable/metrics.html)，获取 loop 的 信息 如 当前事件数等。
+
+
+
+官方例子
+
+[libuv/docs/code at v1.x · libuv/libuv](https://github.com/libuv/libuv/tree/v1.x/docs/code)
 
 
 
 手册
 
-[luohaha/Chinese-uvbook: 翻译的libuv的中文教程 (github.com)](https://github.com/luohaha/Chinese-uvbook)
+官网 [API documentation - libuv documentation](https://docs.libuv.org/en/stable/api.html)。
+
+网络翻译 [luohaha/Chinese-uvbook: 翻译的libuv的中文教程 (github.com)](https://github.com/luohaha/Chinese-uvbook)
+
+
 
 网文
 
@@ -514,9 +875,9 @@ typedef struct uv_signal_s uv_signal_t;   // 类似于 unix 的 信号
 
 c++ wrap
 
-[skypjack/uvw: Header-only, event based, tiny and easy to use libuv wrapper in modern C++ - now available as also shared/static library! (github.com)](https://github.com/skypjack/uvw)
+[skypjack/uvw: Header-only, event based, tiny and easy to use libuv wrapper in modern C++ - now available as also shared/static library! (github.com)](https://github.com/skypjack/uvw)，比较全面的封装，但是封装很浅的一层，而且写的比较抽象..
 
-[wlgq2/uv-cpp: libuv wrapper in C++11 /libuv C++11网络库 (github.com)](https://github.com/wlgq2/uv-cpp)
+[wlgq2/uv-cpp: libuv wrapper in C++11 /libuv C++11网络库 (github.com)](https://github.com/wlgq2/uv-cpp)，但是实现的功能有限。
 
 
 
@@ -530,7 +891,7 @@ B站上也有很多相关视频。
 
 
 
-一个文件监控的简单例子：在 win 上测试（VsCode + clangd + MSYS64(mingw, libuv .etc)）
+一个文件监控的简单例子：在 win 上测试（VsCode + clangd + MSYS2 UCRT(mingw, libuv .etc)）
 
 ```c
 #include <sys/stat.h>
@@ -613,6 +974,8 @@ int main(void)
     uv_fs_poll_start(&fs_poll, on_fs_pool,
         "D:/toolchain/text.txt",
         100 ); // the interval time in ms
+    
+    // 对应 uv_xxx_init()，使用 uv_close() 关闭，注意要用 close_cb 在里面释放掉相关的 uv_xxx_t 的指针（如果是申请的）而不能在调用 uv_close() 后里面释放该指针，因为 loop 里面 异步的进行资源释放后 调用 close_cb，在 close_cb 里面再释放 uv_xxx_t 的指针。
 
     uv_run(uv_default_loop(), UV_RUN_DEFAULT);
 
@@ -625,15 +988,7 @@ int main(void)
 
 
 
-### libev
-
-Full-featured high-performance event loop loosely modelled after libevent
-
-[enki/libev: Full-featured high-performance event loop loosely modelled after libevent (github.com)](https://github.com/enki/libev)
-
-
-
-### libhv
+### libhv *
 
 比libevent/libuv/asio更易用的网络库。A c/c++ network library for developing TCP/UDP/SSL/HTTP/WebSocket/MQTT client/server.
 
@@ -643,7 +998,626 @@ Full-featured high-performance event loop loosely modelled after libevent
 
 
 
-## Http
+### libev
+
+Full-featured high-performance event loop loosely modelled after libevent
+
+[enki/libev: Full-featured high-performance event loop loosely modelled after libevent (github.com)](https://github.com/enki/libev)
+
+
+
+### Libevent
+
+[libevent](https://libevent.org/)
+
+The *libevent* API provides a mechanism to execute a callback function when a specific event occurs on a file descriptor or after a timeout has been reached. Furthermore, *libevent* also support callbacks due to **signals** or regular **timeouts**.
+
+*libevent* is meant to replace the event loop found in event driven network servers. An application just needs to call *event_dispatch()* and then add or remove events dynamically without having to change the event loop.
+
+[libevent/libevent: Event notification library (github.com)](https://github.com/libevent/libevent)
+
+
+
+
+
+### Webbench
+
+[EZLippi/WebBench: Webbench是Radim Kolar在1997年写的一个在linux下使用的非常简单的网站压测工具。它使用fork()模拟多个客户端同时访问我们设定的URL，测试网站在压力下工作的性能，最多可以模拟3万个并发连接去测试网站的负载能力。官网地址:http://home.tiscali.cz/~cz210552/webbench.html](https://github.com/EZLippi/WebBench)。
+
+
+
+## FSM
+
+
+
+层级状态机可以用普通状态机搭建实现的。
+
+
+
+### StateMachine
+
+[endurodave/StateMachine: State Machine Design in C++](https://github.com/endurodave/StateMachine)。
+
+C++，编程风格为 定义 事件 event 下 所有 状态 的 行为。
+
+是定义状态的进入、转出要执行的动作。
+
+至于在这个状态下需要loop的内容，可以另外地方去写，用标志位变量控制是否运转，在这个转台的转入和转出的执行回调函数里面设置和取消设置相应标志位即可做到。
+
+
+
+用法习惯：
+
+- 在 `StateMachine.h` 里面 打开 宏（不注释）`#define EXTERNAL_EVENT_NO_HEAP_DATA 1`。即改为 调用状态切换方法时候 外部传入 EventData 结构体 是 栈 分配的，StateMachine 库 内部 不自动 调用释放 这个。这么用省心，不用频繁 malloc/free。
+
+- 可以修改一下 `FaultHandler()` 函数，当状态转换遇到 `CANNOT_HAPPEN` 时候会进入，比如在里面加打印 或 设置变量通知切换状态失败，或可去掉里面的阻塞，不必要。
+
+  ```c
+  void FaultHandler(const char* file, unsigned short line)
+  {
+  	// If you hit this line, it means one of the ASSERT macros failed.
+  // #if WIN32
+  //     DebugBreak();
+  
+  // 	assert(0);
+  // #endif
+  
+      printf(" ================ FaultHandler: file: %s, line: %u ==================\n",
+  		file, line
+  	);
+  
+  	// while(1); do not use infinite loop here!!!
+  }
+  ```
+
+
+
+例子：（AI 阅读源码后生成演示状态机库的所有特性，快速入门使用）
+
+```c++
+// Door.h
+#ifndef _DOOR_H
+#define _DOOR_H
+
+/*
+================================================================================
+                            简单门控制状态机
+================================================================================
+
+状态机描述：
+这是一个简单的门控制系统，演示状态机库的所有特性。
+门可以开启、关闭、锁定、解锁，只需要钥匙即可操作。
+
+状态转换图：
+                                Lock()
+                    ┌─────────────────────────────────────────┐
+                    │                                         │
+                    ▼                                         │
+            ┌─────────────┐                                   │
+            │   LOCKED    │                                   │
+            │  (锁定状态)   │                                   │
+            └─────────────┘                                   │
+                    │                                         │
+                 Unlock()                                     │
+                    │                                         │
+                    ▼                                         │
+            ┌─────────────┐                                   │
+        ┌──►│   CLOSED    │───────────────────────────────────┘
+        │   │  (已关闭)    │                                   
+        │   └─────────────┘                                   
+        │           │                                        
+        │      OpenDoor()                                     
+        │           │                                         
+        │           ▼                                         
+        │   ┌─────────────┐                                   
+        │   │  OPENING    │                                   
+        │   │ (正在开启)   │                                   
+        │   └─────────────┘                                   
+        │           │                                         
+        │        内部事件                                      
+        │           │                                         
+        │           ▼                                         
+        │   ┌─────────────┐                                   
+        │   │   OPENED    │                                   
+        │   │  (已开启)    │                                   
+        │   └─────────────┘                                   
+        │           │                                         
+        │      CloseDoor()                                    
+        │           │                                         
+        │           ▼                                         
+        │   ┌─────────────┐                                   
+        │   │  CLOSING    │                                   
+        │   │ (正在关闭)   │                                   
+        │   └─────────────┘                                   
+        │           │                                         
+        │        内部事件                                      
+        │           │                                         
+        └───────────┘                                         
+
+状态说明：
+- CLOSED (关闭状态): 门已关闭，可以开启或锁定
+- OPENING (开启中状态): 门正在开启，完成后自动转到开启状态
+- OPENED (已开启状态): 门已开启，用户可以通行
+- CLOSING (关闭中状态): 门正在关闭，完成后自动转到关闭状态
+- LOCKED (锁定状态): 门已锁定，需要钥匙解锁
+
+特性演示：
+- 状态函数：每个状态执行特定逻辑
+- 守卫条件：检查基本操作条件
+- 进入动作：进入状态时的初始化操作
+- 退出动作：离开状态时的清理操作
+- 内部事件：状态内部自动触发的转换
+- 外部事件：客户端触发的状态转换
+- 转换映射：声明式的状态转换表
+
+================================================================================
+*/
+
+#include "StateMachine.h"
+#include <string>
+
+//============================================================================
+// 事件数据类定义
+//============================================================================
+
+/// @brief 开门事件数据 - 简单的开门请求
+class OpenDoorData : public EventData
+{
+public:
+    std::string userName;    // 用户名（可选）
+
+    OpenDoorData(const std::string& name = "User")
+        : userName(name) {}
+};
+
+/// @brief 关门事件数据 - 简单的关门请求
+class CloseDoorData : public EventData
+{
+public:
+    bool forceClose;         // 是否强制关门
+
+    CloseDoorData(bool force = false)
+        : forceClose(force) {}
+};
+
+/// @brief 锁门事件数据 - 需要钥匙
+class LockData : public EventData
+{
+public:
+    bool hasKey;             // 是否有钥匙
+
+    LockData(bool key = true)
+        : hasKey(key) {}
+};
+
+/// @brief 解锁事件数据 - 需要钥匙
+class UnlockData : public EventData
+{
+public:
+    bool hasKey;             // 是否有钥匙
+
+    UnlockData(bool key = true)
+        : hasKey(key) {}
+};
+
+// 无数据事件的类型别名
+typedef EventData NoEventData;
+
+//============================================================================
+// 简单门控制状态机类
+//============================================================================
+
+/// @brief 简单门控制状态机 - 演示状态机库的所有特性
+class Door : public StateMachine
+{
+public:
+    /// @brief 构造函数 - 初始化门的状态
+    Door();
+
+    /// @brief 析构函数
+    virtual ~Door();
+
+    //========================================================================
+    // 外部事件接口 - 客户端调用这些方法来控制门
+    //========================================================================
+
+    /// @brief 开门事件 - 尝试开启门
+    /// @param data 开门事件数据（栈分配，因为使用了EXTERNAL_EVENT_NO_HEAP_DATA）
+    void OpenDoor(const OpenDoorData* data);
+
+    /// @brief 关门事件
+    void CloseDoor(const CloseDoorData* data);
+
+    /// @brief 锁门事件
+    void Lock(const LockData* data);
+
+    /// @brief 解锁事件
+    void Unlock(const UnlockData* data);
+
+    //========================================================================
+    // 状态查询接口
+    //========================================================================
+
+    /// @brief 检查门是否锁定
+    bool isLocked() const { return m_isLocked; }
+
+    /// @brief 检查门是否开启
+    bool isOpened() { return GetCurrentState() == ST_OPENED; }
+
+    /// @brief 打印当前状态信息
+    void printStatus();
+
+private:
+    //========================================================================
+    // 状态枚举 - 必须与状态映射顺序一致
+    //========================================================================
+    enum States
+    {
+        ST_CLOSED = 0,       // 0 - 关闭状态
+        ST_OPENING,          // 1 - 开启中状态
+        ST_OPENED,           // 2 - 已开启状态
+        ST_CLOSING,          // 3 - 关闭中状态
+        ST_LOCKED,           // 4 - 锁定状态
+        ST_MAX_STATES        // 状态总数
+    };
+
+    //========================================================================
+    // 私有成员变量
+    //========================================================================
+    bool m_isLocked;                 // 门锁状态
+
+    //========================================================================
+    // 状态函数声明 - 使用STATE_DECLARE宏
+    //========================================================================
+    STATE_DECLARE(Door, Closed, NoEventData)
+    STATE_DECLARE(Door, Opening, OpenDoorData)
+    STATE_DECLARE(Door, Opened, NoEventData)
+    STATE_DECLARE(Door, Closing, CloseDoorData)
+    STATE_DECLARE(Door, Locked, NoEventData)
+
+    //========================================================================
+    // 守卫条件声明 - 使用GUARD_DECLARE宏（仅保留基本的锁定检查）
+    //========================================================================
+    GUARD_DECLARE(Door, CanLock, LockData)            // 进入 LOCKED 状态前 检查 是否可以锁门
+
+    //========================================================================
+    // 进入动作声明 - 使用ENTRY_DECLARE宏
+    //========================================================================
+    ENTRY_DECLARE(Door, OpeningEntry, OpenDoorData)   // 开门状态进入动作
+    ENTRY_DECLARE(Door, ClosingEntry, CloseDoorData)  // 关门状态进入动作
+
+    //========================================================================
+    // 退出动作声明 - 使用EXIT_DECLARE宏
+    //========================================================================
+    EXIT_DECLARE(Door, OpeningExit)                   // 开门状态退出动作
+    EXIT_DECLARE(Door, ClosingExit)                   // 关门状态退出动作
+
+    //========================================================================
+    // 辅助方法
+    //========================================================================
+
+    /// @brief 获取状态名称字符串
+    std::string getStateName(int state) const;
+
+    //========================================================================
+    // 扩展状态映射 - 简化版本，展示主要特性
+    //========================================================================
+    BEGIN_STATE_MAP_EX
+        // 进入状态的函数, 守卫条件, 进入动作, 退出动作
+        STATE_MAP_ENTRY_ALL_EX(&Closed,  NULL,      NULL,           NULL)           // CLOSED
+        STATE_MAP_ENTRY_ALL_EX(&Opening, NULL,      &OpeningEntry,  &OpeningExit)   // OPENING
+        STATE_MAP_ENTRY_ALL_EX(&Opened,  NULL,      NULL,           NULL)           // OPENED
+        STATE_MAP_ENTRY_ALL_EX(&Closing, NULL,      &ClosingEntry,  &ClosingExit)   // CLOSING
+        STATE_MAP_ENTRY_ALL_EX(&Locked,  &CanLock,  NULL,           NULL)           // LOCKED
+    END_STATE_MAP_EX
+};
+
+#endif // _DOOR_H
+
+// Door.cpp ===========================================================================================
+#include "Door.h"
+#include <iostream>
+
+//============================================================================
+// 构造函数和析构函数
+//============================================================================
+
+Door::Door() : StateMachine(ST_MAX_STATES, ST_CLOSED)
+{
+    m_isLocked = false;
+    std::cout << "Door::Door() - 门系统已初始化，当前状态：关闭" << std::endl;
+}
+
+Door::~Door()
+{
+    std::cout << "Door::~Door() - 门系统已关闭" << std::endl;
+}
+
+//============================================================================
+// 外部事件实现 - 使用转换映射宏
+//============================================================================
+
+void Door::OpenDoor(const OpenDoorData* data)
+{
+    std::cout << "Door::OpenDoor() - 用户：" << data->userName << std::endl;
+
+    BEGIN_TRANSITION_MAP                                   // 当前状态
+        TRANSITION_MAP_ENTRY(ST_OPENING)                  // CLOSED -> OPENING
+        TRANSITION_MAP_ENTRY(EVENT_IGNORED)               // OPENING -> 忽略
+        TRANSITION_MAP_ENTRY(EVENT_IGNORED)               // OPENED -> 忽略
+        TRANSITION_MAP_ENTRY(EVENT_IGNORED)               // CLOSING -> 忽略
+        TRANSITION_MAP_ENTRY(CANNOT_HAPPEN)               // LOCKED -> 错误
+    END_TRANSITION_MAP(data)
+}
+
+void Door::CloseDoor(const CloseDoorData* data)
+{
+    std::cout << "Door::CloseDoor() - 强制关闭：" << (data->forceClose ? "是" : "否") << std::endl;
+
+    BEGIN_TRANSITION_MAP                                   // 当前状态
+        TRANSITION_MAP_ENTRY(EVENT_IGNORED)               // CLOSED -> 忽略
+        TRANSITION_MAP_ENTRY(ST_CLOSING)                  // OPENING -> CLOSING
+        TRANSITION_MAP_ENTRY(ST_CLOSING)                  // OPENED -> CLOSING
+        TRANSITION_MAP_ENTRY(EVENT_IGNORED)               // CLOSING -> 忽略
+        TRANSITION_MAP_ENTRY(CANNOT_HAPPEN)               // LOCKED -> 错误
+        /*
+            注意：
+            CANNOT_HAPPEN tells the state engine to fault. This abnormal catastrophic failure condition is never supposed to occur.
+            一旦调用到 CANNOT_HAPPEN 则 库内部 crash！
+        */
+    END_TRANSITION_MAP(data)
+}
+
+void Door::Lock(const LockData* data)
+{
+    std::cout << "Door::Lock() - 有钥匙：" << (data->hasKey ? "是" : "否") << std::endl;
+
+    BEGIN_TRANSITION_MAP                                   // 当前状态
+        TRANSITION_MAP_ENTRY(ST_LOCKED)                   // CLOSED -> LOCKED
+        TRANSITION_MAP_ENTRY(CANNOT_HAPPEN)               // OPENING -> 错误
+        TRANSITION_MAP_ENTRY(CANNOT_HAPPEN)               // OPENED -> 错误
+        TRANSITION_MAP_ENTRY(CANNOT_HAPPEN)               // CLOSING -> 错误
+        TRANSITION_MAP_ENTRY(EVENT_IGNORED)               // LOCKED -> 忽略
+    END_TRANSITION_MAP(data)
+}
+
+void Door::Unlock(const UnlockData* data)
+{
+    std::cout << "Door::Unlock() - 有钥匙：" << (data->hasKey ? "是" : "否") << std::endl;
+
+    BEGIN_TRANSITION_MAP                                   // 当前状态
+        TRANSITION_MAP_ENTRY(EVENT_IGNORED)               // CLOSED -> 忽略
+        TRANSITION_MAP_ENTRY(CANNOT_HAPPEN)               // OPENING -> 错误
+        TRANSITION_MAP_ENTRY(CANNOT_HAPPEN)               // OPENED -> 错误
+        TRANSITION_MAP_ENTRY(CANNOT_HAPPEN)               // CLOSING -> 错误
+        TRANSITION_MAP_ENTRY(ST_CLOSED)                   // LOCKED -> CLOSED
+    END_TRANSITION_MAP(data)
+}
+
+//============================================================================
+// 状态函数实现 - 使用STATE_DEFINE宏
+//============================================================================
+
+STATE_DEFINE(Door, Closed, NoEventData)
+{
+    std::cout << "Door::ST_Closed() - 门已关闭，安全状态" << std::endl;
+    m_isLocked = false;
+}
+
+STATE_DEFINE(Door, Opening, OpenDoorData)
+{
+    std::cout << "Door::ST_Opening() - 门正在开启中，用户：" << data->userName << std::endl;
+
+    // 模拟开门过程
+    std::cout << "  启动门控电机..." << std::endl;
+    std::cout << "  开门完成，转换到开启状态" << std::endl;
+
+    // 触发内部事件转换到开启状态
+    InternalEvent(ST_OPENED, new NoEventData());
+
+    /*
+        ExternalEvent()
+        外部事件：由状态机外部调用
+        用于响应外部刺激（如用户输入、传感器信号、网络消息等）
+        通常在状态机的公共接口函数中调用
+
+        InternalEvent()
+        内部事件：由状态机内部调用
+        在状态函数执行过程中生成，用于状态间的自动转换
+        只能在状态函数、守卫函数、进入/退出动作中调用
+    */
+}
+
+STATE_DEFINE(Door, Opened, NoEventData)
+{
+    std::cout << "Door::ST_Opened() - 门已完全开启，可以通行" << std::endl;
+}
+
+STATE_DEFINE(Door, Closing, CloseDoorData)
+{
+    std::cout << "Door::ST_Closing() - 门正在关闭中，强制：" << (data->forceClose ? "是" : "否") << std::endl;
+
+    // 模拟关门过程
+    std::cout << "  启动关门电机..." << std::endl;
+
+    if (data->forceClose) {
+        std::cout << "  强制关门模式" << std::endl;
+    }
+
+    std::cout << "  关门完成，转换到关闭状态" << std::endl;
+
+    // 触发内部事件转换到关闭状态
+    InternalEvent(ST_CLOSED, new NoEventData());
+}
+
+STATE_DEFINE(Door, Locked, NoEventData)
+{
+    std::cout << "Door::ST_Locked() - 门已锁定，安全级别最高" << std::endl;
+    m_isLocked = true;
+}//============================================================================
+// 守卫条件实现 - 使用GUARD_DEFINE宏
+//============================================================================
+
+GUARD_DEFINE(Door, CanLock, LockData)
+{
+    std::cout << "Door::GD_CanLock() - 检查锁门条件..." << std::endl;
+
+    // 简单检查：需要钥匙且门处于关闭状态
+    if (!data->hasKey) {
+        std::cout << "  需要钥匙才能锁门" << std::endl;
+        return FALSE;
+    }
+
+    // if (GetCurrentState() != ST_CLOSED) { no need
+    //     std::cout << "  只有关闭状态才能锁定" << std::endl;
+    //     return FALSE;
+    // }
+
+    std::cout << "  锁门条件满足" << std::endl;
+    return TRUE;
+}
+
+//============================================================================
+// 进入动作实现 - 使用ENTRY_DEFINE宏
+//============================================================================
+
+ENTRY_DEFINE(Door, OpeningEntry, OpenDoorData)
+{
+    std::cout << "Door::EN_OpeningEntry() - 准备开门操作，用户：" << data->userName << std::endl;
+}
+
+ENTRY_DEFINE(Door, ClosingEntry, CloseDoorData)
+{
+    std::cout << "Door::EN_ClosingEntry() - 准备关门操作，强制否？- " << (data->forceClose ? "是" : "否") << std::endl;
+}
+
+//============================================================================
+// 退出动作实现 - 使用EXIT_DEFINE宏
+//============================================================================
+
+EXIT_DEFINE(Door, OpeningExit)
+{
+    std::cout << "Door::EX_OpeningExit() - 完成开门操作" << std::endl;
+}
+
+EXIT_DEFINE(Door, ClosingExit)
+{
+    std::cout << "Door::EX_ClosingExit() - 完成关门操作" << std::endl;
+}
+
+//============================================================================
+// 辅助方法实现
+//============================================================================
+
+std::string Door::getStateName(int state) const
+{
+    switch (state) {
+        case ST_CLOSED:  return "关闭";
+        case ST_OPENING: return "开启中";
+        case ST_OPENED:  return "已开启";
+        case ST_CLOSING: return "关闭中";
+        case ST_LOCKED:  return "锁定";
+        default:         return "未知";
+    }
+}
+
+void Door::printStatus()
+{
+    std::cout << "\n" << std::string(50, '=') << std::endl;
+    std::cout << "门状态报告" << std::endl;
+    std::cout << std::string(50, '=') << std::endl;
+    std::cout << "当前状态: " << getStateName(GetCurrentState()) << " (" << (int)GetCurrentState() << ")" << std::endl;
+    std::cout << "锁定状态: " << (m_isLocked ? "已锁定" : "未锁定") << std::endl;
+    std::cout << std::string(50, '=') << std::endl;
+}
+
+// main.cpp ===========================================================================================
+#include "Door.h"
+#include <iostream>
+
+using namespace std;
+
+// 辅助函数：打印分隔线
+void printSeparator() {
+    cout << string(50, '=') << endl;
+}
+
+int main()
+{
+    cout << "🚪 简单门控制状态机演示" << endl;
+    printSeparator();
+
+    Door door;
+    door.printStatus();
+
+    // 演示1：基本开关门流程
+    cout << "\n🔸 开门..." << endl;
+    OpenDoorData openData("用户");
+    door.OpenDoor(&openData);
+    door.printStatus();
+
+    cout << "\n🔸 关门..." << endl;
+    CloseDoorData closeData(false);
+    door.CloseDoor(&closeData);
+    door.printStatus();
+
+    // 演示2：锁定和解锁
+    cout << "\n🔸 锁门（有钥匙）..." << endl;
+    LockData lockData(true);
+    door.Lock(&lockData);
+    door.printStatus();
+
+    cout << "\n🔸 锁定状态下尝试开门（因为是 CANNOT_HAPPEN，所以程序应该 crash 嘿嘿嘿）..." << endl;
+    OpenDoorData lockedOpenData("测试用户");
+    door.OpenDoor(&lockedOpenData);
+
+    cout << "\n🔸 解锁..." << endl;
+    UnlockData unlockData(true);
+    door.Unlock(&unlockData);
+    door.printStatus();
+
+    // 演示3：守卫条件测试
+    cout << "\n🔸 无钥匙尝试锁门（守卫条件阻止）..." << endl;
+    LockData noKeyData(false);
+    door.Lock(&noKeyData);
+    cout << "  ℹ️  锁门被守卫条件阻止" << endl;
+    door.printStatus();
+
+    cout << "\n✅ 演示完成！展示了状态函数、守卫条件、进入/退出动作、内部/外部事件" << endl;
+    printSeparator();
+
+    return 0;
+}
+
+```
+
+
+
+### UML State Machine in C
+
+[kiishor/UML-State-Machine-in-C: A minimalist UML State machine framework for finite state machine and hierarchical state machine in C](https://github.com/kiishor/UML-State-Machine-in-C)
+
+C 语言，轻量级（可用于 mcu），表格化构建状态机，支持层级状态机。
+
+
+
+### stateMachine
+
+[misje/stateMachine: A feature-rich, yet simple finite state machine (FSM) implementation in C](https://github.com/misje/stateMachine)
+
+C 语言，简易简陋超轻量状态机，可用于 mcu。
+
+
+
+### TinyFSM
+
+[digint/tinyfsm: A simple C++ finite state machine library](https://github.com/digint/tinyfsm)
+
+C++ 风格浓烈，与 类模板 等 写法 强耦合，一些 API 可能会不太直观。
+
+
+
+## HTTP
 
 
 
@@ -653,11 +1627,25 @@ Full-featured high-performance event loop loosely modelled after libevent
 
 
 
+### cinatra
+
+[qicosmos/cinatra: C++20 实现的跨平台、header only，易用的高性能http库; modern c++(c++20), cross-platform, header-only, easy to use http framework](https://github.com/qicosmos/cinatra)
+
+
+
 ### curl
 
 libcurl is the library curl is using to do its job. It is readily available to be used by your software. Read [the libcurl manpage](https://curl.se/libcurl/c/libcurl.html) to learn how.
 
 [curl/curl: A command line tool and library for transferring data with URL syntax, supporting DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, TELNET, TFTP, WS and WSS. libcurl offers a myriad of powerful features (github.com)](https://github.com/curl/curl)
+
+
+
+### drogon
+
+[drogonframework/drogon: Drogon: A C++14/17/20 based HTTP web application framework running on Linux/macOS/Unix/Windows](https://github.com/drogonframework/drogon)
+
+Drogon: A C++14/17/20 based HTTP web application framework running on Linux/macOS/Unix/Windows
 
 
 
@@ -775,7 +1763,11 @@ Tinyhttpd 是J. David Blackstone在1999年写的一个不到 500 行的超轻量
 
 
 
-#### fmt
+#### format string
+
+
+
+fmt
 
 {fmt} is an open-source formatting library providing a fast and safe alternative to C stdio and C++ iostreams.
 
@@ -783,7 +1775,7 @@ Tinyhttpd 是J. David Blackstone在1999年写的一个不到 500 行的超轻量
 
 
 
-#### inja
+inja
 
 看看例子就知道做什么的了，还是挺花里胡哨的，对于一些自定义格式的解析挺方便。
 
@@ -793,9 +1785,11 @@ Inja is a template engine for modern C++, loosely inspired by [jinja](http://jin
 
 
 
-#### Ada-url*
+#### url parser
 
-ada_url
+
+
+Ada-url*
 
 Ada is a fast and spec-compliant URL parser written in C++. Specification for URL parser can be found from the [WHATWG](https://url.spec.whatwg.org/#url-parsing) website.
 
@@ -807,6 +1801,10 @@ The Ada library passes the full range of tests from the specification, across a 
 
 
 
+#### MQTT lib
+
+
+
 #### MQTT lib comparison table
 
 - 选择 paho.mqtt.c：如果你需要全面的 MQTT 功能支持（如 MQTT 5.0）、跨平台兼容性和较强的社区支持，特别是当你的应用需要较复杂的消息管理时，`paho.mqtt.c` 是一个优秀的选择。
@@ -815,13 +1813,13 @@ The Ada library passes the full range of tests from the specification, across a 
 
 
 
-**服务端和客户端快速搭建**
+**MQTT 服务端和客户端快速搭建**
 
 [MQTT教程--服务器使用EMQX和客户端使用MQTTX_mqttx使用-CSDN博客](https://blog.csdn.net/weixin_39291021/article/details/140147976)。
 
 
 
-#### Paho.mqtt.c *
+Paho.mqtt.c *
 
 This repository contains the source code for the [Eclipse Paho](http://eclipse.org/paho) MQTT C client library.
 
@@ -841,7 +1839,7 @@ doc：
 
 
 
-#### MQTT-C *
+MQTT-C *
 
 MQTT-C is an [MQTT v3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v3.1.1-os.html) client written in C. MQTT is a lightweight publisher-subscriber-based messaging protocol that is commonly used in IoT and networking applications where high-latency and low data-rate links are expected. The purpose of MQTT-C is to provide a **portable** MQTT client, **written in C**, for embedded systems and PC's alike. MQTT-C does this by providing a transparent Platform Abstraction Layer (PAL) which makes porting to new platforms easy. MQTT-C is completely thread-safe but can also run perfectly fine on single-threaded systems making MQTT-C well-suited for embedded systems and microcontrollers. Finally, MQTT-C is small; there are only two source files totalling less than 2000 lines.
 
@@ -849,7 +1847,7 @@ MQTT-C is an [MQTT v3.1.1](http://docs.oasis-open.org/mqtt/mqtt/v3.1.1/os/mqtt-v
 
 
 
-#### Mosquitto
+Mosquitto
 
 Mosquitto is an open source implementation of a server for version 5.0, 3.1.1, and 3.1 of the MQTT protocol. It also includes a C and C++ client library, and the `mosquitto_pub` and `mosquitto_sub` utilities for publishing and subscribing.
 
@@ -863,7 +1861,40 @@ doc:
 
 
 
-#### nlohmann-json *
+#### json parser
+
+
+
+json 语法规则：
+
+https://www.runoob.com/json/json-syntax.html
+
+
+
+一些json实用工具：
+
+VsCode插件：
+
+- JSON Crack：json 可视化
+- Json Editor（Nick DeMayo）：json 交互式编辑
+
+
+
+网页工具（可本地部署）：
+
+交互式修改项、json 转 xml、yaml 等 https://www.jyshare.com/front-end/53/
+
+json 差异对比 https://www.jyshare.com/front-end/9557/
+
+交互式编辑，可自定义模板、交互式参数编辑、生成 json
+
+- https://github.com/josdejong/jsoneditor
+- https://github.com/jdorn/json-editor
+- https://github.com/json-editor/json-editor
+
+
+
+nlohmann-json *
 
 There are myriads of [JSON](https://json.org/) libraries out there, and each may even have its reason to exist. Our class had these design goals:
 
@@ -880,7 +1911,7 @@ Other aspects were not so important to us:
 
 
 
-#### cJSON
+cJSON
 
 Ultralightweight JSON parser in ANSI C.
 
@@ -888,7 +1919,7 @@ Ultralightweight JSON parser in ANSI C.
 
 
 
-#### jsmn
+jsmn
 
 jsmn (pronounced like 'jasmine') is a minimalistic JSON parser in C. It can be easily integrated into resource-limited or embedded projects.
 
@@ -896,21 +1927,11 @@ jsmn (pronounced like 'jasmine') is a minimalistic JSON parser in C. It can be e
 
 
 
-#### tinyxml2 *
-
-TinyXML-2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs.
-
-[leethomason/tinyxml2: TinyXML2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs. (github.com)](https://github.com/leethomason/tinyxml2)
+#### yaml parser
 
 
 
-#### libexpat
-
-[libexpat/libexpat: :herb: Fast streaming XML parser written in C99 with >90% test coverage; moved from SourceForge to GitHub](https://github.com/libexpat/libexpat)
-
-
-
-#### yaml-cpp *
+yaml-cpp *
 
 `yaml-cpp` is a [YAML](http://www.yaml.org/) parser and emitter in C++ matching the [YAML 1.2 spec](http://www.yaml.org/spec/1.2/spec.html).
 
@@ -918,7 +1939,25 @@ TinyXML-2 is a simple, small, efficient, C++ XML parser that can be easily integ
 
 
 
-#### md4c
+#### xml parser
+
+
+
+tinyxml2 *
+
+TinyXML-2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs.
+
+[leethomason/tinyxml2: TinyXML2 is a simple, small, efficient, C++ XML parser that can be easily integrated into other programs. (github.com)](https://github.com/leethomason/tinyxml2)
+
+
+
+libexpat
+
+[libexpat/libexpat: :herb: Fast streaming XML parser written in C99 with >90% test coverage; moved from SourceForge to GitHub](https://github.com/libexpat/libexpat)
+
+
+
+#### Markdown parser - md4c
 
 C Markdown parser. Fast. SAX-like interface. Compliant to CommonMark specification.
 
@@ -962,7 +2001,11 @@ Fast-CDR
 
 
 
-#### CLI11 *
+#### command line parser
+
+
+
+CLI11 *
 
 CLI11 is a command line parser for C++11 and beyond that provides a rich feature set with a simple and intuitive interface.
 
@@ -970,7 +2013,7 @@ CLI11 is a command line parser for C++11 and beyond that provides a rich feature
 
 
 
-#### argparse
+argparse
 
 Argument Parser for Modern C++
 
@@ -981,7 +2024,39 @@ Argument Parser for Modern C++
 
 
 
-### database
+cxxopts  *
+
+Lightweight C++ command line option parser
+
+[jarro2783/cxxopts: Lightweight C++ command line option parser](https://github.com/jarro2783/cxxopts)
+
+
+
+### Database
+
+
+
+#### Disruptor *
+
+
+
+文档：
+
+[高性能无锁并发框架Disruptor，太强了 - 知乎](https://zhuanlan.zhihu.com/p/229338771)。
+
+[LMAX Disruptor User Guide](https://lmax-exchange.github.io/disruptor/user-guide/index.html)。
+
+
+
+Github 仓库：
+
+[LMAX-Exchange/disruptor: High Performance Inter-Thread Messaging Library](https://github.com/LMAX-Exchange/disruptor)。
+
+
+
+另一个实现：
+
+[fsaintjacques/disruptor--: disruptor concurency pattern in c++](https://github.com/fsaintjacques/disruptor--/tree/develop)。
 
 
 
@@ -1003,9 +2078,98 @@ SQLiteC++ (SQLiteCpp) is a smart and easy to use C++ SQLite3 wrapper.
 
 
 
+#### LevelDB *
+
+快速键值存储库。
+
+[google/leveldb: LevelDB is a fast key-value storage library written at Google that provides an ordered mapping from string keys to string values.](https://github.com/google/leveldb)。
+
+
+
+[Leveldb 基本介绍和使用指南 - 知乎](https://zhuanlan.zhihu.com/p/322520485)。
+
+> ## 1.1 特性
+>
+> - keys 和 values 是任意的字节数组。
+> - 数据按 key 值排序存储。
+> - 调用者可以提供一个自定义的比较函数来重写排序顺序。
+> - 提供基本的 `Put(key,value)`，`Get(key)`，`Delete(key)` 操作。
+> - 多个更改可以在一个原子批处理中生效。
+> - 用户可以创建一个瞬时快照(snapshot)，以获得数据的一致性视图。
+> - 在数据上支持向前和向后迭代。
+> - 使用 Snappy 压缩库对数据进行自动压缩
+> - 与外部交互的操作都被抽象成了接口(如文件系统操作等)，因此用户可以根据接口自定义的操作系统交互。
+>
+> ## 1.2 局限性
+>
+> - 这不是一个 SQL 数据库，它没有关系数据模型，不支持 SQL 查询，也不支持索引。
+> - 同时只能有一个进程(可能是具有多线程的进程)访问一个特定的数据库。
+> - 该程序库没有内置的 client-server 支持，有需要的用户必须自己封装。
+
+[Leveldb学习笔记：leveldb的使用与原理探究-CSDN博客](https://blog.csdn.net/qq_46101869/article/details/127805978)。
+
+[入门LevelDB，这一篇文章就够了 - 墨天轮](https://www.modb.pro/db/138370)。
+
+[LevelDB详解及实战指南-CSDN博客](https://blog.csdn.net/gitblog_00054/article/details/141237791)。
+
+> #### 简介
+>
+> LevelDB是由Google开发的一个高性能键值对存储库，旨在为应用程序提供轻量级且高效的本地存储方案。该项目已被广泛应用于多个领域，包括大数据处理、实时数据库、缓存系统等。
+>
+> LevelDB支持多种数据结构，例如字符串、列表、集合等，提供了丰富的API来实现数据的增删查改操作。其内部采用基于磁盘的多层索引机制，能够有效地处理大量的数据，同时保证了高并发访问下的性能稳定性。
+>
+> #### 核心特性
+>
+> - **持久性**：数据存储在磁盘上，即使重启也不会丢失。
+> - **事务处理**：支持原子性和一致性，可以回滚错误操作。
+> - **压缩功能**：减少磁盘占用空间，提高查询速度。
+> - **数据安全**：通过校验和机制确保数据完整性。
+> - **兼容性强**：与多种操作系统和编译器环境相容。
+
+> ### 应用案例和最佳实践
+>
+> #### 应用场景
+>
+> LevelDB在以下几种情况中表现优异：
+>
+> 1. **高速缓存系统**：用于存储临时数据，提升应用响应速度。
+> 2. **日志分析工具**：记录大量事件并进行统计和分析。
+> 3. **在线交易系统**：需频繁读写的金融场景，要求快速而稳定的交易记录。
+> 4. **配置管理系统**：保存全局设置，方便更新和查询。
+>
+> #### 最佳实践
+>
+> - **定期整理数据库**：避免碎片过多导致读写效率下降。
+> - **合理选择缓存策略**：结合业务需求调整缓存大小和时间。
+> - **优化查询语句**：尽量减少全表扫描，使用索引加速查找过程。
+>
+> ### 典型生态项目
+>
+> 除了独立使用外，LevelDB还作为许多流行框架和技术的基础组件之一。以下列举几个常见的生态项目：
+>
+> 1. **RocksDB**：Facebook基于LevelDB改进的高性能嵌入式数据库。
+> 2. **Redis**：内存数据结构存储，也可使用LevelDB作为数据持久化选项。
+> 3. **Chromium**：谷歌浏览器使用LevelDB来存储浏览历史、书签等数据。
+> 4. **TensorFlow**：机器学习框架中使用LevelDB存储模型参数。
+
+
+
+#### FlashDB
+
+FlashDB 是一款超轻量级的嵌入式数据库，专注于提供嵌入式产品的数据存储方案。FlashDB 不仅支持传统的基于文件系统的数据库模式，而且结合了 Flash 的特性，具有较强的性能及可靠性。并在保证极低的资源占用前提下，尽可能延长 Flash 使用寿命。
+
+FlashDB 提供两种数据库模式：
+
+- **键值数据库** ：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。
+- **时序数据库** ：时间序列数据库 （Time Series Database , 简称 TSDB），它将数据按照 **时间顺序存储** 。TSDB 数据具有时间戳，数据存储量大，插入及查询性能高。
+
+[armink/FlashDB: An ultra-lightweight database that supports key-value and time series data | 一款支持 KV 数据和时序数据的超轻量级数据库 (github.com)](https://github.com/armink/FlashDB)
+
+
+
 ### Log
 
-log4cplus *
+log4cplus
 
 [log4cplus](https://github.com/log4cplus/log4cplus) is a simple to use C++23 logging API providing thread--safe, flexible, and arbitrarily granular control over log management and configuration. It is modeled after the Java log4j API.
 
@@ -1021,23 +2185,15 @@ An ultra-lightweight(ROM<1.6K, RAM<0.3k), high-performance C/C++ log library. | 
 
 
 
-FlashDB
-
-An ultra-lightweight database that supports key-value and time series data | 一款支持 KV 数据和时序数据的超轻量级数据库
-
-[armink/FlashDB: An ultra-lightweight database that supports key-value and time series data | 一款支持 KV 数据和时序数据的超轻量级数据库 (github.com)](https://github.com/armink/FlashDB)
-
-
-
-https://github.com/storaged-project/udisks)
-
-
-
-spdlog
+spdlog *
 
 Fast C++ logging library.
 
 [gabime/spdlog: Fast C++ logging library. (github.com)](https://github.com/gabime/spdlog)
+
+
+
+[spdlog库笔记汇总 - 明明1109 - 博客园](https://www.cnblogs.com/fortunely/p/17388565.html)。
 
 
 
@@ -1093,7 +2249,56 @@ DBus-cxx provides an object-oriented view of all programs on the DBus, and allow
 
 This new 2.0 version(that you are looking at now) is a complete ground-up implementation of the DBus protocol, without libdbus, in part to fix a number of known multithreading issues with libdbus. This also allows for templates to be used throughout the system, for methods, signals, and properties.
 
-[dbus-cxx/dbus-cxx: DBus-cxx provides an object-oriented interface to DBus (github.com)](https://github.com/dbus-cxx/dbus-cxx)
+[dbus-cxx/dbus-cxx: DBus-cxx provides an object-oriented interface to DBus (github.com)](https://github.com/dbus-cxx/dbus-cxx)。
+
+
+
+### protobuf *
+
+Protocol Buffers (a.k.a., protobuf) are Google's language-neutral, platform-neutral, extensible mechanism for serializing structured data. You can learn more about it in [protobuf's documentation](https://protobuf.dev/).
+
+[protocolbuffers/protobuf: Protocol Buffers - Google's data interchange format (github.com)](https://github.com/protocolbuffers/protobuf)
+
+
+
+定义 .proto 文件描述传递消息的数据结构，使用 protoc bin 将其转换为 .h 和 .cc ，读写端都引入之，即可方便的读写消息；
+使用 protobuf 库 的 API 将其序列化或反序列化。
+
+官方推荐将 protobuf 库 使用 静态链接 引入 app，protobuf 库 不同版本之间 可能存在不兼容，如果用动态库，如果要 protobuf 库变版本，在目标机器只更新动态库可能出现问题，因此就总用静态库即可。
+
+msys2 有此库。
+
+
+
+官方 CPP 引导教程
+
+[Protocol Buffer Basics: C++ | Protocol Buffers Documentation](https://protobuf.dev/getting-started/cpptutorial/)。
+
+
+
+.proto 文件格式
+
+[Language Guide (editions) | Protocol Buffers Documentation](https://protobuf.dev/programming-guides/editions/)。
+
+
+
+官方 CPP API 手册
+
+[C++ Generated Code Guide | Protocol Buffers Documentation](https://protobuf.dev/reference/cpp/cpp-generated/)。
+
+
+
+官方例子
+
+[protobuf/examples/README.md at main · protocolbuffers/protobuf](https://github.com/protocolbuffers/protobuf/blob/main/examples/README.md#c)。
+
+
+
+网络教程
+
+[IM通讯协议专题学习(一)：Protobuf从入门到精通，一篇就够！-IM开发/专项技术区 - 即时通讯开发者社区!](http://www.52im.net/thread-4080-1-1.html)。
+
+[Protobuf 学习手册——语法篇 | Jitwxs](https://jitwxs.cn/60aca815)。
 
 
 
@@ -1110,14 +2315,6 @@ gRPC is a modern, open source, high-performance remote procedure call (RPC) fram
 [一文掌握gRPC-CSDN博客](https://blog.csdn.net/qq_43456605/article/details/138647102)
 
 B站上也有很多相关视频。
-
-
-
-### protobuf *
-
-Protocol Buffers (a.k.a., protobuf) are Google's language-neutral, platform-neutral, extensible mechanism for serializing structured data. You can learn more about it in [protobuf's documentation](https://protobuf.dev/).
-
-[protocolbuffers/protobuf: Protocol Buffers - Google's data interchange format (github.com)](https://github.com/protocolbuffers/protobuf)
 
 
 
@@ -1141,7 +2338,13 @@ Embedded RPC
 
 
 
-## Argo / Crypto
+### dds
+
+[eProsima/Fast-DDS: The most complete DDS - Proven: Plenty of success cases. Looking for commercial support? Contact info@eprosima.com](https://github.com/eProsima/Fast-DDS)。
+
+
+
+## Crypto / Compress / QR-Code
 
 
 
@@ -1175,9 +2378,58 @@ You can override the default key-size of 128 bit with 192 or 256 bit by defining
 
 ### zip libs
 
+### zip libs comparison table
+
+GPT4o 和 DeepSeek R1 回答：
+
+
+
+| **特性**                | **zlib**                                        | **libzip**                                       |
+| ----------------------- | ----------------------------------------------- | ------------------------------------------------ |
+| **压缩/解压功能**       | 支持 Deflate 和 Gzip 压缩解压                   | 支持 ZIP 文件压缩/解压                           |
+| **文件支持**            | 仅处理流数据（没有ZIP文件结构）                 | 支持 ZIP 文件格式，支持文件、目录结构的压缩/解压 |
+| **读取和写入 ZIP 文件** | 不支持ZIP文件格式的操作，只支持压缩和解压流数据 | 支持创建、读取、修改、删除 ZIP 文件中的内容      |
+| **流处理支持**          | 强大的流式压缩和解压能力，适合流式处理          | 没有专门的流处理功能，侧重ZIP文件操作            |
+| **加密/压缩级别**       | 支持压缩级别和流控制（如Gzip流）                | 支持ZIP文件加密，但压缩级别相对固定              |
+| **元数据支持**          | 不支持文件级的元数据（如时间戳、权限等）        | 支持ZIP文件的元数据，包括文件时间戳、权限等      |
+| **压缩性能**            | 极为高效，压缩速度快，内存使用低                | 压缩速度略低，但足以满足一般需求                 |
+| **解压性能**            | 解压速度非常快，内存占用小                      | 解压性能较好，但相比zlib略慢一些                 |
+| **依赖性**              | 无外部依赖，仅依赖标准C库                       | 依赖zlib进行压缩解压，适用于C++开发者            |
+|                         |                                                 |                                                  |
+
+
+
+- **zlib** 主要专注于压缩和解压流数据，它不会直接处理ZIP文件，意味着它适合于仅仅需要压缩和解压原始数据流的场景。
+
+  - **核心优势**：行业标准DEFLATE实现，被PNG、HTTP压缩等广泛采用；**内存占用低**（适合嵌入式）；支持流式压缩。
+
+  - **局限**：仅提供数据流压缩，不支持ZIP文件结构；需手动处理多文件/目录逻辑。
+
+  - **场景**：**网络传输压缩**（如gzip HTTP）、**嵌入式系统**、底层算法集成。
+
+    资源占用最低，无OS依赖，适合算法集成或协议开发。
+
+    C++ 封装：**zstr**：简化zlib流操作，自动检测格式，适合日志解压或实时数据流水线。资源受限环境（如IoT设备）。
+
+- **libzip** 则支持完整的ZIP文件操作，包括读取、写入、修改和删除文件，支持ZIP文件结构中的目录层次和文件元数据。这使得它非常适合处理ZIP文件包的应用场景，尤其是需要操作文件内容而不仅仅是压缩解压时。
+
+  - **核心优势**：**完整ZIP文件操作**（增删改条目）；支持多种压缩算法（DEFLATE/BZIP2等）；**提供加密接口**；跨平台稳定。
+
+  - **局限**：C接口需手动管理资源；无原生C++封装（需自行包装）。
+
+  - **场景**：备份工具、软件安装包处理、需精细控制ZIP元数据的应用。
+
+    C++ 封装：**LibZippp**：C++友好API + 完整功能。**现代C++封装**（RAII管理资源）；简化libzip调用（如迭代器遍历条目）；支持ZSTD等新算法。游戏资源包加载、跨平台数据分发工具、需高可读性代码的项目。
+
+
+
+**终极结论**：**LibZippp** 为综合最优选（2025年），平衡了现代C++开发效率与ZIP操作完整性。若项目仅需流压缩或无ZIP文件需求，可降级选用zlib或zstr。
+
+
+
 **zlib**
 
-zlib is a general purpose data compression library.  All the code is thread safe.  The data format used by the zlib library is described by RFCs (Request for Comments)
+zlib is a **general purpose** data compression library.  All the code is thread safe.  The data format used by the zlib library is described by RFCs (Request for Comments)
 
 [madler/zlib: A massively spiffy yet delicately unobtrusive compression library. (github.com)](https://github.com/madler/zlib)
 
@@ -1185,7 +2437,7 @@ zlib is a general purpose data compression library.  All the code is thread safe
 
 **zstr**
 
-A C++ header-only ZLib wrapper
+A **C++ header-only ZLib wrapper**
 
 [mateidavid/zstr: A C++ header-only ZLib wrapper (github.com)](https://github.com/mateidavid/zstr)
 
@@ -1193,7 +2445,7 @@ A C++ header-only ZLib wrapper
 
 **libzip**
 
-This is libzip, a C library for reading, creating, and modifying zip and zip64 archives. Files can be added from data buffers, files, or compressed data copied directly from other zip archives. Changes made without closing the archive can be reverted. Decryption and encryption of Winzip AES and legacy PKware encrypted files is supported.
+This is libzip, a **C library** for reading, creating, and modifying zip and zip64 archives. Files can be added from data buffers, files, or compressed data copied directly from other zip archives. Changes made without closing the archive can be reverted. Decryption and encryption of Winzip AES and legacy PKware encrypted files is supported.
 
 libzip is fully documented via man pages. HTML versions of the man pages are on [libzip.org](https://libzip.org/documentation/) and in the [man](https://github.com/nih-at/libzip/blob/main/man) directory. You can start with [libzip(3)](https://libzip.org/documentation/libzip.html), which lists all others. Example source code is in the [examples](https://github.com/nih-at/libzip/blob/main/examples) and [src](https://github.com/nih-at/libzip/blob/main/src) subdirectories.
 
@@ -1201,16 +2453,46 @@ libzip is fully documented via man pages. HTML versions of the man pages are on 
 
 
 
+依赖：
+
+根据官方文档 [INSTALL · libzip](https://libzip.org/INSTALL/)：zlib 时必须的；要支持加密压缩，需要列出的几个库选一个；要支持 bzip2 则可选 bzip2库。
+
+> You’ll need [zlib](http://www.zlib.net/) (at least version 1.1.2). It comes with most operating systems.
+>
+> ...
+>
+> For AES (encryption) support, you need one of these cryptographic libraries, listed in order of preference:
+>
+> - Apple’s CommonCrypto (available on macOS and iOS)
+> - Microsoft Windows Cryptography Framework
+> - [OpenSSL](https://www.openssl.org/) >= 1.0.
+> - [GnuTLS](https://www.gnutls.org/) and [Nettle](https://www.lysator.liu.se/~nisse/nettle/) (at least nettle 3.0)
+> - [mbed TLS](https://tls.mbed.org/)
+>
+> If you don’t want a library even if it is installed, you can pass `-DENABLE_<LIBRARY>=OFF` to cmake, where `<LIBRARY>` is one of `COMMONCRYPTO`, `GNUTLS`, `MBEDTLS`, or `OPENSSL`.
+>
+> ...
+>
+> For supporting bzip2-compressed zip archives, you need [bzip2](http://bzip.org/).
+
+
+
 **LibZippp**
 
-libzippp is a simple basic C++ wrapper around the libzip library. It is meant to be a portable and easy-to-use library for ZIP handling.
+libzippp is a simple basic **C++ wrapper around the libzip library**. It is meant to be a portable and easy-to-use library for ZIP handling.
 
-Underlying libraries:
+Underlying libraries：依赖项：
 
 - [ZLib](https://zlib.net/) 1.3.1
 - [libzip](https://www.nih.at/libzip) 1.11.2
 
 [ctabin/libzippp: C++ wrapper for libzip (github.com)](https://github.com/ctabin/libzippp)
+
+
+
+创建、打开、读写、关闭压缩包，很像对文件的读写。
+
+API 文档：直接查阅头文件 [`libzippp.h`](https://github.com/ctabin/libzippp/blob/master/src/libzippp.h)（头文件即文档）
 
 
 
@@ -1260,7 +2542,15 @@ A lib of Matrix operation for C language. (矩阵运算库--C语言)
 
 
 
+### Evolving Objects
+
+[Dither/evolving-objects: Evolving Objects (EO): an Evolutionary Computation Framework](https://github.com/Dither/evolving-objects)。
+
+
+
 ## Language Bind
+
+
 
 ### Lua
 
@@ -1280,6 +2570,103 @@ sol2 is a C++ library binding to Lua. It currently supports all Lua versions 5.1
 
 
 
+### MicroPython
+
+
+
+### ChaiScript
+
+ChaiScript is similar to ECMAScript (aka JavaScript(tm)), but with some modifications to make it easier to use. For usage examples see the "samples" directory, and for more in-depth look at the language, the unit tests in the "unittests" directory cover the most ground.
+
+[ChaiScript/ChaiScript: Embedded Scripting Language Designed for C++](https://github.com/ChaiScript/ChaiScript)
+
+
+
+## Image / Media / Sound
+
+
+
+### ffmpeg
+
+
+
+### LIVE555
+
+
+
+### libVLC
+
+
+
+### CxImage
+
+[最好用图像处理库CxImage入门-CSDN博客](https://blog.csdn.net/jmppok/article/details/18794623)。
+
+
+
+### CImg
+
+[The CImg Library - C++ Template Image Processing Library](https://www.cimg.eu/)。
+
+
+
+[CImg库介绍_c++的cimg.blur-CSDN博客](https://blog.csdn.net/fengbingchun/article/details/6002625)。
+
+
+
+### SDL
+
+
+
+## Img enc & dec
+
+
+
+JPEG / PNG / GIF
+
+- [bitbank2/JPEGENC: Arduino JPEG encoder](https://github.com/bitbank2/JPEGENC)。
+- [bitbank2/JPEGDEC: An optimized JPEG decoder suitable for microcontrollers and PCs.](https://github.com/bitbank2/JPEGDEC)。
+
+
+
+- [bitbank2/PNGenc: An embedded-friendly PNG encoder](https://github.com/bitbank2/PNGenc)。
+- [bitbank2/PNGdec: An optimized PNG decoder suitable for microcontrollers and PCs](https://github.com/bitbank2/PNGdec)。
+
+
+
+- [lvandeve/lodepng: PNG encoder and decoder in C and C++.](https://github.com/lvandeve/lodepng)。
+
+
+
+- [bitbank2/AnimatedGIF: An optimized GIF decoder suitable for microcontrollers and PCs](https://github.com/bitbank2/AnimatedGIF)。
+
+
+
+webp
+
+- 官网 [An image format for the Web  | WebP  | Google for Developers](https://developers.google.cn/speed/webp?hl=en)。
+- 库 [WebP API Documentation  | Google for Developers](https://developers.google.cn/speed/webp/docs/api?hl=en)。
+
+
+
+## Vision
+
+
+
+### openCV
+
+
+
+### SimpleCV
+
+
+
+### ccv
+
+[liuliu/ccv: C-based/Cached/Core Computer Vision Library, A Modern Computer Vision Library](https://github.com/liuliu/ccv).
+
+
+
 ## Device
 
 
@@ -1290,7 +2677,7 @@ The UDisks project provides a daemon, tools and libraries to access and manipula
 
 For API stability and intended audience of UDisks, see the API STABILITY and AUDIENCE section of the `udisks(8)` man page (`doc/man/udisks.xml` in the tarball and git repository).
 
-[storaged-project/udisks: The UDisks project provides a daemon, tools and libraries to access and manipulate disks, storage devices and technologies. (github.com)](
+[storaged-project/udisks: The UDisks project provides a daemon, tools and libraries to access and manipulate disks, storage devices and technologies.](https://github.com/storaged-project/udisks)
 
 
 
@@ -1335,24 +2722,132 @@ In order to make it easier for users to learn USB basics, enumeration, driver lo
 
 
 
+### RTOS
+
+[主流嵌入式操作系统（RTOS）有哪些？看这14种系统 - 知乎](https://zhuanlan.zhihu.com/p/356507840).
+
+
+
+FreeRTOS
+
+正点原子 等出过 FreeRTOS 的手册，看就会了
+
+
+
+
+
+NuttX
+
+
+
+RT-Thread
+
+
+
+Vxworks
+
+
+
+### Language Bind
+
+
+
+microPython
+
+
+
+lua
+
+
+
+### Framework
+
+
+
+[Staok/stm32_framework: 一个志在实现STM32F1、F2和F4工程模板的项目，集成了FreeRTOS、LWIP、FATFS、DSP、USB、IAP、菜单库、有限状态机模板等等的组件，以及未来将加入的加密、BPNN、最小二乘、音频图片视频解码、LittlevGL等诸多常用的算法或组件，并具有良好的易用性、解耦性和可剪裁性！](https://github.com/Staok/stm32_framework)。
+
+
+
+BabyOS
+
+专为MCU项目开发提速的代码框架
+
+[notrynohigh/BabyOS: 专为MCU项目开发提速的代码框架 (github.com)](https://github.com/notrynohigh/BabyOS)
+
+
+
+ETL
+
+实现了资源节省的、固定内存分配的 C++ 的各种基本功能，采用回调函数的方式与 嵌入式 mcu 设备中的 各种 uart、timer 等中断回调进行连接，来使得能够用 c++ 来编写 mcu 代码。
+
+C++ is a great language to use for embedded applications and templates are a powerful aspect. The standard library can offer a great deal of well tested functionality, but there are some parts of the standard library that do not fit well with deterministic behaviour and limited resource requirements. These limitations usually preclude the use of dynamically allocated memory and containers with open ended sizes.
+
+What is needed is a template library where the user can declare the size, or maximum size of any object upfront. Most embedded compilers do not currently support the standard beyond C++ 03, therefore excluding the programmer from using the enhanced features of the later library.
+
+This is what the ETL attempts to achieve.
+
+[ETLCPP/etl: Embedded Template Library (github.com)](https://github.com/ETLCPP/etl)
+
+
+
+### Drivers
+
+
+
 各种芯片驱动！
 
 [libdriver (LibDriver) (github.com)](https://github.com/libdriver)
 
 
 
-新加：
-
+按键处理
 
 https://github.com/jiejieTop/ButtonDrive
 
 
 
-FreeRTOS
+TeenyUSB
+
+一个简易的单片机USB主机和设备协议栈，现在支持3.0设备。
+
+A teeny USB device and host stack for MCUs, support super speed device.
+
+关于TeenyUSB的实现细节和使用方式请阅读《STM32 USB设备开发指南》
+
+Lightweight USB device and host stack for STM32 and other MCUs. Ready for USB 3.0 device.
+
+[xtoolbox/TeenyUSB: Lightweight USB device and host stack for STM32 and other MCUs. Ready for USB 3.0 device. (github.com)](https://github.com/xtoolbox/TeenyUSB)
 
 
 
-正点原子 等出过 FreeRTOS 的手册，看就会了
+libusb_stm32
+
+Lightweight USB Device Stack
+
+- Lightweight and fast
+- Event-driven process workflow
+- Completely separated USB hardware driver and usb core
+- Easy to use.
+
+[dmitrystu/libusb_stm32: Lightweight USB device Stack for STM32 microcontrollers (github.com)](https://github.com/dmitrystu/libusb_stm32)
+
+
+
+W5500 系列芯片驱动封装
+
+[Wiznet/ioLibrary_Driver: ioLibrary_Driver can be used for the application design of WIZnet TCP/IP chips as W5500, W5300, W5200, W5100 W5100S. (github.com)](https://github.com/Wiznet/ioLibrary_Driver)
+
+
+
+### CMSIS .etc
+
+[Arm Software](https://github.com/ARM-software)。
+
+[ARM-software/CMSIS_6: CMSIS version 6 (successor of CMSIS_5)](https://github.com/ARM-software/CMSIS_6)。
+
+
+
+### Comps
 
 
 
@@ -1394,33 +2889,6 @@ printf
 
 
 
-TeenyUSB
-
-一个简易的单片机USB主机和设备协议栈，现在支持3.0设备。
-
-A teeny USB device and host stack for MCUs, support super speed device.
-
-关于TeenyUSB的实现细节和使用方式请阅读《STM32 USB设备开发指南》
-
-Lightweight USB device and host stack for STM32 and other MCUs. Ready for USB 3.0 device.
-
-[xtoolbox/TeenyUSB: Lightweight USB device and host stack for STM32 and other MCUs. Ready for USB 3.0 device. (github.com)](https://github.com/xtoolbox/TeenyUSB)
-
-
-
-libusb_stm32
-
-Lightweight USB Device Stack
-
-- Lightweight and fast
-- Event-driven process workflow
-- Completely separated USB hardware driver and usb core
-- Easy to use.
-
-[dmitrystu/libusb_stm32: Lightweight USB device Stack for STM32 microcontrollers (github.com)](https://github.com/dmitrystu/libusb_stm32)
-
-
-
 SFUD
 
 An using JEDEC's SFDP standard serial (SPI) flash universal driver library | 一款使用 JEDEC SFDP 标准的串行 (SPI) Flash 通用驱动库
@@ -1429,50 +2897,11 @@ An using JEDEC's SFDP standard serial (SPI) flash universal driver library | 一
 
 
 
-FlashDB
-
-[FlashDB](http://armink.gitee.io/flashdb/#/zh-cn/) 是一款超轻量级的嵌入式数据库，专注于提供嵌入式产品的数据存储方案。FlashDB 不仅支持传统的基于文件系统的数据库模式，而且结合了 Flash 的特性，具有较强的性能及可靠性。并在保证极低的资源占用前提下，尽可能延长 Flash 使用寿命。
-
-FlashDB 提供两种数据库模式：
-
-- **键值数据库** ：是一种非关系数据库，它将数据存储为键值（Key-Value）对集合，其中键作为唯一标识符。KVDB 操作简洁，可扩展性强。
-- **时序数据库** ：时间序列数据库 （Time Series Database , 简称 TSDB），它将数据按照 **时间顺序存储** 。TSDB 数据具有时间戳，数据存储量大，插入及查询性能高。
-
-[armink/FlashDB: An ultra-lightweight database that supports key-value and time series data | 一款支持 KV 数据和时序数据的超轻量级数据库 (github.com)](https://github.com/armink/FlashDB)
-
-
-
-ETL
-
-实现了资源节省的、固定内存分配的 C++ 的各种基本功能，采用回调函数的方式与 嵌入式 mcu 设备中的 各种 uart、timer 等中断回调进行连接，来使得能够用 c++ 来编写 mcu 代码。
-
-C++ is a great language to use for embedded applications and templates are a powerful aspect. The standard library can offer a great deal of well tested functionality, but there are some parts of the standard library that do not fit well with deterministic behaviour and limited resource requirements. These limitations usually preclude the use of dynamically allocated memory and containers with open ended sizes.
-
-What is needed is a template library where the user can declare the size, or maximum size of any object upfront. Most embedded compilers do not currently support the standard beyond C++ 03, therefore excluding the programmer from using the enhanced features of the later library.
-
-This is what the ETL attempts to achieve.
-
-[ETLCPP/etl: Embedded Template Library (github.com)](https://github.com/ETLCPP/etl)
-
-
-
-BabyOS
-
-专为MCU项目开发提速的代码框架
-
-[notrynohigh/BabyOS: 专为MCU项目开发提速的代码框架 (github.com)](https://github.com/notrynohigh/BabyOS)
-
-
-
-W5500 系列芯片驱动封装
-
-[Wiznet/ioLibrary_Driver: ioLibrary_Driver can be used for the application design of WIZnet TCP/IP chips as W5500, W5300, W5200, W5100 W5100S. (github.com)](https://github.com/Wiznet/ioLibrary_Driver)
-
-
-
 ## UI
 
 
+
+### Comprehensive
 
 综合性的大库
 
@@ -1565,9 +2994,9 @@ demo
 
 
 
+### Embeding-Colored
+
 以下为 嵌入式强相关的
-
-
 
 彩屏
 
@@ -1587,6 +3016,8 @@ eez studio（开源免费）推荐
 
 squareLine（收费）
 
+[anyui](https://anyui.tech/)。
+
 等等
 
 
@@ -1594,6 +3025,10 @@ squareLine（收费）
 LVGL 也有单色模式，可以兼容 OLED 等单色屏显示，LVGL 更易用且功能丰富、可裁剪。推荐嵌入式设备端优先使用 LVGL。
 
 
+
+### Embeding-Mono
+
+以下为 嵌入式强相关的
 
 单色屏
 
@@ -1639,7 +3074,93 @@ API 手册 [u8g2reference · olikraus/u8g2 Wiki (github.com)](https://github.com
 
 
 
+## I18N
+
+
+
+**gettext**
+
+使用可参考：
+
+[使用 GNU gettext 来翻译软件 - Weblate 5.12 文档](https://docs.weblate.org/zh-cn/latest/devel/gettext.html)。
+
+> GNU gettext 使用几个文件来管理本地化工作：
+>
+> - `PACKAGE.pot` 包含从您的源代码中提取的字符串，典型地使用 [xgettext](https://www.gnu.org/software/gettext/manual/html_node/xgettext-Invocation.html) 或一些高级封装，如 [intltool](https://www.freedesktop.org/wiki/Software/intltool/)。
+> - `LANGUAGE.po` 包含翻译为单一语言的字符串。一旦 `PACKAGE.pot` 更新，那么必须由 [msgmerge](https://www.gnu.org/software/gettext/manual/html_node/msgmerge-Invocation.html) 来更新它。您可以使用 [msginit](https://www.gnu.org/software/gettext/manual/html_node/msginit-Invocation.html) 或在 Weblate 内新建新的语言文件。
+> - `LANGUAGE.mo` 包含 `LANGUAGE.po` 的二进制表达，并且应用运行时使用。它通常并不保持在版本控制之下，但在编译时使用 [msgfmt](https://www.gnu.org/software/gettext/manual/html_node/msgfmt-Invocation.html) 生成。在您想要使它处于版本控制中时，可以使用 [生成 MO 文件](https://docs.weblate.org/zh-cn/latest/admin/addons.html#addon-weblate-gettext-mo) 附加组件在 Weblate 中生成它。
+
+[使用gettext进行多语言国际化 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/669282869)。
+
+
+
+**libiconv**
+
+用于不同字符编码之间的编码转换库
+
+[libiconv - GNU Project - Free Software Foundation (FSF)](https://www.gnu.org/software/libiconv/)。
+
+
+
+## Time
+
+
+
+CCTZ
+
+各种时间相关的工具库。
+
+[google/cctz: CCTZ is a C++ library for translating between absolute and civil times using the rules of a time zone.](https://github.com/google/cctz)
+
+CCTZ contains two libraries that cooperate with `<chrono>` to give C++ programmers all the necessary tools for computing with dates, times, and time zones in a simple and correct manner. The libraries in CCTZ are:
+
+- **The Civil-Time Library** — This is a header-only library that supports computing with human-scale time, such as dates (which are represented by the `cctz::civil_day` class). This library is declared in [`include/cctz/civil_time.h`](https://github.com/google/cctz/blob/master/include/cctz/civil_time.h).
+- **The Time-Zone Library** — This library uses the IANA time zone database that is installed on the system to convert between *absolute time* and *civil time*. This library is declared in [`include/cctz/time_zone.h`](https://github.com/google/cctz/blob/master/include/cctz/time_zone.h).
+
+
+
 ## Unit testing
+
+
+
+### Unit testing libs comparison table
+
+GPT4o 和 DeepSeek R1 回答：
+
+| 特性/库            | Criterion                       | GoogleTest (gtest)             | Catch2                   | CppUnit                 |
+| ------------------ | ------------------------------- | ------------------------------ | ------------------------ | ----------------------- |
+| **易用性**         | 简洁，易上手，文档好            | 语法较繁琐，文档丰富           | 易上手，语法简洁，灵活   | 配置较复杂，文档一般    |
+| **功能**           | 支持测试用例断言，性能测试      | 支持广泛的断言和Mock           | 支持BDD风格，灵活的断言  | 基本断言，支持测试集群  |
+| **性能**           | 快速，尤其适用于小型项目        | 性能较高，适合大规模项目       | 性能良好，适合中型项目   | 性能一般                |
+| **可扩展性**       | 灵活，支持多种插件              | 高，支持广泛的Mock和扩展       | 灵活，支持多种自定义功能 | 支持扩展，但较为繁琐    |
+| **兼容性**         | 支持CMake，简单集成             | 与CMake兼容，适合大部分C++项目 | 与CMake兼容，良好的集成  | 与CMake兼容，但配置麻烦 |
+| **社区支持与维护** | 活跃，持续更新                  | 非常活跃，广泛使用，更新频繁   | 社区活跃，更新及时       | 较小，更新较慢          |
+| **跨平台支持**     | 优秀，支持Linux、Windows、macOS | 优秀，支持主流平台             | 优秀，跨平台支持较好     | 支持主流平台，兼容性好  |
+| **集成和支持工具** | 与CI集成良好                    | 与CI集成支持很好，很多工具支持 | CI集成支持良好，轻松集成 | 支持，但集成较麻烦      |
+| **测试结果展示**   | 提供易读的格式                  | 格式标准，可定制化             | 丰富的输出，易于查看     | 输出较简单              |
+| **嵌入式适配性**   | 无OS依赖                        | 资源占用高                     | 受限支持                 | 无                      |
+| **现代性**         | C11兼容                         | C++11/14/17                    | C++11/14/17              | C++98                   |
+
+
+
+GoogleTest
+
+- 优势：
+  - 功能最全：支持参数化测试、类型化测试、死亡测试（检测程序崩溃）、测试夹具（Fixtures）。
+  - 生态完善：直接集成Google Mock，解决复杂依赖模拟问题。
+  - 输出友好：生成xUnit格式报告，与Jenkins等CI工具无缝对接。
+- 劣势：
+  - 编译慢：模板元编程导致编译时间显著增加。
+  - 资源占用高：不适合内存受限场景（如嵌入式）。
+- 场景：中大型项目、持续集成流水线、需高覆盖率与复杂测试逻辑的场景。
+
+
+
+如果你正在选择一个综合性能最强的单元测试库，**GoogleTest** 无疑是最好的选择。它提供了最完整的功能，支持Mock、广泛的断言功能，并且有着广泛的社区和工具支持，适合大多数中大型项目。
+
+然而，如果你需要一个轻量级、快速上手并且文档清晰的库，**Criterion** 或 **Catch2** 是不错的选择。特别是 Catch2，支持 BDD 风格，文档好，且功能也足够丰富，适合快速开发的小型到中型项目。
+
+
 
 ### Criterion
 
@@ -1666,7 +3187,7 @@ Criterion follows the KISS principle, while keeping the control the user would h
 
 
 
-### googletest
+### googletest *
 
 [GoogleTest User’s Guide | GoogleTest](https://google.github.io/googletest/)
 
@@ -1709,3 +3230,21 @@ If you're new to Unity, we encourage you to tour the [getting started guide](htt
 No installation is required, just copy `Cppunit` class definition form [cppunit.h](https://github.com/cppunit/cppunit/blob/master/cppunit.h) into your source file and you are all set.
 
 [cppunit/cppunit: CPlusPlusUnit - Tiny single source file C++ Unit Testing TDD framework with the output message format like Python unittest http://cppunit.github.io](https://github.com/cppunit/cppunit)
+
+
+
+
+
+## Fun
+
+
+
+### pyfiglet
+
+字符画
+
+[pwaller/pyfiglet: An implementation of figlet written in Python](https://github.com/pwaller/pyfiglet)
+
+
+
+更丰富的可直接使用的 UI界面的 字符画生产工具 还可见 [coding-style-and-more/C & MCU编写规范和其他.md at main · Staok/coding-style-and-more](https://github.com/Staok/coding-style-and-more/blob/main/C %26 MCU编写规范和其他.md#字符画生产工具注释的图形化描述)。

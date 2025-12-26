@@ -253,6 +253,20 @@ C-C++-设计模式综合 [Staok/C-Cpp-design-patterns: C/C++设计模式相关�
 
 
 
+## 语法的汇编参考
+
+
+
+[Compiler Explorer (godbolt.org)](https://godbolt.org/)。
+
+可以写程序查看汇编，比较不同写法、语法具体编译成汇编是什么，不同写法有何区别，比较不同编译器的汇编代码。
+
+可以选各种版本的编译器。
+
+这个网站可以说是深入学习 C/C++必备的网站了。
+
+
+
 ## C++ (11 / 14 / 17 / 20) 基础
 
 主要围绕 C++ 11 / 14 / 17 / 20 以及以上 的 各版本特性 展开
@@ -3603,18 +3617,22 @@ C++ 17 起。
 
   看例子即可，使用与 ptherad 中的都比较类似。
 
-  其中 wait(m, pred) 的 pred 可以认为是其它线程发送的条件变量到底是不是给我听的（返回 false 指示不是给自己的，反之则是），参考 [std::condition_variable::wait - cppreference.com](https://zh.cppreference.com/w/cpp/thread/condition_variable/wait)。
+  当 `notify_one()` 或者 `notify_all()` 被调用时，等待的线程会被标记为"可唤醒"，在加锁或不加锁的环境下都可以调用。
+
+  阻塞端，加锁后，调用 `wait(m, pred)`，其实的 pred 为检查条件，调用 wait() 的时候会运行一次检查，之后接收到 "notify" 后会再执行一次检查，返回 true 为取消 这里 wait 的 阻塞 而继续往下执行。
+
+  参考 [std::condition_variable::wait - cppreference.com](https://zh.cppreference.com/w/cpp/thread/condition_variable/wait)。
 
 - atomic，可用时现查。
 
   [std::atomic - cppreference.com](https://zh.cppreference.com/w/cpp/atomic/atomic)。
-  
+
   [C++并发编程 | 原子操作std::atomic-CSDN博客](https://blog.csdn.net/weixin_44479862/article/details/128059243)。
-  
+
   互斥量锁保护的数据范围比较大，我们期望更小范围的保护。并且当共享数据为一个变量时，使用 std::atomic 建立原子变量 效率更高。
-  
+
   并提供了原子操作的 读写、加减 等 API。
-  
+
   
 
 
