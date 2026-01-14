@@ -13,14 +13,30 @@ C++11 / 14 / 17 语法大总结；C++ 最佳实践规则规范大总结；C++ �
 
 ------
 
-下面为补充 数据结构、设计模式 等的大总结。此皆为 此生 时不时更新的。
+下面为补充 数据结构与算法、设计模式 等的大总结。此皆为 此生 时不时更新的。
 
-- [Staok/EE-CS-study-map: CS学习进阶优质路径总结，随着自己的学习将不断补充](https://github.com/Staok/EE-CS-study-map)。
-- [Staok/C-Cpp-data-struct-algo: C-C++-数据结构与算法相关优秀资料集子](https://github.com/Staok/C-Cpp-data-struct-algo)。
-- [Staok/C-Cpp-design-patterns: C/C++设计模式相关优秀资料集子](https://github.com/Staok/C-Cpp-design-patterns)。
+- CS学习进阶优质路径总结。
+
+  Github：[Staok/EE-CS-study-map: CS学习进阶优质路径总结，随着自己的学习将不断补充](https://github.com/Staok/EE-CS-study-map)。
+
+  Gitee：[瞰百/EE-CS-study-map](https://gitee.com/staok/EE-CS-study-map)。
+
+- 数据结构与算法。
+
+  Github：[Staok/C-Cpp-data-struct-algo: C-C++-数据结构与算法相关优秀资料集子](https://github.com/Staok/C-Cpp-data-struct-algo)。
+
+  Gitee：[C-Cpp-data-struct-algo: C-C++-数据结构与算法相关优秀资料集子](https://gitee.com/staok/C-Cpp-data-struct-algo)。
+
+- 设计模式。
+
+  Github：[Staok/C-Cpp-design-patterns: C/C++设计模式相关优秀资料集子](https://github.com/Staok/C-Cpp-design-patterns)。
+
+  Gitee：[C-Cpp-design-patterns: C/C++设计模式相关优秀资料集子](https://gitee.com/staok/C-Cpp-design-patterns)。
 
 
 
 C & MCU 的总结。
 
-[Staok/coding-style-and-more: C 编写规范和其他。永远地不定期更新。CC-BY-NC-SA 4.0。](https://github.com/Staok/coding-style-and-more)。
+Github：[Staok/coding-style-and-more: C 编写规范和其他。永远地不定期更新。CC-BY-NC-SA 4.0。](https://github.com/Staok/coding-style-and-more)。
+
+Gitee：[coding-style-and-more: C 编写规范和其他。永远地不定期更新。CC-BY-NC-SA 4.0。](https://gitee.com/staok/coding-style-and-more)。
