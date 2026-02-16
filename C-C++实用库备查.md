@@ -85,6 +85,14 @@ regex-vis
 
 
 
+### introduce_c-cpp_manual
+
+本repo搜集全网适合C/C++新手学习的入门项目，整理收纳开发者开源的小项目、工具、框架、游戏等，帮助大家更好地学习c/c++。
+
+[0voice/introduce_c-cpp_manual: 一个收集C/C++新手学习的入门项目，整理收纳开发者开源的小项目、工具、框架、游戏等，视频，书籍，面试题/算法题，技术文章。 (github.com)](https://github.com/0voice/introduce_c-cpp_manual)。
+
+
+
 ### GUN
 
 [软件 - GNU 工程 - 自由软件基金会](https://www.gnu.org/software/software.html#allgnupkgs)。
@@ -99,17 +107,9 @@ regex-vis
 
 ### boost c++
 
-[Boost C++ Libraries](https://www.boost.org/)
+[Boost C++ Libraries](https://www.boost.org/)。
 
-[The Boost C++ Libraries (theboostcpplibraries.com)](https://theboostcpplibraries.com/)
-
-
-
-### introduce_c-cpp_manual
-
-本repo搜集全网适合C/C++新手学习的入门项目，整理收纳开发者开源的小项目、工具、框架、游戏等，帮助大家更好地学习c/c++。
-
-[0voice/introduce_c-cpp_manual: 一个收集C/C++新手学习的入门项目，整理收纳开发者开源的小项目、工具、框架、游戏等，视频，书籍，面试题/算法题，技术文章。 (github.com)](https://github.com/0voice/introduce_c-cpp_manual)
+[The Boost C++ Libraries (theboostcpplibraries.com)](https://theboostcpplibraries.com/)。
 
 
 
@@ -117,7 +117,7 @@ regex-vis
 
 GLib is the low-level core library that forms the basis for projects such as GTK and GNOME. It provides data structure handling for C, portability wrappers, and interfaces for such runtime functionality as an event loop, threads, dynamic loading, and an object system.
 
-[GNOME/glib: Read-only mirror of https://gitlab.gnome.org/GNOME/glib (github.com)](https://github.com/GNOME/glib)
+[GNOME/glib: Read-only mirror of https://gitlab.gnome.org/GNOME/glib (github.com)](https://github.com/GNOME/glib)。
 
 
 
@@ -127,11 +127,11 @@ glib 相关，源码中有 docs 手册
 
 GLib包含了字符串操作、文件操作、数据校验、编解码、字符集转换、随机数生成器、命令行解析器、xml解析器、正则表达式、单链表、双链表、 数组、指针数组、双端队列、哈希表、平衡二叉树、N维树、泛型、主循环、多线程、线程池、异步队列、内存分配、内存片段、错误系统、测试框架等等一系列功能，称得上是C语言开发人员的军刀，值得研究。
 
-功能罗列 [GLib2.0的一百个小知识点 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/613083129)
+功能罗列 [GLib2.0的一百个小知识点 - 知乎 (zhihu.com)](https://zhuanlan.zhihu.com/p/613083129)。
 
-目录说明 [1_02_GLib库入门与实践_GLib库源代码目录结构简介_glib-2.0 库源码-CSDN博客](https://blog.csdn.net/field1003/article/details/123421451)
+目录说明 [1_02_GLib库入门与实践_GLib库源代码目录结构简介_glib-2.0 库源码-CSDN博客](https://blog.csdn.net/field1003/article/details/123421451)。
 
-系列文章 [GLib库入门与实践_field1003的博客-CSDN博客](https://blog.csdn.net/field1003/category_11680135.html)
+系列文章 [GLib库入门与实践_field1003的博客-CSDN博客](https://blog.csdn.net/field1003/category_11680135.html)。
 
 
 
@@ -139,7 +139,7 @@ GLib包含了字符串操作、文件操作、数据校验、编解码、字符�
 
 Dlib is a modern C++ toolkit containing machine learning algorithms and tools for creating complex software in C++ to solve real world problems. See [http://dlib.net](http://dlib.net/) for the main project documentation and API reference.
 
-[davisking/dlib: A toolkit for making real world machine learning and data analysis applications in C++ (github.com)](https://github.com/davisking/dlib)
+[davisking/dlib: A toolkit for making real world machine learning and data analysis applications in C++ (github.com)](https://github.com/davisking/dlib)。
 
 [推荐开源库：DLib - 解决C++编程中常见任务的实用工具集-CSDN博客](https://blog.csdn.net/gitblog_00081/article/details/139734646)。
 
@@ -149,7 +149,7 @@ Dlib is a modern C++ toolkit containing machine learning algorithms and tools fo
 
 **C++ Treasure Box** is a service-oriented **development framework** and **component library** based on the Reactor model, aim at make C++ development easy.
 
-[cpp-main/cpp-tbox: A complete Linux application software development tool library and runtime framework, aim at make C++ development easy. (github.com)](https://github.com/cpp-main/cpp-tbox)
+[cpp-main/cpp-tbox: A complete Linux application software development tool library and runtime framework, aim at make C++ development easy. (github.com)](https://github.com/cpp-main/cpp-tbox)。
 
 
 
@@ -165,7 +165,7 @@ ffead-cpp can be easily driven by XML configuration, Services/Controllers/Filter
 
 All in all ffead-cpp is the gap in the world of C++ web application or enterprise application development which I have tried to fill with my humble/honest effort.
 
-[sumeetchhetri/ffead-cpp: Framework for Enterprise Application Development in c++, HTTP1/HTTP2/HTTP3 compliant, Supports multiple server backends (github.com)](https://github.com/sumeetchhetri/ffead-cpp)
+[sumeetchhetri/ffead-cpp: Framework for Enterprise Application Development in c++, HTTP1/HTTP2/HTTP3 compliant, Supports multiple server backends (github.com)](https://github.com/sumeetchhetri/ffead-cpp)。
 
 
 
@@ -234,8 +234,6 @@ Ultimate++：C++跨平台快速应用程序开发框架，框架应该比较大�
   - 下载 github 仓库的 release 的 `PCL-x.xx-AllInOne-msvc2022-win64.exe`，安装，勾上给当前用户添加路径到系统环境变量。
 
 cmake 引入：[Using PCL in your own project — Point Cloud Library 0.0 documentation](https://pcl.readthedocs.io/projects/tutorials/en/latest/using_pcl_pcl_config.html#using-pcl-pcl-config)。
-
-- 
 
 
 
@@ -2554,13 +2552,15 @@ A lib of Matrix operation for C language. (矩阵运算库--C语言)
 
 ### Lua
 
+
+
 一种轻量级多范式脚本语言，主要设计用于嵌入使用。C 库。
 
 [The Programming Language Lua](https://www.lua.org/)
 
 
 
-### sol2
+**sol2**
 
 一个绑定 Lua 的现代 C++ 库。
 
@@ -2574,7 +2574,33 @@ sol2 is a C++ library binding to Lua. It currently supports all Lua versions 5.1
 
 
 
-### ChaiScript
+### JavaScript
+
+
+
+**QuickJS**
+
+QuickJS是一个小型并且可嵌入的Javascript引擎，它支持ES2020规范，包括模块，异步生成器和代理器。
+
+它可选支持数学扩展，例如大整数 (BigInt)，大浮点数 (BigFloat) 以及运算符重载。
+
+[quickjs-zh/QuickJS: QuickJS是一个小型并且可嵌入的Javascript引擎，它支持ES2020规范，包括模块，异步生成器和代理器。](https://github.com/quickjs-zh/QuickJS)。
+
+
+
+**MicroQuickJS**
+
+MicroQuickJS (aka. MQuickJS) is a JavaScript engine targeted at embedded systems. It compiles and runs JavaScript programs using as little as 10 kB of RAM. The whole engine requires about 100 kB of ROM (ARM Thumb-2 code) including the C library. The speed is comparable to QuickJS.
+
+MQuickJS only supports a [subset](https://github.com/bellard/mquickjs#javascript-subset-reference) of JavaScript close to ES5. It implements a **stricter mode** where some error prone or inefficient JavaScript constructs are forbidden.
+
+Although MQuickJS shares much code with QuickJS, it internals are different in order to consume less memory. In particular, it relies on a tracing garbage collector, the VM does not use the CPU stack and strings are stored in UTF-8.
+
+[bellard/mquickjs: Public repository of the Micro QuickJS Javascript Engine](https://github.com/bellard/mquickjs)。
+
+
+
+**ChaiScript**
 
 ChaiScript is similar to ECMAScript (aka JavaScript(tm)), but with some modifications to make it easier to use. For usage examples see the "samples" directory, and for more in-depth look at the language, the unit tests in the "unittests" directory cover the most ground.
 
@@ -2614,35 +2640,77 @@ ChaiScript is similar to ECMAScript (aka JavaScript(tm)), but with some modifica
 
 
 
-### SDL
-
-
-
 ## Img enc & dec
 
 
 
-JPEG / PNG / GIF
+### JPEG / PNG / GIF
+
+
+
+**比较官方的**
+
+以下均包含 encoder 和 decoder
+
+
+
+libjpeg
+
+[libjpeg-turbo/libjpeg-turbo: Main libjpeg-turbo repository](https://github.com/libjpeg-turbo/libjpeg-turbo)。
+
+
+
+libpng
+
+[pnggroup/libpng: LIBPNG: Portable Network Graphics support, official libpng repository](https://github.com/pnggroup/libpng)。
+
+
+
+giflib
+
+仓库 [GIFLIB download | SourceForge.net](https://sourceforge.net/projects/giflib/)。
+
+官网 [The GIFLIB project](https://giflib.sourceforge.net/)。
+
+
+
+**三方开源仓库**
+
+
+
+一个 JPEG 的 encoder 和 decoder
 
 - [bitbank2/JPEGENC: Arduino JPEG encoder](https://github.com/bitbank2/JPEGENC)。
 - [bitbank2/JPEGDEC: An optimized JPEG decoder suitable for microcontrollers and PCs.](https://github.com/bitbank2/JPEGDEC)。
 
 
 
+一个单头文件的 C99 的 JPEG 的 encoder（适用于 mcu）
+
+[serge-rgb/TinyJPEG: Single header lib for JPEG encoding. Public domain. C99. stb style.](https://github.com/serge-rgb/TinyJPEG)
+
+
+
+一个 PNG 的 encoder 和 decoder
+
 - [bitbank2/PNGenc: An embedded-friendly PNG encoder](https://github.com/bitbank2/PNGenc)。
 - [bitbank2/PNGdec: An optimized PNG decoder suitable for microcontrollers and PCs](https://github.com/bitbank2/PNGdec)。
 
 
 
+一个 PNG 的 encoder 和 decoder
+
 - [lvandeve/lodepng: PNG encoder and decoder in C and C++.](https://github.com/lvandeve/lodepng)。
 
 
+
+一个 GIF 的 decoder
 
 - [bitbank2/AnimatedGIF: An optimized GIF decoder suitable for microcontrollers and PCs](https://github.com/bitbank2/AnimatedGIF)。
 
 
 
-webp
+### webp
 
 - 官网 [An image format for the Web  | WebP  | Google for Developers](https://developers.google.cn/speed/webp?hl=en)。
 - 库 [WebP API Documentation  | Google for Developers](https://developers.google.cn/speed/webp/docs/api?hl=en)。
@@ -2901,27 +2969,143 @@ An using JEDEC's SFDP standard serial (SPI) flash universal driver library | 一
 
 
 
+个人对 GUI 框架设计经验总结 [Staok/GUI-Framework-Study: GUI 框架基础需求、设计和实现文章](https://github.com/Staok/GUI-Framework-Study)。
+
+
+
 ### Comprehensive
 
 综合性的大库
 
 
 
-**Flutter**
+**UniApp**
+
+[UniApp 简介 | 菜鸟教程](https://www.runoob.com/uniapp/uniapp-intro.html)。
+
+> UniApp 的应用场景
+>
+> - 微信小程序开发：快速开发并发布到微信小程序平台。
+> - H5 网页开发：构建适配移动端的网页应用。
+> - 跨平台 App 开发：开发 Android 和 iOS 应用，无需分别学习原生开发。
+> - 多端统一项目：需要同时覆盖小程序、H5 和 App 的项目。
+
+
+
+**Flutter** *
 
 Flutter is Google's SDK for crafting beautiful, fast user experiences for **mobile, web, and desktop from a single codebase**. Flutter works with existing code, is used by developers and organizations around the world, and is free and open source.
 
-[flutter/flutter: Flutter makes it easy and fast to build beautiful apps for mobile and beyond (github.com)](https://github.com/flutter/flutter)
+[flutter/flutter: Flutter makes it easy and fast to build beautiful apps for mobile and beyond (github.com)](https://github.com/flutter/flutter)。
 
 
 
-**wxWidgets**
+适用于 app、win、web、linux。
 
-wxWidgets is a free and open source cross-platform C++ framework for writing advanced GUI applications using native controls.
 
-wxWidgets allows you to write native-looking GUI applications for all the major desktop platforms and also helps with abstracting the differences in the non-GUI aspects between them. It is free for the use in both open source and commercial applications, comes with the full, easy to read and modify, source and extensive documentation and a collection of more than a hundred examples. You can learn more about wxWidgets at https://www.wxwidgets.org/ and read its documentation online at https://docs.wxwidgets.org/
 
-[wxWidgets/wxWidgets: Cross-Platform C++ GUI Library (github.com)](https://github.com/wxWidgets/wxWidgets)
+可以 AI 辅助编程，提示词工程合集可以使用：[bbylw/ui-ux-pro-max-skill-cn: 本网站是 UI/UX Pro Max 技能库的官方中文教程，完整翻译并本地化了原始 README 的所有内容，帮助中文开发者快速上手这个强大的 AI 设计技能。](https://github.com/bbylw/ui-ux-pro-max-skill-cn)。支持 Flutter。
+
+
+
+`flutter-pi` 适用于 Linux 上直接通过 FB/DRM 等机制刷新 UI 的情况使用。
+
+
+
+Flutter
+
+- ✅ 颜值最高：不仅能画UI，还能做非常炫酷的60fps动画，现代化程度最高。
+
+- ✅ 开发效率高：Dart语言简单，UI构建快。
+- ❌ C++交互成本：如果你有大量现成的C++业务逻辑，接Flutter需要写很多“胶水代码”。
+- ❌ 资源开销：运行需要Dart虚拟机和Skia引擎，对RAM和Flash要求远高于LVGL。
+
+
+
+- dart 语言编码 UI，编译为二进制代码部署到机器内，无源码泄露风险。
+- Flutter 的 UI 与 C++ 业务代码部分 之间的 交互稍微麻烦。
+
+
+
+**SDL2**
+
+> SDL2是跨平台的图形库，支持Windows, macOS, Linux, iOS, and Android等常见的平台，它底层使用OpenGL或Direct3D，支持硬件加速，常用于游戏开发，SDL是用C写的，可以用C++操作，也有C#和Python的绑定，它内置了键盘、鼠标、音视频的支持，自SDL2.0以来，允许开发者静态连接。
+
+
+
+win 下，手动加入 SDL2 库：这里只是说明手动步骤，推荐用平台的包管理器来下载该库。
+
+1. 首先下载到 SDL2 包 比如 "SDL2-devel-2.28.2-mingw"。
+2. 将其中的 "x86_64-w64-mingw32" 文件夹 直接 解压放到 "mingw64" 下的 "x86_64-w64-mingw32" 文件夹下！
+3. 确保 ".../mingw64/bin/" 已经加入到 环境变量 "Path" 中。
+4. 并且！ 将 ".../mingw64/x86_64-w64-mingw32/bin" 加入到 环境变量 "Path" 中，因为用到了 该路径下的 SDL2.dll。
+5. 添加 环境变量 后， win 下可能需要重启才能生效。
+6. 然后在 cmake 中寻找并加入该库即可。
+
+在 msys 等包管理中也已经有 sdl2 库了。
+
+
+
+**QT**
+
+- 在嵌入式上商用收费不可接受。直接 pass。
+- 且 qml 以源码形式部署到机器中，有泄露源码风险。
+- 开发桌面级别应用不受商用限制。
+- 但个人觉得别扭的是，QT 有自己一套基本容器、网络、线程等的 API，我 C++ 已经很熟了，再学一套 增加学习和心智负担。
+
+
+
+个人收集的 QT 相关的好仓库：[Your list / QT](https://github.com/stars/Staok/lists/qt)，有很多实用例子，对于需要 QT 开发的 同学 可多参考 用于学习借鉴。
+
+个人对 QT 使用总结 [Staok/QT-QML-Learning: QT & QML 总结备查文章](https://github.com/Staok/QT-QML-Learning)。
+
+
+
+**CopperSpice**
+
+Qt 的一个 开源的 fork 库。几乎各方面和 Qt 很像，Qt 工程 几乎可以 平移到这个库。
+
+[copperspice/copperspice: Set of cross platform C++ libraries (Core, Gui, Network, Multimedia, SQL, Vulkan, etc) (github.com)](https://github.com/copperspice/copperspice)。
+
+[copperspice/cs_designer: Program used by developers to create a graphical interface .ui file (github.com)](https://github.com/copperspice/cs_designer)。
+
+
+
+demo
+
+[copperspice/kitchensink: C++ application examples showing how to use the CS libraries (github.com)](https://github.com/copperspice/kitchensink)。
+
+
+
+**Tkinter**
+
+Python 库。以下是一些UI设计辅助工具和教程。
+
+[Tkinter-Designer/docs/README.zh-CN.md at master · ParthJadhav/Tkinter-Designer (github.com)](https://github.com/ParthJadhav/Tkinter-Designer/blob/master/docs/README.zh-CN.md)。
+
+[iamxcd/tkinter-helper: 为tkinter打造的可视化拖拽布局界面设计小工具 (github.com)](https://github.com/iamxcd/tkinter-helper)。
+
+[Dvlv/Tkinter-By-Example: Learn Tkinter By Example - a free book (github.com)](https://github.com/Dvlv/Tkinter-By-Example)。
+
+适用于桌面软件。UI 使用 OS 原生 API，看起来一般。Python 自带的 UI 库。
+
+
+
+定位：Python 的标准 GUI 库，基于 Tcl/Tk。它是 90 年代的产物，主要用于快速开发桌面小工具。
+
+核心语言：Python。
+
+- 优点：
+  - ✅ 简单：Python 几行代码出一个窗口。
+  - ✅ Linux/Windows 兼容：桌面端只要有 Python 就能跑。
+- 缺点（致命伤）：
+  - ❌ MCU 绝缘体：MCU 跑不了完整 Python（MicroPython 不支持标准 Tkinter）。所以直接淘汰 MCU 场景。
+  - ❌ 性能差：解释型语言 + 老旧图形库，在嵌入式 Linux 上跑起来会有明显的卡顿感。
+  - ❌ C/C++ 交互痛苦：你的业务逻辑是 C++，UI 是 Python。你需要通过 Python C Extension 或者 ctypes 来通信，架构非常别扭，且性能损耗大。
+  - ❌ 丑：原生控件非常复古，不支持现代化的触摸交互、手势、GPU 加速动画。
+- 结论：
+  - 适合场景：在 PC 上写一个快速的原型验证工具。
+  - 不适合场景：任何嵌入式商业产品。
 
 
 
@@ -2944,53 +3128,51 @@ Dear ImGui is particularly suited to integration in game engines (for tooling), 
 - Efficient runtime and memory consumption.
 - Battle-tested, used by [many major actors in the game industry](https://github.com/ocornut/imgui/wiki/Software-using-dear-imgui).
 
-[ocornut/imgui: Dear ImGui: Bloat-free Graphical User interface for C++ with minimal dependencies (github.com)](https://github.com/ocornut/imgui)
+[ocornut/imgui: Dear ImGui: Bloat-free Graphical User interface for C++ with minimal dependencies (github.com)](https://github.com/ocornut/imgui)。
 
 
 
 一个文件浏览实现
 
-[AirGuanZ/imgui-filebrowser: File browser implementation for dear-imgui. C++17 is required. (github.com)](https://github.com/AirGuanZ/imgui-filebrowser)
+[AirGuanZ/imgui-filebrowser: File browser implementation for dear-imgui. C++17 is required. (github.com)](https://github.com/AirGuanZ/imgui-filebrowser)。
 
 即说明，github 上还有更多例子和实现。
 
 
 
-**CopperSpice**
+定位：它不是为了给最终用户（消费者）做 UI 的，它是为了给 开发者 做调试工具、游戏引擎编辑器、或者内部测试软件的。
 
-qt 的一个 开源的 fork 库。几乎各方面和 qt 很像。
-
-[copperspice/copperspice: Set of cross platform C++ libraries (Core, Gui, Network, Multimedia, SQL, Vulkan, etc) (github.com)](https://github.com/copperspice/copperspice)
-
-[copperspice/cs_designer: Program used by developers to create a graphical interface .ui file (github.com)](https://github.com/copperspice/cs_designer)
-
-
-
-
-
-**Tkinter**
-
-Python 库。以下是一些UI设计辅助工具和教程。
-
-[Tkinter-Designer/docs/README.zh-CN.md at master · ParthJadhav/Tkinter-Designer (github.com)](https://github.com/ParthJadhav/Tkinter-Designer/blob/master/docs/README.zh-CN.md)。
-
-[iamxcd/tkinter-helper: 为tkinter打造的可视化拖拽布局界面设计小工具 (github.com)](https://github.com/iamxcd/tkinter-helper)。
-
-[Dvlv/Tkinter-By-Example: Learn Tkinter By Example - a free book (github.com)](https://github.com/Dvlv/Tkinter-By-Example)。
-
-
-
-demo
-
-[copperspice/kitchensink: C++ application examples showing how to use the CS libraries (github.com)](https://github.com/copperspice/kitchensink)
-
-
+- 优点：
+  - ✅ C++ 集成度极高：只要几行代码就能把变量显示在窗口上，非常适合用来调节 PID 参数、查看内存数据。
+  - ✅ 无状态管理：不需要操心“同步 UI 和数据”，因为 UI 代码就是每一帧直接读数据的。
+  - ✅ 可移植性：只要能画三角形（OpenGL/DirectX/Vulkan），就能跑。
+- 缺点（致命伤）：
+  - ❌ 功耗爆炸：因为每一帧都在重绘，CPU/GPU 占用率很高，对电池供电的嵌入式设备是灾难。虽然可以魔改由事件驱动，但很麻烦。
+  - ❌ 很难做“好看”：ImGui 的控件长得像 Windows 95 时代的工业软件。由于其底层原理，想做复杂的动画、炫酷的特效、自定义的不规则控件，难度比 Flutter/Qt 大十倍。
+  - ❌ 不支持 MCU：虽然硬要移植也能跑在 STM32 上，但 RAM 消耗和 CPU 刷新率通常无法接受。
+- 结论：
+  - 适合场景：嵌入式 Linux 设备的后台调试模式、工厂测试工具。
+  - 不适合场景：卖给客户的产品主界面。
 
 
 
 **libui**
 
 [andlabs/libui: Simple and portable (but not inflexible) GUI library in C that uses the native GUI technologies of each platform it supports. (github.com)](https://github.com/andlabs/libui)。
+
+适用于桌面软件。UI 使用 OS 原生 API，看起来一般。生态丰富，还有可视化构建 UI 的工具。
+
+
+
+**wxWidgets**
+
+wxWidgets is a free and open source cross-platform C++ framework for writing advanced GUI applications using native controls.
+
+wxWidgets allows you to write native-looking GUI applications for all the major desktop platforms and also helps with abstracting the differences in the non-GUI aspects between them. It is free for the use in both open source and commercial applications, comes with the full, easy to read and modify, source and extensive documentation and a collection of more than a hundred examples. You can learn more about wxWidgets at https://www.wxwidgets.org/ and read its documentation online at https://docs.wxwidgets.org/
+
+[wxWidgets/wxWidgets: Cross-Platform C++ GUI Library (github.com)](https://github.com/wxWidgets/wxWidgets)。
+
+不推荐了。比较老。
 
 
 
@@ -3004,25 +3186,92 @@ demo
 
 **LVGL**
 
-[lvgl/lvgl: Embedded graphics library to create beautiful UIs for any MCU, MPU and display type. (github.com)](https://github.com/lvgl/lvgl)
+官方仓库 [lvgl/lvgl: Embedded graphics library to create beautiful UIs for any MCU, MPU and display type.](https://github.com/lvgl/lvgl)。
 
-[Your list / LVGL (github.com)](https://github.com/stars/Staok/lists/lvgl)
+官方文档 [LVGL documentation](https://docs.lvgl.io/master/index.html)。
+
+
+
+个人对 LVGL 使用总结 [Staok/LVGL-Study-Record: LVGL 总结备查文章](https://github.com/Staok/LVGL-Study-Record)。
 
 
 
 可视化 UI 设计工具：
 
-eez studio（开源免费）推荐
+UI 可视化操作 有 SquareLine Studio (以及网页版的 SquareLine Vision) 和 EEZ Studio 等可视化设计器，可以拖拽生成C代码。前者有组件 component 功能，后者有事件流功能。前者比较重，且收费，后者较轻量且免费开源。组件是更需要的，需要看看后者是否支持了，如果支持了就选用后者。
 
-squareLine（收费）
+- eez studio（开源免费）推荐。
+- squareLine（收费）。
+- [anyui](https://anyui.tech/)。
+- [LVGL Visual Architect Specification](https://lvgl.btvi.com.br/)。web 在线 LVGL UI 制作，功能较简单。
+- 等等。
 
-[anyui](https://anyui.tech/)。
 
-等等
+
+- LVGL 官方 的 XML 编辑 UI [LVGL Pro](https://pro.lvgl.io/)（收费）。
+
+
+
+- 将 C UI 代码转换为 HTML 文件：https://github.com/lvgl/lv_web_emscripten。LVGL ported to Emscripten to be converted to JavaScript。
+- 这是一个用 Qt 写的 可视化布局 LVGL 前端界面的 工具 https://github.com/CURTLab/LVGLBuilder。玩具，看看就好。
 
 
 
 LVGL 也有单色模式，可以兼容 OLED 等单色屏显示，LVGL 更易用且功能丰富、可裁剪。推荐嵌入式设备端优先使用 LVGL。
+
+
+
+- ✅ 极度轻量：几十KB Flash，几KB RAM即可运行。
+- ✅ C/C++亲和度满分：无需任何中间层，直接调用。
+- ✅ 免费开源：MIT协议，商业无限制。
+- ❌ 桌面端体验一般：在Windows/Ubuntu上主要用于开发调试，做成独立的桌面软件显得比较“嵌入式风格”，不支持系统原生窗口特性。
+
+
+
+- 定制化内容多时候，完全的 C 语言控制 UI 增加心智负担，像素级别开发。
+
+
+
+LVGL 相关实用例子和组件仓库收集：[Your list / LVGL](https://github.com/stars/Staok/lists/lvgl)。
+
+
+
+**Slint**
+
+- 功能亮点（全版本通用）：
+  - 极轻量级 (MCU 友好)：
+    - 可以在 < 300KB RAM 的设备上运行（如 STM32H7, ESP32-S3, RP2040）。
+    - Flash 占用极低，且它是编译型语言（编译成原生二进制），不是解释型（无虚拟机开销）。
+  - 桌面级渲染 (Linux/Windows)：
+    - 在嵌入式 Linux 上支持 OpenGL ES 加速，也支持纯软件渲染（FrameBuffer）。
+    - 在 Windows/macOS 上使用原生图形 API（DirectX/Metal）。
+  - 声明式 UI 语言 (.slint)：
+    - 类似于 QML 或 CSS/HTML，专门用来画界面的语言。
+    - 极大降低心智负担：您不需要用 C++ 去 new Button(), button.setSize()，而是写 Button { text: "OK"; }。
+  - C++ 完美集成：
+    - 它的编译器会把 .slint 文件编译成 C++ 头文件。也无 UI 脚本的源码泄露风险。
+    - 业务逻辑全是标准 C++，通过 getter/setter 和回调函数与 UI 交互。
+  - Live Preview (实时预览)：VSCode 插件支持一边写代码，一边在侧边栏实时看到 UI 变化（类似 Flutter 的热重载，但针对设计阶段）。
+- 商用协议：
+  - A. GPLv3 (开源版)
+    - 陷阱：GPLv3 是强传染协议。如果您用这个协议开发产品，您的整个产品的源代码（包括 C++ 业务逻辑）必须向用户公开。
+    - 结论：除非您做的是纯开源硬件/软件，否则绝对不能选这个。
+  - B. Royalty-Free License (免费商用/大使计划)
+    - 这是 Slint 为了抢占市场推出的“杀手锏”。它允许您开发闭源的商业软件，且不花一分钱，但有交换条件。
+    - 条件：
+      - 归属声明：您必须在应用程序的显著位置（如启动画面 Splash Screen 或 “关于” 对话框）显示 “Made with Slint” 的字样或 Logo，并链接到 Slint 官网。
+      - 桌面软件：如果是 Windows/Linux 桌面软件，必须在“关于”对话框里显示。
+      - 嵌入式设备：如果是带屏幕的设备，必须在启动时或设置菜单的显眼处显示 Logo。
+    - 结论：这是最适合您的选项。 如果您的产品不介意在“关于本机”里加一行小字，或者开机闪一下 Slint 的 Logo，那您就可以白嫖这个强大的框架。
+  - C. Commercial License (商业付费)
+    - 功能：与上述两者完全一样，唯一的区别是 “法律特权”。
+    - 特权：您可以去掉所有的 Slint Logo，完全假装这个 UI 是您自己写的。同时获得官方的技术支持工单服务。
+    - 价格：属于订阅制（SaaS模式），具体需询价，通常比 Qt 便宜很多，但比免费贵。
+
+
+
+- 需要可以接受“Made with Slint”的 Logo。对于大多数工业设备、仪器仪表、非一线消费品，用户根本不在意开机界面有没有这一行小字。
+- Rust 工具链依赖：虽然您写的是 C++，但在编译环境搭建时，您通常需要安装 Rust 编译器 (cargo) 来把 .slint 编译成 C++ 代码。这对纯 C/C++ 团队来说是一个额外的环境配置成本。
 
 
 
