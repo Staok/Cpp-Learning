@@ -1111,21 +1111,39 @@ TODO: 有待补充例子
 
 
 
-`[]`：捕捉列表，捕捉上下文中的变量，然后用于lambda使用。
-`()`：参数列表，与函数的参数列表类似，如果不需要传递参数 可以不写 ()。
-`mutable`：默认条件下，lambda总是有一个const特性，即捕获的变量不能修改，我们可以通过mutable取消掉它的这个特，加上mutable时，()不能省略。
-`-> returntype`：返回值类型，当没有返回值可以不写，当返回值类型非常明确，也可以不写，编译器会推导。
-`{}`：函数体，也就是我们写函数时需要用{}包起来的部分。
+- `[]`：捕捉列表，捕捉上下文中的变量，然后用于lambda使用。
+
+  关于捕获：
+
+  ```
+  [=]() {};            // 全部变量传值传参
+  [&]() mutable {};    // 全部变量传引用传参
+  [=, &x]()mutable {}; // 接收所有变量，但只有x是引用传参
+  [&, x]() mutable {}; // 接收所有变量，单只有x是传值传参
+  [this, run_cmd_ret]() {} // 引用 this，按值传入 run_cmd_ret，但均不改变值
+  ```
+
+- `()`：参数列表，与函数的参数列表类似，如果不需要传递参数 可以不写 ()。
+
+- `mutable`：默认条件下，lambda总是有一个const特性，即捕获的变量不能修改，我们可以通过mutable取消掉它的这个特，加上mutable时，()不能省略。
+  `-> returntype`：返回值类型，当没有返回值可以不写，当返回值类型非常明确，也可以不写，编译器会推导。
+
+- `{}`：函数体，也就是我们写函数时需要用{}包起来的部分。
 
 
 
 可以将 lambda 函数 赋值给 某个变量，可以在后面调用
 
 ```c++
-auto getUrl = [archive, &rels, this](ByteArray const & type, String & result) { ...}
+auto getUrl = [archive, &rels](ByteArray const & type, String & result) { ...}
 getUrl("xxx1", xxx1);
 getUrl("xxx2", xxx2_);
 ```
+
+
+
+lambda 可以用 const 修饰，对于 有捕获的，则不要用 static 修饰（如果用了则只会使用第一次捕获的值）！对于没有捕获的则可以用 const static 修饰。
+`const (static) auto fun = [](){  };`
 
 
 
@@ -1640,10 +1658,14 @@ struct 里面有 std::string，申请和释放这个 struct 内存用 new 和 de
   - 推荐使用 [std::make_unique](https://zh.cppreference.com/w/cpp/memory/unique_ptr/make_unique) （C++14）创建。
 
 - [shared_ptr](https://zh.cppreference.com/w/cpp/memory/shared_ptr)，拥有共享对象所有权的智能指针。
+  
   - 推荐使用 [std::make_shared](https://zh.cppreference.com/w/cpp/memory/shared_ptr/make_shared) 创建。
   - 自定义类 继承 [enable_shared_from_this](https://zh.cppreference.com/w/cpp/memory/enable_shared_from_this)，则允许 类 创建 并 通过 [shared_from_this()](https://zh.cppreference.com/w/cpp/memory/enable_shared_from_this/shared_from_this) 来获得 指向 this 的 `shared_ptr`。
   - 对于上两点，`unique_ptr` 和 `weak_ptr` 同理。
+  
 - [weak_ptr](https://zh.cppreference.com/w/cpp/memory/weak_ptr)，使用 `std::shared_ptr` 所管理对象的弱引用，可解决 `std::shared_ptr` 中出现 互相引用 导致资源永不释放 的 问题。
+
+  也常用于 shared_ptr 变量 需要 跨线程 或者 跨模块 时候，如果不想复制一份 shared_ptr 增加其生命周期，就可以用 weak_ptr 承接 shared_ptr 变量 然后 传递出去，在使用的时候 调用 `.lock()` 返回 shared_ptr 一个 实例，再 判断 其是否为空，如果为空，说明原 shared_ptr 资源已经释放掉了，如果不为空则可安全使用。
 
 可看链接里面，有多种基础例子。
 
@@ -1651,9 +1673,10 @@ struct 里面有 std::string，申请和释放这个 struct 内存用 new 和 de
 
 shared_ptr：
 
-当一个 shared_ptr 实例对象超出作用域 就会释放其包含的指针对应的内存，或者调用 .reset()，推荐使用 make_shared() 创建 shared_ptr 对象
+当一个 shared_ptr 实例对象超出作用域 就会释放其包含的指针对应的内存，或者调用 .reset()（当前实例计数减一），推荐使用 make_shared() 创建 shared_ptr 对象
 
 [C++:共享指针shared_ptr的理解与应用_shareptr-CSDN博客](https://blog.csdn.net/weixin_41504987/article/details/124396989) 有很多好例子
+
 [智能指针——shared_ptr_sharedptr-CSDN博客](https://blog.csdn.net/weixin_45732589/article/details/115741770) 原理和注意事项
 
 
@@ -1763,9 +1786,15 @@ std::weak_ptr 用于避免 循环引用，允许对对象进行观察，但不�
 
 
 
-对于 `std::shared_ptr` 的 基类指针 转 子类指针，使用 `std::dynamic_pointer_cast()`。
+对于 `std::shared_ptr` 等的 智能指针 的 转换，使用如下：
 
+- std::static_pointer_cast
 
+- std::dynamic_pointer_cast
+- std::const_pointer_cast
+- std::reinterpret_pointer_cast
+
+[std::static_pointer_cast, std::dynamic_pointer_cast, std::const_pointer_cast, std::reinterpret_pointer_cast - cppreference.net](https://zh.cppreference.net/cpp/memory/shared_ptr/pointer_cast.html)。
 
 [C++四种cast的详细介绍_c++ cast-CSDN博客](https://blog.csdn.net/weixin_43340455/article/details/124595862)。
 
@@ -2091,9 +2120,7 @@ try {
 
 抛异常相关：
 
-1.
-
-直接使用 `std::runtime_error`、`std::invalid_argument` 等标准异常类，这些类都允许传递错误消息。例如：
+1. 直接使用 `std::runtime_error`、`std::invalid_argument` 等标准异常类，这些类都允许传递错误消息。例如：
 
 ```c++
 try {
@@ -2111,9 +2138,7 @@ C++ 标准库中有很多内置的异常类型，它们都继承自 std::excepti
 - std::domain_error：表示非法域的异常。
 - std::length_error：表示容器的大小超过允许范围。
 
-2.
-
-可以创建一个继承自 std::exception 的类。这个类需要重载 what() 方法来返回异常信息。
+2. 可以创建一个继承自 std::exception 的类。这个类需要重载 what() 方法来返回异常信息。
 
 
 
@@ -3568,72 +3593,216 @@ C++ 17 起。
 
 ### 线程间同步机制
 
-- 互斥锁：mutex
 
-  注意先的各种锁的种类，来自于不同的 C++ 版本，可参考 [锁（mutex）使用（c++11、c++14、c++17）_c++11、c++14、c++17多线程读写锁的区别-CSDN博客](https://blog.csdn.net/liguan1102/article/details/116236702)。
 
-  mutex 种类：
+#### 互斥锁 mutex
 
-  [互斥 - cppreference.com](https://zh.cppreference.com/w/cpp/thread#.E4.BA.92.E6.96.A5)。
 
-  - std::mutex：独占的互斥量，不能递归使用，不带超时功能
-    - shared_mutex (C++17) 可实现读写锁
-    - shared_timed_mutex (C++14)，同上，带等待超时功能。
-  - std::recursive_mutex：递归互斥量，可重入，不带超时功能
-  - std::timed_mutex：带等待超时的互斥量，不能递归
-  - std::recursive_timed_mutex：带等待超时的互斥量，可以递归使用
 
-  在 C++ 中通常不直接使用 std::mutex 来进行锁定，而是使用 std::unique_lock、std::lock_guard 或 std::scoped_lock（从 C++17 起可用）等类，以更加安全地管理锁定。这些类提供了更好的异常安全性，在临界区中的代码发生异常，std::unique_lock 也会在超出作用域时自动释放锁定，确保资源被正确地释放，从而提供更好的异常安全性。
+注意先的各种锁的种类，来自于不同的 C++ 版本，可参考 [锁（mutex）使用（c++11、c++14、c++17）_c++11、c++14、c++17多线程读写锁的区别-CSDN博客](https://blog.csdn.net/liguan1102/article/details/116236702)。
 
-  unique_lock 和 lock_guard：如果需要更多的灵活性、手动控制锁定或支持移动语义，则选择 std::unique_lock。而如果只需要简单的自动锁定和释放，且不需要额外的功能，则选择 轻量级 std::lock_guard 更为合适。二者默认 创建时候 加锁，超出作用域时 自动解锁 和 释放。
+mutex 种类：
 
+[互斥 - cppreference.com](https://zh.cppreference.com/w/cpp/thread#.E4.BA.92.E6.96.A5)。
+
+- std::mutex：独占的互斥量，不能递归使用，不带超时功能
+  - shared_mutex (C++17) 可实现读写锁
+  - shared_timed_mutex (C++14)，同上，带等待超时功能。
+- std::recursive_mutex：递归互斥量，可重入，不带超时功能
+- std::timed_mutex：带等待超时的互斥量，不能递归
+- std::recursive_timed_mutex：带等待超时的互斥量，可以递归使用
+
+在 C++ 中通常不直接使用 std::mutex 来进行锁定，而是使用 std::unique_lock、std::lock_guard 或 std::scoped_lock（从 C++17 起可用）等类，以更加安全地管理锁定。这些类提供了更好的异常安全性，在临界区中的代码发生异常，std::unique_lock 也会在超出作用域时自动释放锁定，确保资源被正确地释放，从而提供更好的异常安全性。
+
+unique_lock 和 lock_guard：如果需要更多的灵活性、手动控制锁定或支持移动语义，则选择 std::unique_lock。而如果只需要简单的自动锁定和释放，且不需要额外的功能，则选择 轻量级 std::lock_guard 更为合适。二者默认 创建时候 加锁，超出作用域时 自动解锁 和 释放。
+
+
+
+通过 try_lock 方法，可以在多次执行一个 函数的时候，判断是否有其它线程已经在执行了，若不需要同时执行（比如按键的回调函数，当按键多次点击，不需要并行执行的时候），就可以用 try_lock 方法来判断，选择要不要 return。灵活去用 锁 的 各种方法。
+
+有 try_to_lock、defer_lock 等更灵活的用法。例如，如果一个线程函数不希望在其它线程正在运行这个函数还没有结束的时候再执行，就可以用 try_to_lock 方法，如果 lock.owns_lock() 返回 false 是没有锁上就表明其它线程正在占用 所以直接 return 即可。
+
+上锁：
+
+- 锁变量直接调用其方法来上锁 (lock() / try_lock())。
+
+- RAII 风格（利用对象生命周期管理资源）
   
-
-  通过 try_lock 方法，可以在多次执行一个 函数的时候，判断是否有其它线程已经在执行了，若不需要同时执行（比如按键的回调函数，当按键多次点击，不需要并行执行的时候），就可以用 try_lock 方法来判断，选择要不要 return。灵活去用 锁 的 各种方法。
-
-  有 try_to_lock、defer_lock 等更灵活的用法。例如，如果一个线程函数不希望在其它线程正在运行这个函数还没有结束的时候再执行，就可以用 try_to_lock 方法，如果 lock.owns_lock() 返回 false 是没有锁上就表明其它线程正在占用 所以直接 return 即可。
-
-  上锁：
-
-  - 锁变量直接调用其方法来上锁 (lock() / try_lock())。
-
-  - RAII 风格（利用对象生命周期管理资源）
-    
-    [通用互斥体管理 - cppreference.com](https://zh.cppreference.com/w/cpp/thread#.E9.80.9A.E7.94.A8.E4.BA.92.E6.96.A5.E4.BD.93.E7.AE.A1.E7.90.86)。
-    
-    - unique_lock（有 try_lock 等方法）
-    - shared_lock (C++14)
-    - lock_guard
-    - scoped_lock (C++17)（TODO: 有待补充）
-    
-    指定锁定策略 [std::defer_lock, std::try_to_lock, std::adopt_lock, std::defer_lock_t, std::try_to_lock_t, std::adopt_lock_t - cppreference.com](https://zh.cppreference.com/w/cpp/thread/lock_tag)。
-
-  实现读写锁，可用 shared_mutex 或 shared_timed_mutex（相较 前者多了超时功能），可参考：
-
-  - [C++多线程——读写锁shared_lock/shared_mutex_princeteng-GitCode 开源社区 (csdn.net)](https://gitcode.csdn.net/65ec508a1a836825ed798052.html)。
-  - [多线程同步原语std::shared_timed_mutex 和 std::shared_lock_std shared lock-CSDN博客](https://blog.csdn.net/vmt/article/details/143677873)。
-
-- 条件变量：condition_variable，参考 [std::condition_variable - cppreference.com](https://zh.cppreference.com/w/cpp/thread/condition_variable)。
-
-  看例子即可，使用与 ptherad 中的都比较类似。
-
-  当 `notify_one()` 或者 `notify_all()` 被调用时，等待的线程会被标记为"可唤醒"，在加锁或不加锁的环境下都可以调用。
-
-  阻塞端，加锁后，调用 `wait(m, pred)`，其实的 pred 为检查条件，调用 wait() 的时候会运行一次检查，之后接收到 "notify" 后会再执行一次检查，返回 true 为取消 这里 wait 的 阻塞 而继续往下执行。
-
-  参考 [std::condition_variable::wait - cppreference.com](https://zh.cppreference.com/w/cpp/thread/condition_variable/wait)。
-
-- atomic，可用时现查。
-
-  [std::atomic - cppreference.com](https://zh.cppreference.com/w/cpp/atomic/atomic)。
-
-  [C++并发编程 | 原子操作std::atomic-CSDN博客](https://blog.csdn.net/weixin_44479862/article/details/128059243)。
-
-  互斥量锁保护的数据范围比较大，我们期望更小范围的保护。并且当共享数据为一个变量时，使用 std::atomic 建立原子变量 效率更高。
-
-  并提供了原子操作的 读写、加减 等 API。
-
+  [通用互斥体管理 - cppreference.com](https://zh.cppreference.com/w/cpp/thread#.E9.80.9A.E7.94.A8.E4.BA.92.E6.96.A5.E4.BD.93.E7.AE.A1.E7.90.86)。
   
+  - unique_lock - 有 try_lock, unlock 等方法 可以在锁定期间灵活调用。
+  - shared_lock (C++14) - 用于和 unique_lock 配合，做成读写锁。
+  - lock_guard - 轻量级的 unique_lock，没有 unlock 等方法。
+  - scoped_lock (C++17) - 用于锁定多个互斥量。
+  
+  指定锁定策略 [std::defer_lock, std::try_to_lock, std::adopt_lock, std::defer_lock_t, std::try_to_lock_t, std::adopt_lock_t - cppreference.com](https://zh.cppreference.com/w/cpp/thread/lock_tag)。
+
+实现读写锁，可用 shared_mutex 或 shared_timed_mutex（相较 前者多了超时功能），可参考：
+
+- [C++多线程——读写锁shared_lock/shared_mutex_princeteng-GitCode 开源社区 (csdn.net)](https://gitcode.csdn.net/65ec508a1a836825ed798052.html)。
+- [多线程同步原语std::shared_timed_mutex 和 std::shared_lock_std shared lock-CSDN博客](https://blog.csdn.net/vmt/article/details/143677873)。
+
+#### 条件变量 condition_variable
+
+参考 [std::condition_variable - cppreference.com](https://zh.cppreference.com/w/cpp/thread/condition_variable)。
+
+看例子即可，使用与 ptherad 中的都比较类似。
+
+当 `notify_one()` 或者 `notify_all()` 被调用时，等待的线程会被标记为"可唤醒"，在加锁或不加锁的环境下都可以调用。
+
+阻塞端，加锁后，调用 `wait(m, pred)`，其实的 pred 为检查条件，调用 wait() 的时候会运行一次检查，之后接收到 "notify" 后会再执行一次检查，返回 true 为取消 这里 wait 的 阻塞 而继续往下执行。
+
+参考 [std::condition_variable::wait - cppreference.com](https://zh.cppreference.com/w/cpp/thread/condition_variable/wait)。
+
+一个自写例子：
+
+```c++
+// file: main.cpp
+
+#include <chrono>
+#include <condition_variable>
+#include <cstdarg>
+#include <cstdint>
+#include <cstdio>
+#include <mutex>
+#include <string>
+#include <thread>
+#include <vector>
+
+// compile and run cmd:
+// g++ -std=c++17 .\main.cpp -o main_test.exe ; .\main_test.exe
+
+// print:
+// [INFO] --- notifyFun2 notify_all once
+// [INFO] --- notifyFun1 notify_all once
+// [INFO] --- worker run once
+// [INFO] --- worker run once
+// [INFO] --- notifyFun0 notify_all once
+// [INFO] --- worker run once
+// [INFO] --- notifyFun2 notify_all once
+// [INFO] --- notifyFun1 notify_all once
+// [INFO] --- notifyFun0 notify_all once
+// [INFO] --- worker run once
+// [INFO] --- worker run once
+// [INFO] --- worker run once
+// [INFO] --- notifyFun2: me done, worker done, timer to over
+// [INFO] --- notifyFun2 over~
+// [INFO] --- ok, worker over~
+// [INFO] --- notifyFun1: me done, worker done, timer to over
+// [INFO] --- notifyFun1 over~
+// [INFO] --- notifyFun0: me done, worker done, timer to over
+// [INFO] --- notifyFun0 over~
+// [INFO] program over
+
+static void logInfo(const char* fmt, ...) {
+    std::va_list args;
+    va_start(args, fmt);
+    std::fputs("[INFO] ", stdout);
+    std::vprintf(fmt, args);
+    std::fputc('\n', stdout);
+    va_end(args);
+}
+
+#define BGUIFE_LOGI(...) logInfo(__VA_ARGS__)
+
+static std::mutex cv_m;
+static std::condition_variable cv;
+static int32_t cv_workTime = 0; // 0 for wait, > 0 for work count, < 0 for over
+
+int main() {
+    std::thread worker([]() {
+        for (;;) {
+            std::unique_lock<std::mutex> lock(cv_m);
+            cv.wait(lock, []() -> bool {
+                // 条件变量的 wait，仅仅在调用、被唤醒的时候检查条件是否成立，
+                // 返回 false 表示不成立则阻塞并释放锁 lock（以供其它线程在修改 条件检查函数的时候先上锁），
+                // 返回 true 表示条件成立则退出阻塞。
+                if (cv_workTime > 0) {
+                    return (cv_workTime--);
+                }
+                return cv_workTime < 0;
+            });
+
+            if (cv_workTime < 0) {
+                BGUIFE_LOGI("--- ok, worker over~");
+                break;
+            }
+
+            BGUIFE_LOGI("--- worker run once");
+        }
+    });
+
+    auto notifyFun = [](const std::string& name) {
+        uint32_t runCount = 0;
+        for (;;) {
+            std::this_thread::sleep_for(std::chrono::seconds(1));
+
+            if (++runCount < 3) {
+                std::lock_guard<std::mutex> lock(cv_m); // 修改条件变量相关数据前先加锁
+                cv_workTime++;
+                cv.notify_all();
+                BGUIFE_LOGI("--- %s notify_all once", name.c_str());
+            } else {
+                bool needStop = false;
+                {
+                    std::lock_guard<std::mutex> lock(cv_m);
+                    if (cv_workTime <= 0) {
+                        BGUIFE_LOGI("--- %s: me done, worker done, timer to over", name.c_str());
+                        cv_workTime = -1;
+                        cv.notify_all();
+                        needStop = true;
+                    }
+                }
+
+                if (needStop) {
+                    BGUIFE_LOGI("--- %s over~", name.c_str());
+                    break;
+                }
+            }
+        }
+    };
+
+    std::vector<std::thread> notifyFuns;
+    for (uint32_t count = 0; count < 3; count++) {
+        notifyFuns.emplace_back(notifyFun, ("notifyFun" + std::to_string(count)));
+    }
+
+    for (auto& it : notifyFuns) {
+        it.join();
+    }
+    worker.join();
+
+    BGUIFE_LOGI("program over");
+    return 0;
+}
+```
+
+
+
+#### 原子量 Atomic
+
+[std::atomic - cppreference.com](https://zh.cppreference.com/w/cpp/atomic/atomic)。
+
+[C++并发编程 | 原子操作std::atomic-CSDN博客](https://blog.csdn.net/weixin_44479862/article/details/128059243)。
+
+当跨线程的数据为一个变量时，使用 std::atomic 建立原子变量 效率更高，不用一个专门的 mutex。
+
+并提供了原子操作的 读写、加减 等 API。
+
+
+
+[C++内存模型详解 | 并发编程核心概念 | C++ 编程指南](https://chengxumiaodaren.com/docs/concurrent/cpp-memory-model/)，介绍在使用 atomic 时候，怎么利用好内存模型的选项。
+
+> - C++里关于一共引入了 几种内存序 的类型：
+>   - memory_order_relaxexd：只有普通的原子性，没有任何内存次序的要求。
+>   - memory_order_seq_cst：与代码顺序严格一致。
+>   - memory_order_acquire：载入语义，当前线程，load操作之后的读写操作不能被重排序到当前指令前面。如果其它线程对此变量使用release的store操作，在当前线程是可见的。
+>   - memory_order_release：存储语义，当前线程，store操作之前的读写操作不能重排序到当前指令后面，如果其它线程对此变量使用了acquire的load操作，当前线程store之前的任何读写操作都对其它线程可见。
+>   - memory_order_acq_rel：它等于acquire + release
+> - 尽管有 多种内存序，但其实可简单划分为3种模式：
+>   - 先后一致次序（Sequential Consistency Ordering）：memory_order_seq_cst：这就是atomic默认的内存次序，它是最直观、最符合直觉的内存次序，所有关于此次序的实例，都严格保持先后顺序，这种内存模型无法重新编排次序，它要求在所有线程间进行全局同步，因此也是代价最高的内存次序。
+>   - 宽松次序（Relaxed Ordering）：memory_order_relaxexd：你可以理解为使用搭配这种次序的atomic，只有原子性，而对内存次序没有任何要求，指令重排序之类的优化还是正常进行。
+>   - 获取-释放次序（Acquire-Release Ordering）：它比宽松次序严格一些，却没有先后一致次序那样特别严格。在此次序模型中，载入（load）操作可以使用memory_order_acquire语义，存储（store）可以使用memory_order_release语义，而读-改-写（fetch_add、exchange）可以使用memory_order_acq_rel语义。
 
 
 

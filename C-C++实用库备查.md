@@ -1,4 +1,4 @@
-# C / C++实用库备查
+# C / C++ 实用库备查
 
 网络参考源：
 
@@ -424,7 +424,17 @@ workspace是基于C++11的轻量级异步执行框架，支持：通用任务异
 
 
 
-### minicoro *
+### libfork *
+
+高性能协程库。
+
+[ConorWilliams/libfork: A bleeding-edge, lock-free, wait-free, continuation-stealing tasking library built on C++20's coroutines](https://github.com/ConorWilliams/libfork)。
+
+
+
+### minicoro
+
+协程库，比多线程切换负担小。
 
 Minicoro is single-file library for using asymmetric coroutines in C. The API is inspired by [Lua coroutines](https://www.lua.org/manual/5.4/manual.html#6.2) but with C use in mind.
 
@@ -1028,7 +1038,15 @@ The *libevent* API provides a mechanism to execute a callback function when a sp
 
 
 
-层级状态机可以用普通状态机搭建实现的。
+### HFSM2
+
+High-Performance Hierarchical Finite State Machine Framework.
+
+[andrew-gresyk/HFSM2: High-Performance Hierarchical Finite State Machine Framework](https://github.com/andrew-gresyk/HFSM2)。
+
+
+
+官方手册参考：[Home · andrew-gresyk/HFSM2 Wiki](https://github.com/andrew-gresyk/HFSM2/wiki)。
 
 
 
@@ -1909,6 +1927,88 @@ Other aspects were not so important to us:
 
 
 
+官方例子：
+
+[nlohmann/json: JSON for Modern C++](https://github.com/nlohmann/json?tab=readme-ov-file#examples)。
+
+[json - JSON for Modern C++](https://json.nlohmann.me/api/json/)。
+
+
+
+一个自写使用例子：
+
+```c++
+using json = nlohmann::json;
+
+// creat
+json ex1 = json::parse(
+    R"(
+        {
+            "pi": 3.141,
+            "happy": true
+        }
+    )");
+
+// creat
+json j2 = {
+    {"pi", 3.141},
+    {"pi_str", "3.141"},
+    {"happy", true},
+    {"name", "Niels"},
+    {"nothing", nullptr},
+    {"answer", {
+        {"everything", 42}
+    }},
+    {"list", {1, 0, 2, -3}},
+    {"object", {
+        {"currency", "USD"},
+        {"value", 42.99}
+    }}
+};
+
+// add / change
+j2["pi1"] = 3.141592653589793;
+j2["list"].push_back(3);
+
+// erase
+if(j2.contains("answer")) {
+    j2.erase("answer");
+}
+if(j2.contains("object")) {
+    // use "key" to erase
+    if(j2["object"].contains("currency")) {
+        j2["object"].erase("currency");
+    }
+
+    // use "iterator" to erase, same as above
+    // auto it = j2["object"].find("currency");
+    // if(it != j2["object"].end()) {
+    //     j2["object"].erase(it);
+    // }
+}
+
+// get
+std::string name1 = j2["name"];
+std::string name2 = j2["name"].template get<std::string>();
+std::list<int32_t> list1 = j2["list"].template get<std::list<int32_t>>();
+
+double value1 = 0;
+// find / contains / count
+if(j2.contains("object") && j2["object"].contains("value")) {
+    value1 = j2["object"]["value"];
+}
+
+LOGI(" --- :\n%s", j2.dump(4).c_str());
+
+LOGI(" --- : %s, %s, %lf", name1.c_str(), name2.c_str(), value1);
+
+for(const auto& it : list1) {
+    LOGI(" --- %d", it);
+}
+```
+
+
+
 cJSON
 
 Ultralightweight JSON parser in ANSI C.
@@ -2003,7 +2103,7 @@ Fast-CDR
 
 
 
-CLI11 *
+**CLI11 ***
 
 CLI11 is a command line parser for C++11 and beyond that provides a rich feature set with a simple and intuitive interface.
 
@@ -2011,7 +2111,7 @@ CLI11 is a command line parser for C++11 and beyond that provides a rich feature
 
 
 
-argparse
+**argparse**
 
 Argument Parser for Modern C++
 
@@ -2022,7 +2122,7 @@ Argument Parser for Modern C++
 
 
 
-cxxopts  *
+**cxxopts  ***
 
 Lightweight C++ command line option parser
 
@@ -2031,6 +2131,105 @@ Lightweight C++ command line option parser
 
 
 ### Database
+
+
+
+#### Database lib comparison table
+
+
+
+**对比**
+
+> **1. 现有选项分析**
+>
+> - **SQLite (+ SQLiteCpp):**
+>   - **定位:** 嵌入式事实标准。全功能 SQL 关系型数据库。
+>   - **优点:** 单文件存储，极其稳定，跨平台完美（Win/Linux/RTOS），支持事务（ACID），查询能力最强。
+>   - **缺点:** 写入并发性能较弱（默认是一个写锁），对于极其高频的传感器日志写入（如 >10k ops/s）可能吃力。
+> - **LevelDB:**
+>   - **定位:** Google 开发的 KV 存储。
+>   - **优点:** **写性能极强**（基于 LSM-Tree），适合且仅适合“Key-Value”存取，适合做日志存储或简单的配置存取。
+>   - **缺点:** 没有 SQL，不支持复杂查询（比如“查找所有大于某时间的数据”需要遍历），断电恢复有时较慢。
+> - **FlashDB:**
+>   - **定位:** 专为**资源受限的 MCU（单片机）**设计，直接操作 Flash。
+>   - **注意:** 如果你的 SoC 跑的是 Linux 且有文件系统（ext4, fat32），**不建议用 FlashDB**。它更适合跑在 RTOS 或裸机上，绕过文件系统层直接磨损均衡。如果是大型 C++ 项目，通常意味着有操作系统，FlashDB 可能过于简陋。
+>
+> **2. 补充推荐 (强力竞争者)**
+>
+> - **LMDB (Lightning Memory-Mapped Database):**
+>   - **核心优势:** **读性能世界第一**。它使用内存映射（mmap），直接在内存中操作数据，没有二次缓存（OS Cache + DB Cache），极其节省内存。
+>   - **适用:** 配置读取、模型参数加载等“读多写少”的场景。
+>   - **缺点:** 写操作是全局锁，只支持单线程写。
+> - **RocksDB:**
+>   - **核心优势:** Facebook 基于 LevelDB 改进而来。可调优参数极其丰富，性能比 LevelDB 更强，功能更多（支持列族）。
+>   - **适用:** 高吞吐量的传感器数据采集、时序数据存储。
+>   - **缺点:** 库的体积比 LevelDB 大，编译时间长。
+>
+> *(上图展示了 LevelDB/RocksDB 的 LSM-Tree 结构与 SQLite 的 B-Tree 结构的区别，这直接决定了它们“写快”还是“读快”。)*
+>
+> **3. 综合对比表**
+>
+> | 特性           | **SQLite**                 | **LevelDB / RocksDB**      | **LMDB**                 | **FlashDB**             |
+> | -------------- | -------------------------- | -------------------------- | ------------------------ | ----------------------- |
+> | **数据模型**   | 关系型 (SQL)               | Key-Value (NoSQL)          | Key-Value (NoSQL)        | Key-Value (TSDB模式)    |
+> | **底层结构**   | B-Tree                     | LSM-Tree                   | B+ Tree (Mmap)           | 专有 Flash 结构         |
+> | **查询能力**   | **极强** (复杂Join, 过滤)  | 弱 (仅Key查询/范围扫描)    | 弱 (仅Key查询/范围扫描)  | 弱                      |
+> | **写性能**     | 中等 (受限于磁盘IO)        | **极高** (追加写)          | 中等 (单写)              | 适合裸 Flash            |
+> | **读性能**     | 高                         | 中等                       | **极高** (接近内存拷贝)  | 中等                    |
+> | **内存占用**   | 低 (可配置)                | 中/高 (需MemTable)         | **极低** (利用OS缓存)    | 极低                    |
+> | **断电安全性** | 高 (WAL模式)               | 中 (可能需Replay Log)      | 极高                     | 针对性优化              |
+> | **推荐场景**   | **通用业务逻辑、复杂配置** | **高频日志、传感器数据流** | **静态配置、AI模型索引** | **MCU/RTOS 无文件系统** |
+
+
+
+**选择建议（结论）**
+
+> 针对你的场景，我给出以下决策路径：
+>
+> **1. 确定数据类型与操作系统：**
+>
+> - **SoC 跑的是 Linux 且有文件系统？** -> 排除 FlashDB，这个直接用于 MCU 开发。
+> - **主要存业务数据（配置、用户、任务、状态）？** -> 必须选 **SQLite**。用 **SQLite** 管理由于关系复杂、查询条件多变的元数据（Metadata）。
+> - **主要存波形、高频传感器日志（每秒写入 > 1MB）？** -> 必须选 **LevelDB** 或 **RocksDB**（配合压缩）。用 **LevelDB** 存储只有时间戳索引的**海量原始数据**（海量原始数据（Raw Data）。
+>
+> **2. 架构设计 (混合方案)：**
+>
+>  在大型嵌入式项目中，**SQLite + LevelDB** 混合使用是非常流行的架构：在 SQLite 中存储 LevelDB 的文件路径或 Key 索引。
+>
+> **3. 库的选择：**
+>
+> - 如果选 SQLite：建议使用 **sqlpp11** (追求极致安全和性能) 或者 **SQLite_orm** (追求开发效率)。
+>
+>   仅仅使用 SQLiteCpp 可能在项目变大后导致 SQL 字符串满天飞，维护困难。
+
+
+
+#### ORM
+
+[ORM框架详解：为什么不直接写SQL？_orm和sql-CSDN博客](https://blog.csdn.net/u012955829/article/details/142289384)。
+
+
+
+> **你是否需要 ORM？**
+>
+> 对于 **大型 C++ 项目**，我的建议是：**不要用重型 ORM，但需要一层“类型安全封装” (Type-safe Wrapper)。**
+>
+> 
+>
+> **为什么不需要传统 ORM (如 Hibernate for Java 这种级别的)？**
+>
+> 1. **性能开销:** 嵌入式环境对内存和 CPU 敏感。传统 ORM 的反射机制（C++ 中通常用大量 Template 实现）会导致编译出的二进制体积膨胀（Code Bloat）和运行时开销。
+> 2. **调试困难:** C++ 的模板报错在 ORM 中是噩梦。
+> 3. **SQL 掌控力:** 嵌入式开发往往需要针对性优化 SQL（比如加索引），ORM 屏蔽了太多细节，反而碍手碍脚。
+>
+> 
+>
+> **为什么你需要“类型安全封装”？**
+>
+> 直接写 `sqlite3_exec(db, "SELECT * FROM table", ...)` 也就是裸写 SQL 字符串，在大型项目中是不可接受的：
+>
+> - 容易写出 SQL 注入漏洞（虽然嵌入式是对内的，但健壮性很重要）。
+> - 重构字段名时，编译器不会报错，运行时才崩溃。
 
 
 
@@ -2076,7 +2275,7 @@ SQLiteC++ (SQLiteCpp) is a smart and easy to use C++ SQLite3 wrapper.
 
 
 
-#### LevelDB *
+#### LevelDB
 
 快速键值存储库。
 
@@ -2152,7 +2351,17 @@ SQLiteC++ (SQLiteCpp) is a smart and easy to use C++ SQLite3 wrapper.
 
 
 
+#### RocksDB *
+
+- **核心优势:** Facebook 基于 LevelDB 改进而来。可调优参数极其丰富，性能比 LevelDB 更强，功能更多（支持列族）。
+- **适用:** 高吞吐量的传感器数据采集、时序数据存储。
+- **缺点:** 库的体积比 LevelDB 大，编译时间长。
+
+
+
 #### FlashDB
+
+用于 mcu 直接 读写 Flash 的场景。
 
 FlashDB 是一款超轻量级的嵌入式数据库，专注于提供嵌入式产品的数据存储方案。FlashDB 不仅支持传统的基于文件系统的数据库模式，而且结合了 Flash 的特性，具有较强的性能及可靠性。并在保证极低的资源占用前提下，尽可能延长 Flash 使用寿命。
 
@@ -2167,7 +2376,9 @@ FlashDB 提供两种数据库模式：
 
 ### Log
 
-log4cplus
+
+
+**log4cplus**
 
 [log4cplus](https://github.com/log4cplus/log4cplus) is a simple to use C++23 logging API providing thread--safe, flexible, and arbitrarily granular control over log management and configuration. It is modeled after the Java log4j API.
 
@@ -2175,7 +2386,7 @@ log4cplus
 
 
 
-EasyLogger
+**EasyLogger**
 
 An ultra-lightweight(ROM<1.6K, RAM<0.3k), high-performance C/C++ log library. | 一款超轻量级(ROM<1.6K, RAM<0.3k)、高性能的 C/C++ 日志库
 
@@ -2183,7 +2394,7 @@ An ultra-lightweight(ROM<1.6K, RAM<0.3k), high-performance C/C++ log library. | 
 
 
 
-spdlog *
+**spdlog ***
 
 Fast C++ logging library.
 
@@ -2195,7 +2406,7 @@ Fast C++ logging library.
 
 
 
-Minilogger
+**Minilogger**
 
 [ysbbswork/Minilogger: Mini c++ logger tool (github.com)](https://github.com/ysbbswork/Minilogger)
 
@@ -2203,7 +2414,19 @@ Minilogger
 
 ### pdf
 
-JagPDF
+有一些命令行或者专用软件，不建议用编程的方式去操作，太繁琐。
+
+比如 [microsoft/markitdown: Python tool for converting files and office documents to Markdown.](https://github.com/microsoft/markitdown) 等 pdf 工具。
+
+
+
+一个好的 py 库 SoPDF
+
+[概览 - SoMark 文档](https://docs.somark.tech/open-source-tools/sopdf)。
+
+
+
+**JagPDF**
 
 JagPDF is a free, open source library for generating PDF documents.
 
@@ -2217,7 +2440,7 @@ The library is distributed under the [MIT license](http://www.jagpdf.org/license
 
 
 
-libharu
+**libharu**
 
 Haru is a free, cross platform, open-sourced software library for generating PDF. It supports the following features.
 
@@ -2475,7 +2698,7 @@ libzip is fully documented via man pages. HTML versions of the man pages are on 
 
 
 
-**LibZippp**
+**LibZippp ***
 
 libzippp is a simple basic **C++ wrapper around the libzip library**. It is meant to be a portable and easy-to-use library for ZIP handling.
 
@@ -2484,7 +2707,7 @@ Underlying libraries：依赖项：
 - [ZLib](https://zlib.net/) 1.3.1
 - [libzip](https://www.nih.at/libzip) 1.11.2
 
-[ctabin/libzippp: C++ wrapper for libzip (github.com)](https://github.com/ctabin/libzippp)
+[ctabin/libzippp: C++ wrapper for libzip (github.com)](https://github.com/ctabin/libzippp)。
 
 
 
@@ -3355,7 +3578,7 @@ API 手册 [u8g2reference · olikraus/u8g2 Wiki (github.com)](https://github.com
 
 
 
-CCTZ
+**CCTZ**
 
 各种时间相关的工具库。
 
@@ -3443,6 +3666,154 @@ Criterion follows the KISS principle, while keeping the control the user would h
 GoogleTest - Google Testing and Mocking Framework
 
 [google/googletest: GoogleTest - Google Testing and Mocking Framework (github.com)](https://github.com/google/googletest)
+
+
+
+网络参考：
+
+[【gTest】gtest简介及简单使用-CSDN博客](https://blog.csdn.net/qq_43331089/article/details/124573730)。
+
+[GoogleTest中gMock的使用_retiresonsaturation-CSDN博客](https://blog.csdn.net/fengbingchun/article/details/129218469)。
+
+
+
+win 上 使用 cmake-gui 编译和安装过程：
+
+使用 cmake-gui 打开 源码包，在 cmake-gui 的 configure 里面 勾上 build_gtest 和 build_gmock，使用动态库，设置 install 路径，勾上 gtest_install。点 config 和 generate。
+
+执行：`make -j16`，`make install`。
+
+编译产物放到 工具链目录里面。对于 mingw 则需要放到 ...\mingw64\x86_64-w64-mingw32，并添加 到环境变量。
+
+
+
+一般用法：
+
+在软件工程文件夹根目录建立一个 test 目录，里面 CMakeLists.txt 中 使用 add_subdirectory() 添加 要测试的模块文件夹（对于导出头文件路径的则不必再 target_include_directories() 否则就需要），然后 target_link_libraries 引入这些模块库；并引入 gtest 库文件 和 gtest、gmock 的头文件。然后在 test.cpp 里面编写测试代码（test suit 和 test case）。
+
+
+
+测试例子：
+
+
+
+CMakeLists.txt 文件：
+
+```cmake
+cmake_minimum_required(VERSION 3.16)
+
+include(FindPkgConfig) # 或者 find_package(PkgConfig REQUIRED)
+
+if(WIN32)
+    set(ENV{PKG_CONFIG_PATH} "D:/toolchain/mingw64/x86_64-w64-mingw32/lib/pkgconfig") # 使用的 pkg-config 是 gcc 的工具，PKG_CONFIG_PATH 得是系统的环境变量
+endif()
+
+project(gtest_test LANGUAGES C CXX)
+
+add_compile_options(
+    # -O2
+    -Wall -Wextra
+)
+
+set(SRC_FILES
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+)
+
+add_executable(${PROJECT_NAME}
+    ${SRC_FILES}
+)
+
+target_compile_options(${PROJECT_NAME} PRIVATE
+    -pedantic -Wpedantic
+)
+
+pkg_check_modules(gtest REQUIRED IMPORTED_TARGET gtest) # gtest 名字 来源于 gtest.pc 文件
+pkg_check_modules(gmock_main REQUIRED IMPORTED_TARGET gmock_main) # gmock_main 名字 来源于 gmock_main.pc 文件
+
+target_link_libraries(${PROJECT_NAME} PRIVATE
+    PkgConfig::gtest
+    PkgConfig::gmock
+)
+```
+
+
+
+main.cpp 文件（一个 使用 gmock 写测试的例子）：
+
+```c++
+#include <string>
+#include "gmock/gmock.h"
+
+namespace gmock_ {
+
+class Foo {
+public:
+	// Must be virtual as we'll inherit from Foo.
+	virtual ~Foo() {}
+
+	virtual bool SetName(const std::string& name) = 0;
+	virtual std::string GetName() const = 0;
+};
+
+class MockFoo : public Foo {
+public:
+	MOCK_METHOD(bool, SetName, (const std::string&), (override));
+	MOCK_METHOD(std::string, GetName, (), (const, override));
+};
+
+class Area {
+public:
+	virtual ~Area() {}
+	virtual int area() = 0;
+};
+
+int GetValue(Area* p) { return p->area() / 2; }
+
+class MockArea : public Area {
+public:
+	MOCK_METHOD(int, area, (), (override));
+};
+
+} // namespace gmock_
+
+TEST(gmock, name) {
+	using namespace gmock_;
+	using ::testing::AtLeast;
+	using ::testing::Return;
+
+	MockFoo foo;
+	EXPECT_CALL(foo, SetName("Mike"))
+		.Times(AtLeast(2))
+		.WillOnce(Return(1))
+		.WillOnce(Return(0));
+	EXPECT_TRUE(foo.SetName("Mike"));
+	EXPECT_FALSE(foo.SetName("Mike"));
+
+	EXPECT_CALL(foo, GetName())
+		.Times(AtLeast(1))
+		.WillRepeatedly(Return("Mike"));
+	EXPECT_EQ("Mike", foo.GetName());
+}
+
+TEST(gmock, area) {
+	using namespace gmock_;
+	using ::testing::Return;
+
+	MockArea m;
+	EXPECT_CALL(m, area()).WillRepeatedly(Return(10));
+	EXPECT_EQ(5, GetValue(&m));
+}
+```
+
+
+
+项目根目录新建一个 build 文件夹，进去，执行：
+
+```bash
+cmake -G "MinGW Makefiles" ..
+make -j16
+.\gtest_test.exe
+```
 
 
 
