@@ -78,7 +78,7 @@ int32_t AppContext::run()
     if(result < 0) {
         DEBUG_LOGE_SYS("Failed to init AppContext");
 
-        // if init fails, set state back to Stopped to allow future run attempts
+        // if init failed, set state back to Stopped, to allow next time call run() to try again
         mInitRunState.store(AppState::Stopped);
         return result;
     }

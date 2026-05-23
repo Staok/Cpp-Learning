@@ -60,6 +60,11 @@ public:
             return -1;
         }
 
+        if(mRunState.load() != ModuleState::Stopped) {
+            DEBUG_LOGE("Module is running, cannot set thread pool instance");
+            return -ENOENT;
+        }
+
         std::lock_guard<std::recursive_mutex> lock(mMutex);
         mExThreadPool = threadPool;
         return 0;
@@ -139,7 +144,12 @@ public:
         return 0;
     }
 
-    int32_t stop()
+    bool getIsRunning() const
+    {
+        return (mRunState.load() == ModuleState::Started);
+    }
+
+    void stop()
     {
         DEBUG_LOGI("stop() called");
 
@@ -147,10 +157,10 @@ public:
         if (!mRunState.compare_exchange_strong(expected, ModuleState::Stopping)) {
             if (expected == ModuleState::Stopped) {
                 DEBUG_LOGW("already stopped, skipping stop");
-                return 0;
+                return;
             }
             DEBUG_LOGW("stop in progress or starting, skipping stop");
-            return -1;
+            return;
         }
 
         {
@@ -165,15 +175,13 @@ public:
         mRunState.store(ModuleState::Stopped);
 
         DEBUG_LOGI("stop() finished");
-
-        return 0;
     }
 
     void process()
     {
         // DEBUG_LOGI("process started"); for debug, can omit
 
-        if (mRunState.load() != ModuleState::Started) {
+        if (!getIsRunning()) {
             DEBUG_LOGW("not running, skipping process");
             return;
         }
@@ -202,7 +210,7 @@ public:
             // DEBUG_LOGI("Into thread function"); for debug, can omit
 
             auto self = selfWeakPtr.lock();
-            if (!self || self->mRunState.load() != ModuleState::Started) {
+            if (!self || !self->getIsRunning()) {
                 DEBUG_LOGI("TestClass instance is not valid or not running, exiting thread function");
                 return;
             }
@@ -215,7 +223,7 @@ public:
             std::this_thread::sleep_for(std::chrono::seconds(5));
 
             // After the work is done, check again if the instance is still valid and running before accessing its members
-            if (self->mRunState.load() != ModuleState::Started) {
+            if (!self->getIsRunning()) {
                 DEBUG_LOGI("TestClass instance is not valid or not running after work, exiting thread function");
                 return;
             }
@@ -228,7 +236,7 @@ public:
 
     void setData(int32_t data)
     {
-        if (mRunState.load() != ModuleState::Started) {
+        if (!getIsRunning()) {
             DEBUG_LOGW("not running, skipping setData");
             return;
         }

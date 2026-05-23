@@ -121,6 +121,11 @@ public:
         return 0;
     }
 
+    bool getIsInitialized() const
+    {
+        return (mInitState.load() == ModuleState::Initialized);
+    }
+
     int32_t deinit()
     {
         DEBUG_LOGI("deinitialization started");
@@ -155,7 +160,7 @@ public:
     {
         // DEBUG_LOGI("process started"); for debug, can omit
 
-        if (mInitState.load() != ModuleState::Initialized) {
+        if (!getIsInitialized()) {
             DEBUG_LOGW("not initialized, skipping process");
             return;
         }
@@ -184,7 +189,7 @@ public:
             // DEBUG_LOGI("Into thread function"); for debug, can omit
 
             auto self = selfWeakPtr.lock();
-            if (!self || self->mInitState.load() != ModuleState::Initialized) {
+            if (!self || !self->getIsInitialized()) {
                 DEBUG_LOGI("TestClass instance is not valid or not initialized, exiting thread function");
                 return;
             }
@@ -197,7 +202,7 @@ public:
             std::this_thread::sleep_for(std::chrono::seconds(5));
 
             // After the work is done, check again if the instance is still valid and initialized before accessing its members
-            if (self->mInitState.load() != ModuleState::Initialized) {
+            if (!self->getIsInitialized()) {
                 DEBUG_LOGI("TestClass instance is not valid or not initialized after work, exiting thread function");
                 return;
             }
@@ -210,7 +215,7 @@ public:
 
     void setData(int32_t data)
     {
-        if (mInitState.load() != ModuleState::Initialized) {
+        if (!getIsInitialized()) {
             DEBUG_LOGW("not initialized, skipping setData");
             return;
         }
